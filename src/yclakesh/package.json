@@ -1,0 +1,25 @@
+{
+  "name": "yclakesh",
+  "version": "1.0.0",
+  "description": "A manage system of Yangcheng Lake and mini program",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BigThxBrigde/yclakesh"
+  },
+  "private": true,
+  "keywords": [
+    "koa",
+    "sequelize"
+  ],
+  "author": "jermaine007 <jermaine007@qq.com>",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.17.1",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.10.2"
+  }
+}
