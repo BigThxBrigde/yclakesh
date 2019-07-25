@@ -1,0 +1,12 @@
+{
+    "dbconfig": {
+        "host": "localhost",
+        "user": "yclake",
+        "port": 3306,
+        "password": "yclakeadmin!",
+        "database": "yclakesh",
+        "connectionLimit": 20,
+        "supportBigNumbers": true,
+        "bigNumberStrings": true
+    }
+}
