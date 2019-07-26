@@ -8,5 +8,11 @@
         "connectionLimit": 20,
         "supportBigNumbers": true,
         "bigNumberStrings": true
+    },
+    "rnd": {
+        "prefix": "19",
+        "serialLength": "10",
+        "identityCodeLength": "10",
+        "start": 0
     }
 }

@@ -143,14 +143,14 @@ const UserInfo = {};
 const MemberInfo = {};
 
 ((_) => {
-/**
-     * find record
-     * option{
-     *   filter: where expression,
-     *   one: one recorder or list,
-     *   params: filter params
-     * }
-     */
+    /**
+         * find record
+         * option{
+         *   filter: where expression,
+         *   one: one recorder or list,
+         *   params: filter params
+         * }
+         */
     _.find = async (options) => {
 
         var options = options || {};
@@ -175,7 +175,7 @@ const MemberInfo = {};
             return;
         }
         await DB.query({
-            sql: 'INSERT INTO MEMBER_INFO (NAME, PASSWORD, TYPE) VALUES ?',
+            sql: 'INSERT INTO MEMBER_INFO (NAME, CERTIFICATION) VALUES ?',
             params: [params]
         });
     };
@@ -210,8 +210,80 @@ const MemberInfo = {};
 
 })(MemberInfo);
 
+
+const QRCodeInfo = {};
+((_) => {
+
+    /**  find record
+     * option{
+     *   filter: where expression,
+     *   one: one recorder or list,
+     *   params: filter params
+     * }
+     */
+    _.find = async (options) => {
+
+        var options = options || {};
+        var one = options.one || false;
+        let filter = options.filter;
+        let params = options.params;
+        var reuslt = await DB.query({
+            sql: `SELECT * FROM QRCODE_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
+            params: params
+        });
+        return one ? (reuslt.length == 0 ? null : result[0]) : reuslt;
+    };
+
+    /**
+     * add records
+     */
+    _.add = async (options) => {
+
+        var options = options || {};
+        let params = options.params;
+        if (params === undefined) {
+            return;
+        }
+        await DB.query({
+            sql: 'INSERT INTO QRCODE_INFO (URL, SERIALID, IDENTIFYCODE, TYPE, FIRSTTIME, QUERYCOUNT, MEMBER) VALUES ?',
+            params: [params]
+        });
+    };
+
+    /**
+     * update 
+     */
+    _.update = async (options) => {
+        var options = options || {};
+        let update = options.update;
+        let filter = options.filter;
+        let params = options.params;
+        await DB.query({
+            sql: `UPDATE MEMBER_INFO ${update} ${filter === undefined ? '' : 'WHERE ' + filter}`,
+            params: params
+        })
+
+    };
+
+    /**
+     * delete 
+     */
+    _.delete = async (options) => {
+        var options = options || {};
+        let filter = options.filter;
+        let params = options.params;
+        await DB.query({
+            sql: `DELETE FROM MEMBER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
+            params: params
+        });
+    };
+
+
+})(QRCodeInfo);
+
 module.exports = {
     DB: DB,
     UserInfo: UserInfo,
-    MemberInfo : MemberInfo
+    MemberInfo: MemberInfo,
+    QRCodeInfo : QRCodeInfo
 };
