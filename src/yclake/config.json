@@ -9,10 +9,10 @@
         "supportBigNumbers": true,
         "bigNumberStrings": true
     },
-    "rnd": {
+    "random": {
         "prefix": "19",
-        "serialLength": "10",
-        "identityCodeLength": "10",
-        "start": 0
-    }
+        "serialLength": 10,
+        "identityCodeLength": 10
+    },
+    "url": "https://www.ychdazhaxiesh.com/identify/"
 }

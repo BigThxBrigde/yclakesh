@@ -5,7 +5,6 @@ const DB = {};
 ((_) => {
     // create a pool
     let pool = mysql.createPool(config.dbconfig);
-
     /**
      * sql core function
      */
@@ -13,7 +12,10 @@ const DB = {};
         return new Promise((resolve, reject) => {
             pool.getConnection(function (err, connection) {
                 if (err) {
-                    reject(err);
+                    reject({
+                        success: false,
+                        error: err
+                    });
                 } else {
 
                     let sql = options.sql;
@@ -21,13 +23,19 @@ const DB = {};
                     let useTrans = options.useTransaction || false;
 
                     if (!sql) {
-                        reject(new Error('sql cannot be empty'));
+                        reject({
+                            success: false,
+                            error: new Error('sql cannot be empty')
+                        });
                     }
 
                     if (useTrans) {
                         connection.beginTransaction(err => {
                             if (err) {
-                                reject(err);
+                                reject({
+                                    success: false,
+                                    error: err
+                                });
                             } else {
 
                                 connection.query(sql, params, (err, rows) => {
@@ -36,14 +44,20 @@ const DB = {};
                                         connection.rollback(() => {
                                             console.error('rollback failed')
                                         })
-                                        reject(err);
+                                        reject({
+                                            success: false,
+                                            error: err
+                                        });
                                     } else {
                                         connection.commit((error) => {
                                             if (error) {
                                                 console.error('commit failed')
                                             }
                                         })
-                                        resolve(rows);
+                                        resolve({
+                                            success: true,
+                                            data: rows
+                                        });
                                     }
                                     connection.release();
                                 });
@@ -55,9 +69,15 @@ const DB = {};
                         connection.query(sql, params, (err, rows) => {
 
                             if (err) {
-                                reject(err);
+                                reject({
+                                    success: false,
+                                    error: err
+                                });
                             } else {
-                                resolve(rows);
+                                resolve({
+                                    success: true,
+                                    data: rows
+                                });
                             }
                             connection.release();
                         });
@@ -87,11 +107,16 @@ const UserInfo = {};
         var one = options.one || false;
         let filter = options.filter;
         let params = options.params;
-        var reuslt = await DB.query({
+        let useTransaction = options.useTransaction || false;
+        let result = await DB.query({
             sql: `SELECT * FROM USER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
-            params: params
+            params: params,
+            useTransaction: useTransaction
         });
-        return one ? (reuslt.length == 0 ? null : result[0]) : reuslt;
+        if (!result.success) {
+            return null;
+        }
+        return one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
     };
 
     /**
@@ -101,13 +126,16 @@ const UserInfo = {};
 
         var options = options || {};
         let params = options.params;
+        let useTransaction = options.useTransaction || false;
         if (params === undefined) {
             return;
         }
-        await DB.query({
+        let result = await DB.query({
             sql: 'INSERT INTO USER_INFO (NAME, PASSWORD, TYPE) VALUES ?',
-            params: [params]
+            params: [params],
+            useTransaction: useTransaction
         });
+        return result.success;
     };
 
     /**
@@ -118,11 +146,13 @@ const UserInfo = {};
         let update = options.update;
         let filter = options.filter;
         let params = options.params;
-        await DB.query({
+        let useTransaction = options.useTransaction || false;
+        let result = await DB.query({
             sql: `UPDATE USER_INFO ${update} ${filter === undefined ? '' : 'WHERE ' + filter}`,
-            params: params
-        })
-
+            params: params,
+            useTransaction: useTransaction
+        });
+        return result.success;
     };
 
     /**
@@ -132,10 +162,13 @@ const UserInfo = {};
         var options = options || {};
         let filter = options.filter;
         let params = options.params;
-        await DB.query({
+        let useTransaction = options.useTransaction || false;
+        let result = await DB.query({
             sql: `DELETE FROM USER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
-            params: params
+            params: params,
+            useTransaction: useTransaction
         });
+        return result.success;
     };
 
 })(UserInfo);
@@ -157,11 +190,16 @@ const MemberInfo = {};
         var one = options.one || false;
         let filter = options.filter;
         let params = options.params;
-        var reuslt = await DB.query({
+        let useTransaction = options.useTransaction || false;
+        let result = await DB.query({
             sql: `SELECT * FROM MEMBER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
-            params: params
+            params: params,
+            useTransaction: useTransaction
         });
-        return one ? (reuslt.length == 0 ? null : result[0]) : reuslt;
+        if (!result.success) {
+            return null;
+        }
+        return one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
     };
 
     /**
@@ -171,13 +209,16 @@ const MemberInfo = {};
 
         var options = options || {};
         let params = options.params;
+        let useTransaction = options.useTransaction || false;
         if (params === undefined) {
             return;
         }
-        await DB.query({
+        let result = await DB.query({
             sql: 'INSERT INTO MEMBER_INFO (NAME, CERTIFICATION) VALUES ?',
-            params: [params]
+            params: [params],
+            useTransaction: useTransaction
         });
+        return result.success;
     };
 
     /**
@@ -188,11 +229,13 @@ const MemberInfo = {};
         let update = options.update;
         let filter = options.filter;
         let params = options.params;
-        await DB.query({
+        let useTransaction = options.useTransaction || false;
+        let result = await DB.query({
             sql: `UPDATE MEMBER_INFO ${update} ${filter === undefined ? '' : 'WHERE ' + filter}`,
-            params: params
-        })
-
+            params: params,
+            useTransaction: useTransaction
+        });
+        return result.success;
     };
 
     /**
@@ -202,10 +245,13 @@ const MemberInfo = {};
         var options = options || {};
         let filter = options.filter;
         let params = options.params;
-        await DB.query({
+        let useTransaction = options.useTransaction || false;
+        let result = await DB.query({
             sql: `DELETE FROM MEMBER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
-            params: params
+            params: params,
+            useTransaction: useTransaction
         });
+        return result.success;
     };
 
 })(MemberInfo);
@@ -227,11 +273,16 @@ const QRCodeInfo = {};
         var one = options.one || false;
         let filter = options.filter;
         let params = options.params;
-        var reuslt = await DB.query({
+        let useTransaction = options.useTransaction || false;
+        let result = await DB.query({
             sql: `SELECT * FROM QRCODE_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
-            params: params
+            params: params,
+            useTransaction: useTransaction
         });
-        return one ? (reuslt.length == 0 ? null : result[0]) : reuslt;
+        if(!result.success){
+            return null;
+        }
+        return one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
     };
 
     /**
@@ -241,13 +292,16 @@ const QRCodeInfo = {};
 
         var options = options || {};
         let params = options.params;
+        let useTransaction = options.useTransaction || false;
         if (params === undefined) {
-            return;
+            return false;
         }
-        await DB.query({
-            sql: 'INSERT INTO QRCODE_INFO (URL, SERIALID, IDENTIFYCODE, TYPE, FIRSTTIME, QUERYCOUNT, MEMBER) VALUES ?',
-            params: [params]
+        let result = await DB.query({
+            sql: 'INSERT INTO QRCODE_INFO (URL, SERIALID, IDENTIFYCODE, FIRSTTIME, QUERYCOUNT, MEMBER) VALUES ?',
+            params: [params],
+            useTransaction: useTransaction
         });
+        return result.success;
     };
 
     /**
@@ -258,11 +312,13 @@ const QRCodeInfo = {};
         let update = options.update;
         let filter = options.filter;
         let params = options.params;
-        await DB.query({
+        let useTransaction = options.useTransaction || false;
+        let result = await DB.query({
             sql: `UPDATE MEMBER_INFO ${update} ${filter === undefined ? '' : 'WHERE ' + filter}`,
-            params: params
-        })
-
+            params: params,
+            useTransaction: useTransaction
+        });
+        return result.success;
     };
 
     /**
@@ -272,10 +328,13 @@ const QRCodeInfo = {};
         var options = options || {};
         let filter = options.filter;
         let params = options.params;
-        await DB.query({
+        let useTransaction = options.useTransaction || false;
+        let result = await DB.query({
             sql: `DELETE FROM MEMBER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
-            params: params
+            params: params,
+            useTransaction: useTransaction
         });
+        return result.success;
     };
 
 
@@ -285,5 +344,5 @@ module.exports = {
     DB: DB,
     UserInfo: UserInfo,
     MemberInfo: MemberInfo,
-    QRCodeInfo : QRCodeInfo
+    QRCodeInfo: QRCodeInfo
 };

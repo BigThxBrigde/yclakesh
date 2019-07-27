@@ -54,17 +54,17 @@
     console.log(data);
 });
 
-(()=>{
+(() => {
     let _readCount = () => {
         return require('./dao/count.json').start;
     };
 
-    let _saveCount = (start) =>{
+    let _saveCount = (start) => {
         let count = require('./dao/count.json');
         count.start = start;
         const fs = require('fs');
         const path = require('path');
-        fs.writeFileSync(path.join(__dirname, 'count.js'), JSON.stringify(count));
+        fs.writeFileSync(path.join(__dirname, "./dao/count.json"), JSON.stringify(count));
     }
 
     console.log(_readCount());
@@ -73,4 +73,12 @@
     _saveCount(0);
 
     console.log(_readCount());
+});
+
+(async () => {
+    const { services } = require("./dao/service");
+    // let result = await services.QRCode.add(200);
+    // console.log(result);
+    let result = await services.QRCode.find(100, 499);
+    console.log(result != null ? result : 'error');
 })();

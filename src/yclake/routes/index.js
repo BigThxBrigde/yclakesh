@@ -15,5 +15,4 @@ router.get('/json', async (ctx, next) => {
     title: 'koa2 json'
   }
 })
-
 module.exports = router
