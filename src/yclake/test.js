@@ -80,5 +80,27 @@
     // let result = await services.QRCode.add(200);
     // console.log(result);
     let result = await services.QRCode.find(100, 499);
+    result.forEach(e => {
+        console.log(e);
+    });
+
     console.log(result != null ? result : 'error');
 })();
+
+(async () => {
+    const { services } = require("./dao/service");
+    let result = await services.QRCode.add(200);
+    console.log(result);
+});
+
+(async () => {
+    const { services } = require("./dao/service");
+    let result = await services.User.add('admin', 'admin');
+    console.log(result);
+});
+
+(async () => {
+    const { services } = require("./dao/service");
+    let result = await services.User.validate('admin', 'admin');
+    console.log(result);
+});

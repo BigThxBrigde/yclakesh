@@ -1,7 +1,8 @@
 const { Random } = require('../util/random');
 const config = require('../config.json');
 const { QRCodeInfo } = require('./db');
-
+const { UserInfo } = require('./db');
+const { md5 } = require('../util/md5');
 module.exports = {
     services: {
         QRCode: (() => {
@@ -29,8 +30,9 @@ module.exports = {
             /**
              * 
              * @param {Number} count 
+             * @param {String} member 
              */
-            let add = async (count) => {
+            let add = async (count, member) => {
                 let start = _readCount();
                 let rows = [];
                 // serial id
@@ -46,7 +48,7 @@ module.exports = {
                         url,
                         serialId,
                         identiyCode,
-                        null,
+                        member || null,
                         null,
                         null
                     ]);
@@ -91,6 +93,43 @@ module.exports = {
             qrcode.add = add;
             qrcode.find = find;
             return qrcode;
+        })(),
+
+        User: (() => {
+            const User = {};
+
+            /**
+             * 
+             * @param {name} name 
+             * @param {password} password 
+             */
+            let add = async (name, password) => {
+                password = md5(password);
+                var result = await UserInfo.add({
+                    params: [[name, password, 0]]
+                });
+                return result;
+            };
+
+            /**
+             * 
+             * @param {*} name 
+             * @param {*} password 
+             */
+            let validate = async (name, password) => {
+                password = md5(password);
+                var result = await UserInfo.find({
+                    one: true,
+                    filter: ' NAME = ? AND PASSWORD = ?',
+                    params: [name, password]
+                });
+                return result != null;
+            }
+
+            User.add = add;
+            User.validate = validate;
+
+            return User;
         })()
     }
 }
