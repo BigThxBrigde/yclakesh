@@ -1,4 +1,4 @@
-let uuid = (length, radix) => {
+const uuid = (length, radix) => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
     var uuid = [], i;
     radix = radix || chars.length;
@@ -33,7 +33,6 @@ module.exports = {
         const random = {};
         let contains = [];
 
-
         /**
          * options
          * when number exists, generate one serialid,
@@ -50,8 +49,7 @@ module.exports = {
             let start = options.start || 0;
             let count = options.count || 100;
             let result = [];
-
-
+            
             for (let index = start; index < start + count; index++) {
                 result.push(`${prefix}${_pad(index, '0', length)}`);
             }
@@ -64,8 +62,6 @@ module.exports = {
          */
         random.randomCode = (options) => {
             let length = options.length;
-            //let max = Math.pow(10, length) - 1;
-            //return _pad(random.next(0, max), '0', length);
             return uuid(length, 10);
         }
 

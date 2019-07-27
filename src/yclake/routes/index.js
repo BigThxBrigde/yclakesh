@@ -4,7 +4,8 @@ const router = require('koa-router')()
 
 router.get('/', async (ctx, next) => {
   await ctx.render('login');
-}).post('/', userController.validate, userController.login);
+});
+//.post('/', userController.validate, userController.login);
   // if (false) {
   //   await next();
   // }

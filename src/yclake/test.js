@@ -85,6 +85,14 @@
     });
 
     console.log(result != null ? result : 'error');
+
+    const path = require('path');
+    const { CSV } = require('./util/csv');
+    await CSV.export({
+        data: result,
+        fields: ['Url', 'SerialId', 'IdentifyCode'],
+        file: `${path.join(__dirname,'test.csv')}`
+    })
 })();
 
 (async () => {
