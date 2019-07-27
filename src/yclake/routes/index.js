@@ -1,10 +1,10 @@
-const userController = require('../controller/user');
+const loginController = require('../controller/login');
 
 const router = require('koa-router')()
 
-router.get('/', async (ctx, next) => {
-  await ctx.render('login');
-});
+router.get('/', loginController.auth);
+router.get('/login',loginController.renderLogin);
+router.post('/login', loginController.validate, loginController.auth);
 //.post('/', userController.validate, userController.login);
   // if (false) {
   //   await next();
