@@ -93,13 +93,13 @@
         fields: ['Url', 'SerialId', 'IdentifyCode'],
         file: `${path.join(__dirname,'test.csv')}`
     })
-})();
+});
 
 (async () => {
     const { services } = require("./dao/service");
-    let result = await services.QRCode.add(200);
+    let result = await services.QRCode.add(1000);
     console.log(result);
-});
+})();
 
 (async () => {
     const { services } = require("./dao/service");

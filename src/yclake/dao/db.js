@@ -12,6 +12,7 @@ const DB = {};
         return new Promise((resolve, reject) => {
             pool.getConnection(function (err, connection) {
                 if (err) {
+                    console.error(err);
                     reject({
                         success: false,
                         error: err
@@ -23,6 +24,7 @@ const DB = {};
                     let useTrans = options.useTransaction || false;
 
                     if (!sql) {
+                        console.error('sql cannot be empty');
                         reject({
                             success: false,
                             error: new Error('sql cannot be empty')
@@ -32,6 +34,7 @@ const DB = {};
                     if (useTrans) {
                         connection.beginTransaction(err => {
                             if (err) {
+                                console.error('sql cannot be empty');
                                 reject({
                                     success: false,
                                     error: err
@@ -41,6 +44,7 @@ const DB = {};
                                 connection.query(sql, params, (err, rows) => {
 
                                     if (err) {
+                                        console.error(err);
                                         connection.rollback(() => {
                                             console.error('rollback failed')
                                         })
@@ -69,6 +73,7 @@ const DB = {};
                         connection.query(sql, params, (err, rows) => {
 
                             if (err) {
+                                console.error(err);
                                 reject({
                                     success: false,
                                     error: err
