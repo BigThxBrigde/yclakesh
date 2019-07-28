@@ -79,7 +79,7 @@
     const { services } = require("./dao/service");
     // let result = await services.QRCode.add(200);
     // console.log(result);
-    let result = await services.QRCode.find(100, 499);
+    let result = await services.QRCode.find(0, 999);
     result.forEach(e => {
         console.log(e);
     });
@@ -93,13 +93,13 @@
         fields: ['Url', 'SerialId', 'IdentifyCode'],
         file: `${path.join(__dirname,'test.csv')}`
     })
-});
+})();
 
 (async () => {
     const { services } = require("./dao/service");
     let result = await services.QRCode.add(1000);
     console.log(result);
-})();
+});
 
 (async () => {
     const { services } = require("./dao/service");
