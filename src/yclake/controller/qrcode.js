@@ -1,7 +1,7 @@
 const { services } = require('../dao/service');
 const moment = require('moment');
 const { CSV } = require('../util/csv');
-
+const { isOnline } = require('./login');
 /**
  * /qrcode/query -> POST
  * @param {Object} ctx 
@@ -28,12 +28,21 @@ let CSVExport = async (ctx, next) => {
     })
 };
 
-let renderPage = async (ctx, next) => {
-    await next();
-    ctx.render('layout', { item: 'qrcode' });
+/********** pages render api *********** */
+/**
+ * Render generate pages
+ * @param {Object} ctx 
+ * @param {Function} next 
+ */
+let renderGeneratePage = async (ctx, next) => {
+    if (!isOnline(ctx, next)) {
+        ctx.throw(404, '用户未登录');
+        return;
+    }
+    await ctx.render('./layouts/modules/qrcode');
 }
 
 module.exports = {
     CSVExport,
-    renderPage
+    renderGeneratePage
 }

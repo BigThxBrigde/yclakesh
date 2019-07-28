@@ -17,7 +17,7 @@
         <% include ./layouts/sidebar.ejs %>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div id="mainContent" class="content-wrapper">
         </div>
         <!-- /.content-wrapper -->
         <% include ./layouts/footer.ejs %>
@@ -26,9 +26,10 @@
        immediately after the control sidebar -->
 
     </div>
-    <script type="text/javascript" src="javascripts/urls.js"></script>
+    
     <!-- ./wrapper -->
     <% include ./layouts/scripts.ejs %>
+    <script type="text/javascript" src="javascripts/urls.js"></script>
 </body>
 
 </html>

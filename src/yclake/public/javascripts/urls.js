@@ -1,55 +1,23 @@
 $(document).ready(function () {
+    $('.treeview-menu a').each(function (i, e) {
+        var url = $(e).attr('url');
+        if (url) {
+            $(e).click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#mainContent').html(data);
+                    },
+                    error: function (error) {
 
-    $('.tree-menu a').each(function (i, e) {
-       var url = e.attr('url');
-       e.click(function(){
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: {
-                name: name,
-                password: password
-            },
-            dataType: 'html',
-            success: function (data) {
-                
-            },
-            error: function (error) {
-                $('#errorHolder').html('<div class="alert alert-danger">服务器内部错误</div>');
-            }
-        });
-    });
-
-       });
-    });
-
-    $('#submitButton').click(function () {
-        var name = $('#name').val(), password = $('#password').val();
-        if (name == '' || password == '') {
-            $('#errorHolder').html('<div class="alert alert-danger">用户名或者密码不能为空</div>');
-            return;
+                    }
+                });
+            });
         }
-        $.ajax({
-            type: 'POST',
-            url: '/login',
-            data: {
-                name: name,
-                password: password
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data.success) {
-                    window.location.href = '/admin';
-                } else {
-                    $('#errorHolder').html('<div class="alert alert-danger">用户名或者密码错误</div>');
-                }
-            },
-            error: function (error) {
-                $('#errorHolder').html('<div class="alert alert-danger">服务器内部错误</div>');
-            }
-        });
     });
-
+});
 
     // $.ajax({
     //     type:'POST',
@@ -87,4 +55,3 @@ $(document).ready(function () {
     //         report.ui.alert('服务器内部错误，请查看日志<br/>'+data.responseText);
     //     }
     // })
-});
