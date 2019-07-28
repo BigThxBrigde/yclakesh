@@ -3,6 +3,7 @@ $(document).ready(function () {
     $('#submitButton').click(function () {
         var name = $('#name').val(), password = $('#password').val();
         if (name == '' || password == '') {
+            $('#errorHolder').html('<div class="alert alert-danger">用户名或者密码不能为空</div>');
             return;
         }
         $.ajax({
@@ -13,8 +14,15 @@ $(document).ready(function () {
                 password: password
             },
             dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    window.location.href = '/admin';
+                } else {
+                    $('#errorHolder').html('<div class="alert alert-danger">用户名或者密码错误</div>');
+                }
+            },
             error: function (error) {
-                $('#errorHolder').html('<div class="alert alert-danger" role="alert">用户名或者密码错误</div>');
+                $('#errorHolder').html('<div class="alert alert-danger">服务器内部错误</div>');
             }
         });
     });

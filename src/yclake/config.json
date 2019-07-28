@@ -14,5 +14,17 @@
         "serialLength": 10,
         "identityCodeLength": 10
     },
-    "url": "https://www.ychdazhaxiesh.com/identify/"
+    "url": "http://www.ychdazhaxiesh.com/identify/",
+    "sessionConfig": {
+        "key": "koa:sess",
+        "maxAge": 86400000,
+        "overwrite": true,
+        "httpOnly": true,
+        "signed": true,
+        "renew": false,
+        "rolling": false
+    },
+    "appKeys": [
+        "life is a fucking lemon"
+    ]
 }

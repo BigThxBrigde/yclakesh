@@ -2,6 +2,11 @@ const { services } = require('../dao/service');
 const moment = require('moment');
 const { CSV } = require('../util/csv');
 
+/**
+ * /qrcode/query -> POST
+ * @param {Object} ctx 
+ * @param {Function} next 
+ */
 let CSVExport = async (ctx, next) => {
     // set header
     let fileName = `Exported_${moment(Date.now()).format('yyyyMMddHHmmss')}`;
@@ -23,6 +28,12 @@ let CSVExport = async (ctx, next) => {
     })
 };
 
+let renderPage = async (ctx, next) => {
+    await next();
+    ctx.render('layout', { item: 'qrcode' });
+}
+
 module.exports = {
-    CSVExport
+    CSVExport,
+    renderPage
 }

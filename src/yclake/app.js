@@ -6,6 +6,8 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
+const session = require('koa-session');
+const config = require('./config.json');
 const index = require('./routes/index')
 const users = require('./routes/users')
 const identify = require('./routes/identify');
@@ -13,9 +15,12 @@ const qrcode = require('./routes/qrcode');
 // error handler
 onerror(app)
 
+app.keys = config.appKeys;
+app.use(session(config.sessionConfig, app));
+
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
