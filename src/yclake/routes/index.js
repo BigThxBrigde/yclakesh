@@ -8,7 +8,7 @@ const router = require('koa-router')()
 router.get('/', loginController.auth, loginController.renderAdminPage);
 
 // redner admin page, if not login redirect to /login
-router.get('/admin', loginController.renderAdminPage, loginController.auth);
+router.get('/admin', loginController.apiAuth, loginController.renderAdminPage);
 
 // redner login page
 router.get('/login', loginController.renderLoginPage);

@@ -35,10 +35,6 @@ let CSVExport = async (ctx, next) => {
  * @param {Function} next 
  */
 let renderGeneratePage = async (ctx, next) => {
-    if (!isOnline(ctx, next)) {
-        ctx.throw(404, '用户未登录');
-        return;
-    }
     await ctx.render('./layouts/modules/qrcode');
 }
 

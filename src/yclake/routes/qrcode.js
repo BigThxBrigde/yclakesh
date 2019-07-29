@@ -6,7 +6,7 @@ router.prefix('/qrcode');
 
 router.get('/query', qrcodeController.CSVExport);
 
-router.post('/page/generate',qrcodeController.renderGeneratePage);
+router.post('/page/generate', loginController.apiAuth, qrcodeController.renderGeneratePage);
 
 
 module.exports = router

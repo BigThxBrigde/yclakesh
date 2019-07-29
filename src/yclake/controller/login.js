@@ -4,13 +4,6 @@ const { services } = require('../dao/service');
 /********** data query api *********** */
 
 /**
- * To know if the admin is online
- * @param {*} ctx 
- * @param {*} next 
- */
-let isOnline = (ctx, next) => !!ctx.session.user
-
-/**
  * validate user
  * @param {Object} ctx 
  * @param {Function} next 
@@ -26,6 +19,19 @@ let validate = async (ctx, next) => {
     };
 }
 
+/**
+ * auth api request.
+ * @param {Object} ctx 
+ * @param {Function} next 
+ */
+let apiAuth = async (ctx, next) => {
+    if (ctx.session.user) {
+        await next();
+    } else {
+        ctx.throw(404, "用户或者密码错误");
+    }
+}
+
 /********** pages render api *********** */
 
 /**
@@ -37,9 +43,7 @@ let auth = async (ctx, next) => {
     if (!ctx.session.user) {
         ctx.redirect('/login');
     } else {
-        if (next) {
-            await next();
-        }
+        await next();
     }
 };
 
@@ -56,12 +60,11 @@ let renderLoginPage = async (ctx, next) => {
  * rend admin page
  */
 let renderAdminPage = async (ctx, next) => {
-    await next();
     await ctx.render('layout.ejs');
 }
 
 module.exports = {
-    isOnline,
+    apiAuth,
     validate,
     auth,
     renderLoginPage,
