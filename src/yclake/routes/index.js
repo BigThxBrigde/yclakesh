@@ -18,4 +18,6 @@ router.get('/login', loginController.renderLoginPage);
 // validate login
 router.post('/login', loginController.validate);
 
+router.post('/logout', loginController.logout);
+
 module.exports = router

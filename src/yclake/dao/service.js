@@ -90,8 +90,10 @@ module.exports = {
                 return result;
             }
 
+            let start = async () => _readCount();
             qrcode.add = add;
             qrcode.find = find;
+            qrcode.start = start;
             return qrcode;
         })(),
 

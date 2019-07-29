@@ -12,7 +12,7 @@
 <body class="hold-transition skin-green sidebar-mini">
     <div class="wrapper">
 
-        <% include ./layouts/header.ejs %>
+        <%- include('./layouts/header.ejs',{user:user}) %>
         <!-- Left side column. contains the logo and sidebar -->
         <% include ./layouts/sidebar.ejs %>
 
@@ -26,10 +26,11 @@
        immediately after the control sidebar -->
 
     </div>
-    
+
     <!-- ./wrapper -->
     <% include ./layouts/scripts.ejs %>
-    <script type="text/javascript" src="javascripts/urls.js"></script>
+    <script type="text/javascript" src="javascripts/main.js"></script>
+
 </body>
 
 </html>

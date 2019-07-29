@@ -35,7 +35,11 @@ let CSVExport = async (ctx, next) => {
  * @param {Function} next 
  */
 let renderGeneratePage = async (ctx, next) => {
-    await ctx.render('./layouts/modules/qrcode');
+    let startSerialId = await services.QRCode.start();
+    await ctx.render('./layouts/modules/qrcode', {
+        operation: 'generate',
+        startSerialId: startSerialId
+    });
 }
 
 module.exports = {

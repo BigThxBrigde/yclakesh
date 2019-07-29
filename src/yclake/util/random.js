@@ -1,5 +1,5 @@
+const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
 const uuid = (length, radix) => {
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
     var uuid = [], i;
     radix = radix || chars.length;
 
@@ -62,7 +62,7 @@ module.exports = {
          */
         random.randomCode = (options) => {
             let length = options.length;
-            return uuid(length, 10);
+            return `${_next(1,9)}${uuid(length-1, 10)}`;
         }
 
         random.next = (min, max) => {

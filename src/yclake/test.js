@@ -91,7 +91,7 @@
     await CSV.export({
         data: result,
         fields: ['Url', 'SerialId', 'IdentifyCode'],
-        file: `${path.join(__dirname,'test.csv')}`
+        file: `${path.join(__dirname,'test_v1.csv')}`
     })
 })();
 

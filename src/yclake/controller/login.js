@@ -20,6 +20,18 @@ let validate = async (ctx, next) => {
 }
 
 /**
+ * Logout clean session
+ * @param {*} ctx 
+ * @param {*} next 
+ */
+let logout = async (ctx, next) => {
+    ctx.session.user = null;
+    ctx.body = {
+        success: true
+    };
+}
+
+/**
  * auth api request.
  * @param {Object} ctx 
  * @param {Function} next 
@@ -60,12 +72,13 @@ let renderLoginPage = async (ctx, next) => {
  * rend admin page
  */
 let renderAdminPage = async (ctx, next) => {
-    await ctx.render('layout.ejs');
+    await ctx.render('layout.ejs', { user: ctx.session.user });
 }
 
 module.exports = {
     apiAuth,
     validate,
+    logout,
     auth,
     renderLoginPage,
     renderAdminPage
