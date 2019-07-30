@@ -80,7 +80,7 @@ module.exports = {
 
             let addBatch = async (count, number) => {
                 let batchNumber = config.random.batchNumber;
-                let raim = count % batchNumber;
+                let remain = count % batchNumber;
                 let part = parseInt(count / batchNumber, 10);
 
                 let result = null;
@@ -95,8 +95,8 @@ module.exports = {
                         }
                     }
                 }
-                if (raim > 0) {
-                    result = await add(raim, number);
+                if (remain > 0) {
+                    result = await add(remain, number);
                     return {
                         success: result.success,
                         message: result.success ? '批量插入成功' : '批量插入失败',
@@ -132,7 +132,7 @@ module.exports = {
                 });
                 return result;
             }
-
+            
             let start = async () => Random.serialId({
                 prefix: config.random.prefix,
                 length: config.random.serialLength,
