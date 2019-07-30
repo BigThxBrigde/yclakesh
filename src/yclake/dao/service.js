@@ -2,6 +2,7 @@ const { Random } = require('../util/random');
 const config = require('../config.json');
 const { QRCodeInfo } = require('./db');
 const { UserInfo } = require('./db');
+const { MemberInfo } = require('./db');
 const { md5 } = require('../util/md5');
 module.exports = {
     services: {
@@ -132,6 +133,16 @@ module.exports = {
             User.validate = validate;
 
             return User;
+        })(),
+
+        Member: (() => {
+            const member = {};
+            let find = async () => {
+                let result = await MemberInfo.find();
+                return result;
+            };
+            member.find = find;
+            return member;
         })()
     }
 }

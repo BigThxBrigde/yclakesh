@@ -36,9 +36,11 @@ let CSVExport = async (ctx, next) => {
  */
 let renderGeneratePage = async (ctx, next) => {
     let startSerialId = await services.QRCode.start();
+    let members = await services.Member.find({fields:['name']}) || [];
     await ctx.render('./layouts/modules/qrcode', {
         operation: 'generate',
-        startSerialId: startSerialId
+        startSerialId: startSerialId,
+        members : members
     });
 }
 

@@ -54,6 +54,15 @@
     console.log(data);
 });
 
+(async () => {
+    const UserInfo = require("./dao/db").UserInfo;
+    let result = await UserInfo.find({
+        one: true,
+        fields: ['name']
+    });
+    console.log(result);
+})();
+
 (() => {
     let _readCount = () => {
         return require('./dao/count.json').start;
@@ -93,7 +102,7 @@
         fields: ['Url', 'SerialId', 'IdentifyCode'],
         file: `${path.join(__dirname,'test_v1.csv')}`
     })
-})();
+});
 
 (async () => {
     const { services } = require("./dao/service");
@@ -112,3 +121,4 @@
     let result = await services.User.validate('admin', 'admin');
     console.log(result);
 });
+

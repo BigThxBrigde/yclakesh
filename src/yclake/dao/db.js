@@ -113,8 +113,9 @@ const UserInfo = {};
         let filter = options.filter;
         let params = options.params;
         let useTransaction = options.useTransaction || false;
+        let fields = options.fields !== undefined ? options.fields.join(',') : '*';
         let result = await DB.query({
-            sql: `SELECT * FROM USER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
+            sql: `SELECT ${fields} FROM USER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
             params: params,
             useTransaction: useTransaction
         });
@@ -196,8 +197,9 @@ const MemberInfo = {};
         let filter = options.filter;
         let params = options.params;
         let useTransaction = options.useTransaction || false;
+        let fields = options.fields !== undefined ? options.fields.join(',') : '*';
         let result = await DB.query({
-            sql: `SELECT * FROM MEMBER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
+            sql: `SELECT ${fields} FROM MEMBER_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
             params: params,
             useTransaction: useTransaction
         });
@@ -279,12 +281,13 @@ const QRCodeInfo = {};
         let filter = options.filter;
         let params = options.params;
         let useTransaction = options.useTransaction || false;
+        let fields = options.fields !== undefined ? options.fields.join(',') : '*';
         let result = await DB.query({
-            sql: `SELECT * FROM QRCODE_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
+            sql: `SELECT ${fields} FROM QRCODE_INFO ${filter === undefined ? '' : 'WHERE ' + filter}`,
             params: params,
             useTransaction: useTransaction
         });
-        if(!result.success){
+        if (!result.success) {
             return null;
         }
         return one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
