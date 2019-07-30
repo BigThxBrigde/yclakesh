@@ -1,9 +1,8 @@
 const { services } = require('../dao/service');
 const moment = require('moment');
 const { CSV } = require('../util/csv');
-const { isOnline } = require('./login');
 /**
- * /qrcode/query -> POST
+ * /qrcode/query
  * @param {Object} ctx 
  * @param {Function} next 
  */
@@ -28,6 +27,22 @@ let CSVExport = async (ctx, next) => {
     })
 };
 
+/** data api */
+let add = async (ctx, next) => {
+    let params = ctx.params;
+    let result = await services.QRCode.add(params.count, params.member);
+    if (result) {
+        ctx.body = {
+            success: true
+        }
+    } else {
+        ctx.body ={
+            success: false,
+            message: '生成失败'
+        }
+    }
+}
+
 /********** pages render api *********** */
 /**
  * Render generate pages
@@ -36,15 +51,16 @@ let CSVExport = async (ctx, next) => {
  */
 let renderGeneratePage = async (ctx, next) => {
     let startSerialId = await services.QRCode.start();
-    let members = await services.Member.find({fields:['name']}) || [];
+    let members = await services.Member.find({ fields: ['name'] }) || [];
     await ctx.render('./layouts/modules/qrcode', {
         operation: 'generate',
         startSerialId: startSerialId,
-        members : members
+        members: members
     });
 }
 
 module.exports = {
     CSVExport,
-    renderGeneratePage
+    renderGeneratePage,
+    add
 }
