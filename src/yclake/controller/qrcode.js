@@ -28,15 +28,17 @@ let CSVExport = async (ctx, next) => {
 };
 
 /** data api */
+
+/** 
+ *  /qrcode/data/generate
+*/
 let add = async (ctx, next) => {
-    let params = ctx.params;
-    let result = await services.QRCode.add(params.count, params.member);
-    if (result) {
-        ctx.body = {
-            success: true
-        }
+    let params = ctx.request.body;
+    let result = await services.QRCode.add(parseInt(params.count, 10), params.member);
+    if (result.success) {
+        ctx.body = result
     } else {
-        ctx.body ={
+        ctx.body = {
             success: false,
             message: '生成失败'
         }

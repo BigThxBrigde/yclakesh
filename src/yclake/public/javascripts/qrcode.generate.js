@@ -16,7 +16,21 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.success) {
-                    window.location.href = '/login';
+                    bootbox.dialog({
+                        size: "small",
+                        title: "生成成功",
+                        message: '<p class="alert alert-success">已经为您生成' + num + '条数据</p>',
+                        buttons: {
+                            success: {
+                                label: '确定',
+                                className: 'btn-success',
+                                callback: function(){
+                                    $('#generateCount').val('');
+                                    $('#startID').val(data.nextSerialId);             
+                                }
+                            }
+                        }
+                    })
                 }
             }
         });

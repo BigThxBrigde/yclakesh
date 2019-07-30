@@ -61,7 +61,7 @@
         fields: ['name']
     });
     console.log(result);
-})();
+});
 
 (() => {
     let _readCount = () => {
@@ -106,9 +106,9 @@
 
 (async () => {
     const { services } = require("./dao/service");
-    let result = await services.QRCode.add(1000);
+    let result = await services.QRCode.add(100);
     console.log(result);
-});
+})();
 
 (async () => {
     const { services } = require("./dao/service");

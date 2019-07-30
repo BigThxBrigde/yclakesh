@@ -55,7 +55,9 @@ module.exports = {
                     ]);
                 });
                 if (rows.length == 0) {
-                    return true;
+                    return {
+                        success: false
+                    };
                 }
                 var result = await QRCodeInfo.add({
                     params: rows,
@@ -65,7 +67,14 @@ module.exports = {
                 if (result) {
                     _saveCount(start + count);
                 }
-                return result;
+                return {
+                    success: result,
+                    nextSerialId: result ? Random.serialId({
+                        prefix: config.random.prefix,
+                        length: config.random.serialLength,
+                        number: start + count
+                    }) : ''
+                };
             }
 
             /**
@@ -91,7 +100,11 @@ module.exports = {
                 return result;
             }
 
-            let start = async () => _readCount();
+            let start = async () => Random.serialId({
+                prefix: config.random.prefix,
+                length: config.random.serialLength,
+                number: _readCount()
+            });
             qrcode.add = add;
             qrcode.find = find;
             qrcode.start = start;
