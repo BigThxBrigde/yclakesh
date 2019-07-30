@@ -12,7 +12,8 @@
     "random": {
         "prefix": "19",
         "serialLength": 10,
-        "identityCodeLength": 10
+        "identityCodeLength": 10,
+        "batchNumber": 15
     },
     "url": "http://www.ychdazhaxiesh.com/identify/",
     "sessionConfig": {

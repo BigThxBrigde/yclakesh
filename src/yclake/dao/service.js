@@ -77,6 +77,39 @@ module.exports = {
                 };
             }
 
+
+            let addBatch = async (count, number) => {
+                let batchNumber = config.random.batchNumber;
+                let raim = count % batchNumber;
+                let part = parseInt(count / batchNumber, 10);
+
+                let result = null;
+
+                for (let index = 0; index < part; index++) {
+                    result = await add(batchNumber, number);
+                    if (!result.success) {
+                        return {
+                            success: false,
+                            message: '批量插入失败',
+                            nextSerialId: result.nextSerialId
+                        }
+                    }
+                }
+                if (raim > 0) {
+                    result = await add(raim, number);
+                    return {
+                        success: result.success,
+                        message: result.success ? '批量插入成功' : '批量插入失败',
+                        nextSerialId: result.nextSerialId
+                    }
+                } else {
+                    return {
+                        success: true,
+                        message: '批量插入成功',
+                        nextSerialId: result.nextSerialId
+                    }
+                }
+            }
             /**
              * find the data
              * @param {Number} start 
@@ -108,6 +141,7 @@ module.exports = {
             qrcode.add = add;
             qrcode.find = find;
             qrcode.start = start;
+            qrcode.addBatch = addBatch;
             return qrcode;
         })(),
 
