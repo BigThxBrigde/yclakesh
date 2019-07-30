@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#generateButton').click(function () {
         var count = $('#generateCount').val();
         if (!/^\d+$/.test(count)) {
-            $('#errorHolder').html('<div style="text-algin:center" class="alert alert-danger">生成个数必须为正确的数字</div>');
+            $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">生成个数必须为正确的数字</div>');
             return;
         }
         var num = parseInt(count, 10);
@@ -19,7 +19,7 @@ $(document).ready(function () {
                     bootbox.dialog({
                         size: "small",
                         title: "生成成功",
-                        message: '<p class="alert alert-success">已经为您生成' + num + '条数据</p>',
+                        message: '<p class="alert">已经为您生成' + num + '条数据</p>',
                         buttons: {
                             success: {
                                 label: '确定',
