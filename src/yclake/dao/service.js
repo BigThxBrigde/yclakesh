@@ -132,16 +132,27 @@ module.exports = {
                 });
                 return result;
             }
-            
+
             let start = async () => Random.serialId({
                 prefix: config.random.prefix,
                 length: config.random.serialLength,
                 number: _readCount()
             });
+
+            let update = async (options) => {
+                let result = await QRCodeInfo.update({
+                    update: `SET queryCount = ? ${options.firstTime !== undefined ? ', firstTime = ?' : ''}`,
+                    filter: 'WHERE SERIALID = ? AND IDENTIFYCODE = ?',
+                    params: [options.queryCount, options.firstTime, options.serialId, options.identifyCode]
+                });
+                return result;
+            }
+
             qrcode.add = add;
             qrcode.find = find;
             qrcode.start = start;
             qrcode.addBatch = addBatch;
+            qrcode.update = update;
             return qrcode;
         })(),
 

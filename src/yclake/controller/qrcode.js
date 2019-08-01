@@ -61,6 +61,36 @@ let renderGeneratePage = async (ctx, next) => {
     });
 }
 
+let identify = async (ctx, next) => {
+    let serialId = ctx.query.serialId;
+    let code = ctx.query.code;
+    let result = await services.QRCode.find({
+        one: true,
+        filter: 'serialId= ? and identifyCode = ?',
+        params: [serialId, code]
+    });
+    if (result == null) {
+        ctx.body = {
+            success: false
+        }
+    } else {
+        let queryCount = result.QueryCount || 0;
+        let r = await services.QRCode.update({
+            queryCount: queryCount + 1,
+            firstTime: moment(Date.now()).format('yyyyMMddHHmmssff'),
+            serialId: serialId,
+            identifyCode: code
+        });
+        if (!r) {
+            ctx.body = {
+                success: false
+            }
+        } else {
+            ctx.render('')
+        }
+    }
+}
+
 module.exports = {
     CSVExport,
     renderGeneratePage,
