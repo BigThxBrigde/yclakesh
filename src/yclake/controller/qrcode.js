@@ -1,6 +1,8 @@
 const { services } = require('../dao/service');
 const moment = require('moment');
 const { CSV } = require('../util/csv');
+const config = require('../config.json');
+
 /**
  * /qrcode/query
  * @param {Object} ctx 
@@ -15,7 +17,7 @@ let CSVExport = async (ctx, next) => {
     let start = ctx.query.start;
     let end = ctx.query.end;
     var result = await services.QRCode.find(start, end);
-    if (result == null || result.length == 0) {
+    if (!result.success || result.data == null || result.data.length == 0) {
         ctx.body = '导出错误，无存在数据或者服务器内部错误';
         ctx.res.status = 500;
         return;
@@ -53,7 +55,8 @@ let add = async (ctx, next) => {
  */
 let renderGeneratePage = async (ctx, next) => {
     let startSerialId = await services.QRCode.start();
-    let members = await services.Member.find({ fields: ['name'] }) || [];
+    let result = await services.Member.find({ fields: ['name'] });
+    let members = result.success ? ((result.data == null || result.data.length == 0) ? [] : result.data) : []
     await ctx.render('./layouts/modules/qrcode', {
         operation: 'generate',
         startSerialId: startSerialId,
@@ -61,38 +64,75 @@ let renderGeneratePage = async (ctx, next) => {
     });
 }
 
+const ERROR = -1, SUCCESS = 0, OVER_QUERY = 1, UNKNOWN = 2
+
 let identify = async (ctx, next) => {
-    let serialId = ctx.query.serialId;
-    let code = ctx.query.code;
-    let result = await services.QRCode.find({
-        one: true,
-        filter: 'serialId= ? and identifyCode = ?',
-        params: [serialId, code]
-    });
-    if (result == null) {
-        ctx.body = {
-            success: false
-        }
-    } else {
-        let queryCount = result.QueryCount || 0;
-        let r = await services.QRCode.update({
-            queryCount: queryCount + 1,
-            firstTime: moment(Date.now()).format('yyyyMMddHHmmssff'),
-            serialId: serialId,
-            identifyCode: code
+    let serialId = ctx.params.serialId;
+    let code = ctx.params.code;
+    let result = await services.QRCode.identify(serialId, code);
+    if (!result.success) {
+        await ctx.render('identify', {
+            result: UNKNOWN
         });
-        if (!r) {
-            ctx.body = {
-                success: false
-            }
+    } else {
+        if (result.data == null) {
+            await ctx.render('identify', {
+                result: ERROR,
+                data: {
+                    serialId: serialId,
+                    code: code
+                }
+            });
+
         } else {
-            ctx.render('')
+
+            let data = result.data;
+            let queryCount = data.QueryCount || 0;
+            let firstTime = data.firstTime || moment(Date.now()).format('yyyyMMddHHmmss')
+
+            if (queryCount >= config.maxQueryCount) {
+                await ctx.render('identify', {
+                    result: OVER_QUERY,
+                    data: {
+                        serialId: serialId,
+                        code: code,
+                        queryCount: queryCount,
+                        firstTime: firstTime,
+                        member: member
+                    }
+                });
+            } else {
+                let r = await services.QRCode.update({
+                    queryCount: queryCount + 1,
+                    firstTime: moment(Date.now()).format('yyyyMMddHHmmssff'),
+                    serialId: serialId,
+                    identifyCode: code
+                });
+                if (!r) {
+                    await ctx.render('identify', {
+                        result: UNKNOWN
+                    });
+                } else {
+                    await ctx.render('identify', {
+                        result: SUCCESS,
+                        data: {
+                            serialId: serialId,
+                            code: code,
+                            queryCount: queryCount,
+                            firstTime: firstTime,
+                            member: member
+                        }
+                    })
+                }
+            }
         }
+
     }
 }
 
 module.exports = {
     CSVExport,
     renderGeneratePage,
-    add
+    add,
+    identify
 }

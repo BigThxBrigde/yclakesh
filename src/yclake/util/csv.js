@@ -79,15 +79,15 @@ let writeLine = async (options) => {
     let file = options.file;
     let stream = options.stream || fs.createWriteStream(file, { flags: 'a' });
 
-    let data = await services.QRCode.find(start, end);
-    if (data == null || data.length === 0) {
+    let result = await services.QRCode.find(start, end);
+    if (!result.success || result.data == null || result.data.length === 0) {
         return {
             success: false,
             message: '查询失败'
         }
     }
 
-    data.forEach(row => {
+    result.data.forEach(row => {
         let line = _convert(row, fields).join(delimiter);
         stream.write(Buffer.from(`${line}\n`));
     });

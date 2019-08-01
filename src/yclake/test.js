@@ -98,7 +98,7 @@
     const path = require('path');
     const { CSV } = require('./util/csv');
     await CSV.export({
-        data: result,
+        data: result.data,
         fields: ['Url', 'SerialId', 'IdentifyCode'],
         file: `${path.join(__dirname, 'test_v1.csv')}`
     })

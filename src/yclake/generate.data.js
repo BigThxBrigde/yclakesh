@@ -9,9 +9,9 @@
     const { CSV } = require('./util/csv');
     let result = await CSV.export({
         start: 0,
-        end: 7999999,
+        end: 100,
         fields: ['Url', 'SerialId', 'IdentifyCode'],
-        file: `${path.join(__dirname, '../../data/2019_07_30_firstbatch.csv')}`
+        file: `${path.join(__dirname, '../../data/2019_8_1.csv')}`
     });
     console.log(result);
 })();

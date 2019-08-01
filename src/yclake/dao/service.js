@@ -148,11 +148,21 @@ module.exports = {
                 return result;
             }
 
+            let identify = async (serialId, code) => {
+                let result = await QRCodeInfo.find({
+                    one: true,
+                    filter: 'serialId= ? and identifyCode = ?',
+                    params: [serialId, code]
+                });
+                return result;
+            }
+
             qrcode.add = add;
             qrcode.find = find;
             qrcode.start = start;
             qrcode.addBatch = addBatch;
             qrcode.update = update;
+            qrcode.identify = identify;
             return qrcode;
         })(),
 
@@ -184,7 +194,8 @@ module.exports = {
                     filter: ' NAME = ? AND PASSWORD = ?',
                     params: [name, password]
                 });
-                return result != null;
+                if (!result.success) { return false; }
+                return result.data != null;
             }
 
             User.add = add;

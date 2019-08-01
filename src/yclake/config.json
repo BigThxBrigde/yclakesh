@@ -27,5 +27,6 @@
     },
     "appKeys": [
         "life is a fucking lemon"
-    ]
+    ],
+    "maxQueryCount": 30
 }

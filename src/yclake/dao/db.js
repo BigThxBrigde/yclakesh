@@ -120,9 +120,16 @@ const UserInfo = {};
             useTransaction: useTransaction
         });
         if (!result.success) {
-            return null;
+            return {
+                success : false,
+                data : null
+            };
         }
-        return one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
+        let data = one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
+        return {
+            success : true,
+            data: data
+        };
     };
 
     /**
@@ -204,9 +211,16 @@ const MemberInfo = {};
             useTransaction: useTransaction
         });
         if (!result.success) {
-            return null;
+            return {
+                success : false,
+                data : null
+            };
         }
-        return one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
+        let data = one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
+        return {
+            success : true,
+            data: data
+        };
     };
 
     /**
@@ -288,9 +302,16 @@ const QRCodeInfo = {};
             useTransaction: useTransaction
         });
         if (!result.success) {
-            return null;
+            return {
+                success : false,
+                data : null
+            };
         }
-        return one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
+        let data = one ? (result.data.length == 0 ? null : result.data[0]) : result.data;
+        return {
+            success : true,
+            data: data
+        };
     };
 
     /**
