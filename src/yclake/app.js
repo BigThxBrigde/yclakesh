@@ -6,17 +6,18 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
-const session = require('koa-session');
-const config = require('./config.json');
+const session = require('koa-session')
+const config = require('./config.json')
 const index = require('./routes/index')
 const users = require('./routes/users')
-const identify = require('./routes/identify');
-const qrcode = require('./routes/qrcode');
+const identify = require('./routes/identify')
+const qrcode = require('./routes/qrcode')
+const path = require('path')
 // error handler
 onerror(app)
 
-app.keys = config.appKeys;
-app.use(session(config.sessionConfig, app));
+app.keys = config.appKeys
+app.use(session(config.sessionConfig, app))
 
 // middlewares
 app.use(bodyparser({
@@ -24,9 +25,9 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(require('koa-static')(path.join(__dirname, 'public')))
 
-app.use(views(__dirname + '/views', {
+app.use(views(path.join(__dirname, 'views'), {
   extension: 'ejs'
 }))
 
@@ -47,6 +48,6 @@ app.use(qrcode.routes(), qrcode.allowedMethods())
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
-});
+})
 
 module.exports = app

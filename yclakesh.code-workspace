@@ -4,5 +4,14 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"eslint.autoFixOnSave": true,
+		"eslint.provideLintTask": true,
+		"eslint.options": { "configFile": ".eslintrc.json" },
+		"eslint.validate": [ "javascript", "ejs" ],
+		"eslint.workingDirectories": [
+			"./src/yclake"
+		],
+		"editor.tabSize": 2
+	}
 }
