@@ -8,10 +8,6 @@ const logger = require('koa-logger')
 
 const session = require('koa-session')
 const config = require('./config.json')
-// const index = require('./routes/index')
-// const users = require('./routes/users')
-// const identify = require('./routes/identify')
-// const qrcode = require('./routes/qrcode')
 const router = require('./routes/router')
 const path = require('path')
 // error handler
@@ -41,10 +37,6 @@ app.use(async (ctx, next) => {
 })
 
 // routes
-// app.use(index.routes(), index.allowedMethods())
-// app.use(users.routes(), users.allowedMethods())
-// app.use(identify.routes(), identify.allowedMethods())
-// app.use(qrcode.routes(), qrcode.allowedMethods())
 app.use(router.routes(), router.allowedMethods())
 
 // error-handling
