@@ -44,3 +44,31 @@
     }
   });
 })();
+
+var init = function () {
+
+  var latLng = new qq.maps.LatLng(31.42223, 120.818);
+  var options = {
+    zoom: 12,
+    center: latLng,
+    mapTypeId: qq.maps.MapTypeId.ROADMAP,
+    noClear: false
+  }
+  var map = new qq.maps.Map(document.getElementById("mapContainer"), options);
+  new qq.maps.Marker({
+    position: latLng,
+    animation: qq.maps.MarkerAnimation.DROP,
+    map: map
+  });
+};
+
+(function () {
+  $(document).ready(function () {
+
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://map.qq.com/api/js?v=2.exp&key=YFYBZ-FNPCX-OL34Q-ZEIGX-SGM6T-TUFGU&callback=init";
+    document.body.appendChild(script);
+
+  })
+})();

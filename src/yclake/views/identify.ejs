@@ -22,7 +22,8 @@
     }
 
     .top-blank {
-      margin-top: 10px
+      margin-top: 20px;
+      margin-bottom: -20px;
     }
 
     .header-text {
@@ -36,6 +37,12 @@
       margin-top: -40px;
       color: inherit;
 
+    }
+
+    #mapContainer {
+      min-height: 400px;
+      margin-bottom: -20px;
+      border-radius: 6px;
     }
 
     .graph-block p {
@@ -72,7 +79,7 @@
 
       <div class="col-xs-12 col-sm-9">
 
-        <img src="/images/timg.jpg" class="img-responsive img-rounded"></img>
+        <img src="/images/timg.jpg" class="img-responsive img-rounded" style="margin-top:5px;margin-bottom:10px"></img>
       </div>
       <% if (result == 2) {%>
 
@@ -108,7 +115,8 @@
         <div class="jumbotron">
           <div id="result" class="graph-block">
             <h3>查询结果</h3>
-            <p>您所查的序列号 <span id="code" class="text-primary"><%= data.code %></span> 不存在，谨防假冒，或核对后请重新查询，并请拨打咨询热线： <span class="text-primary">95938</span></p>
+            <p>您所查的序列号 <span id="code" class="text-primary"><%= data.code %></span> 不存在，谨防假冒，或核对后请重新查询，并请拨打咨询热线： <span
+                class="text-primary">95938</span></p>
           </div>
         </div>
 
@@ -132,6 +140,17 @@
 
       <% }%>
       <audio id="audInfo"></audio>
+      <div class="col-xs-12 col-sm-9 top-blank">
+
+        <div class="jumbotron">
+          <div class="graph-block">
+            <h3>地图位置</h3>
+            <div id="mapContainer">
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
 
