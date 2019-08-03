@@ -86,7 +86,7 @@ const identify = async (ctx, next) => {
     } else {
       const data = result.data
       const queryCount = data.QueryCount || 0
-      const d = data.FirstTime === undefined ? moment(Date.now()) : moment(data.FirstTime, 'YYYYMMDDHHmmss')
+      const d = data.FirstTime === null ? moment(Date.now()) : moment(data.FirstTime, 'YYYYMMDDHHmmss')
       const firstTime = data.FirstTime || d.format('YYYYMMDDHHmmss')
       const member = data.Member || ''
 

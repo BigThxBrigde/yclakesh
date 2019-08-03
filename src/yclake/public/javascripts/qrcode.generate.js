@@ -24,9 +24,9 @@ $(document).ready(function () {
                             success: {
                                 label: '确定',
                                 className: 'btn-success',
-                                callback: function(){
+                                callback: function () {
                                     $('#generateCount').val('');
-                                    $('#startID').val(data.nextSerialId);             
+                                    $('#startID').val(data.nextSerialId);
                                 }
                             }
                         }

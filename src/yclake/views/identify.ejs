@@ -85,51 +85,53 @@
           </div>
         </div>
       </div>
-     
+
       <%} else if(result == 0){%>
 
       <div class="col-xs-12 col-sm-9 top-blank">
         <div class="jumbotron">
-          <div class="graph-block">
+          <div id="result" class="graph-block">
             <h3>查询结果</h3>
-            <p>您查询的防伪码： <span class="text-primary"><%= data.code %></span></p>
+            <p>您查询的序列号： <span id="code" class="text-primary"><%= data.code %></span></p>
             <p>尊敬的客户您好：你查询的是由<span class="text-primary">苏州市阳澄湖大行业商会</span>监制的<span
-                class="text-primary"><%= data.member %></span>大闸蟹，感谢您的查询</p>
+                class="text-primary"><%= data.member %></span>大闸蟹，感谢您的查询。</p>
             <p>查询次数: <span class="text-primary"><%= data.queryCount %></span></p>
             <p>首次查询时间: <span class="text-primary"><%= data.firstTime %></span></p>
           </div>
         </div>
       </div>
-      
+
       <%} else if (result == -1){ %>
 
       <div class="col-xs-12 col-sm-9 top-blank">
 
         <div class="jumbotron">
-          <div class="graph-block">
+          <div id="result" class="graph-block">
             <h3>查询结果</h3>
-            <p>您所查的防伪码不存在，谨防假冒，或核对后请重新查询，并请拨打咨询热线： <span class="text-primary">95938</span></p>
+            <p>您所查的序列号 <span id="code" class="text-primary"><%= data.code %></span> 不存在，谨防假冒，或核对后请重新查询，并请拨打咨询热线： <span class="text-primary">95938</span></p>
           </div>
         </div>
 
       </div>
 
       <% } else if (result == 1) {%>
-      
-        <div class="col-xs-12 col-sm-9 top-blank">
+
+      <div class="col-xs-12 col-sm-9 top-blank">
 
         <div class="jumbotron">
-          <div class="graph-block">
+          <div id="result" class="graph-block">
             <h3>查询结果</h3>
-            <p>防伪码<span class="text-primary"><%= data.code %></span>已经被查询<span class="text-primary"><%= data.queryCount %></span>次，首次查询时间为：<span
+            <p>序列号 <span id="code" class="text-primary"><%= data.code %></span> 已经被查询<span
+                class="text-primary"><%= data.queryCount %></span>次，首次查询时间为：<span
                 class="text-primary"><%= data.firstTime %></span></p>
             <p>请您谨防假冒，并请拨打咨询热线： <span class="text-primary">95938</span></p>
           </div>
         </div>
 
       </div>
-      
+
       <% }%>
+      <audio id="audInfo"></audio>
     </div>
 
 
@@ -142,6 +144,7 @@
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="/lib/ie10-viewport-bug-workaround.js"></script>
   <script src="/lib/offcanvas.js"></script>
+  <script src="/javascripts/identify.js"></script>
 </body>
 
 </html>
