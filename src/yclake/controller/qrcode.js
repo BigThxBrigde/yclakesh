@@ -10,7 +10,7 @@ const config = require('../config.json')
  */
 const CSVExport = async (ctx, next) => {
   // set header
-  const fileName = `Exported_${moment(Date.now()).format('yyyyMMddHHmmss')}`
+  const fileName = `Exported_${moment(Date.now()).format('YYYYMMDDHHmmss')}`
   await ctx.res.setHeader('Content-disposition', `attachment; filename=` + encodeURIComponent(fileName) + '.csv')
   await ctx.res.writeHead(200, { 'Content-Type': 'text/csv;charset=utf-8' })
 
@@ -36,7 +36,7 @@ const CSVExport = async (ctx, next) => {
 */
 const add = async (ctx, next) => {
   const params = ctx.request.body
-  const result = await services.QRCode.add(parseInt(params.count, 10), params.member)
+  const result = await services.QRCode.addBatch(parseInt(params.count, 10), params.member === '' ? undefined : params.member)
   if (result.success) {
     ctx.body = result
   } else {
@@ -62,6 +62,15 @@ const renderGeneratePage = async (ctx, next) => {
     startSerialId: startSerialId,
     members: members
   })
+}
+
+/**
+ * redner export page
+ * @param {Object} ctx
+ * @param {Function} next
+ */
+const renderExportPage = async (ctx, next) => {
+
 }
 
 const ERROR = -1; const SUCCESS = 0; const OVER_QUERY = 1; const UNKNOWN = 2
@@ -131,6 +140,7 @@ const identify = async (ctx, next) => {
 module.exports = {
   CSVExport,
   renderGeneratePage,
+  renderExportPage,
   add,
   identify
 }

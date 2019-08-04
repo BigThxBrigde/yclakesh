@@ -1,3 +1,5 @@
+<div id="loadingMask"></div>
+<script type="text/javascript" src="/javascripts/mask.js"></script>
 <div class="row col-md-8" style="margin: 20px 10px">
     <% if(operation=='generate'){ %>
 
@@ -27,9 +29,9 @@
           
                 <div class="form-group">
 
-                    <label class="col-xs-2 control-label" for="generateMember">会员</label>
+                    <label class="col-xs-2 control-label" for="members">会员</label>
                     <div class="col-xs-3">
-                        <select id="generateMember" class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                        <select id="members" class="form-control select2 select2-hidden-accessible" style="width: 100%;"
                            tabindex="-1" aria-hidden="true">
                            <option value="default">请选择会员(可选)</option>
                            <% members.forEach(member =>{ %>
@@ -55,5 +57,59 @@
         <!-- /.box-body -->
     </div>
     <script type="text/javascript" src="javascripts/qrcode.generate.js"></script>
+    <% } else if(operation == 'export') {%>
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h2 class="box-title">导出二维码数据</h3>
+            </div>
+            <form class="form-horizontal" role="form">
+    
+                <div class="box-body">
+    
+    
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="start">开始位置</label>
+                        <div class="col-xs-3">
+                            <input class="form-control" id="start" type="text" placeholder="请输入开始的位置(必填)"
+                                disabled />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label" for="end">结束位置</label>
+                        <div class="col-xs-3">
+                            <input class="form-control" id="end" type="text" placeholder="请输结束位置(必填)" />
+                        </div>
+    
+                    </div>
+              
+                    <div class="form-group">
+    
+                        <label class="col-xs-2 control-label" for="generateMember">会员</label>
+                        <div class="col-xs-3">
+                            <select id="generateMember" class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                               tabindex="-1" aria-hidden="true">
+                               <option value="default">请选择会员(可选)</option>
+                               <% members.forEach(member =>{ %>
+                                <option value="<%=member.Name%>"><%=member.Name%></option>
+                               <% }) %>
+                        </select>
+                        </div>
+                    </div>
+    
+                </div>
+    
+                <div class="box-footer">
+                    <div class="form-group">
+                        <label class="col-xs-3"></label>
+                        <button type="button" id="exportButton" style="margin-left:-10px" class="btn btn-success col-xs-2">导出</button>
+    
+                    </div>
+                    <div id="errorHolder" class="form-group">
+                    </div>
+                </div>
+            </form>
+            <!-- /.box-body -->
+        </div>
+        <script type="text/javascript" src="javascripts/qrcode.generate.js"></script>
     <% } %>
 </div>

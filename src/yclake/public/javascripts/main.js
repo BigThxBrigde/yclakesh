@@ -11,7 +11,7 @@ $(document).ready(function () {
                         $('#mainContent').html(data);
                     },
                     error: function (error) {
-
+                        $('#mainContent').html('加载错误')
                     }
                 });
             });

@@ -48,9 +48,9 @@ module.exports = {
             url,
             serialId,
             identiyCode,
-            member || null,
             null,
-            null
+            null,
+            member || null
           ])
         })
         if (rows.length === 0) {
@@ -76,7 +76,12 @@ module.exports = {
         }
       }
 
-      const addBatch = async (count, number) => {
+      /**
+       * Add batch qrcode
+       * @param {Number} count
+       * @param {String} member
+       */
+      const addBatch = async (count, member) => {
         const batchNumber = config.random.batchNumber
         const remain = count % batchNumber
         const part = parseInt(count / batchNumber, 10)
@@ -84,7 +89,7 @@ module.exports = {
         let result = null
 
         for (let index = 0; index < part; index++) {
-          result = await add(batchNumber, number)
+          result = await add(batchNumber, member)
           if (!result.success) {
             return {
               success: false,
@@ -94,7 +99,7 @@ module.exports = {
           }
         }
         if (remain > 0) {
-          result = await add(remain, number)
+          result = await add(remain, member)
           return {
             success: result.success,
             message: result.success ? '批量插入成功' : '批量插入失败',
