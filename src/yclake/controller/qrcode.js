@@ -40,10 +40,31 @@ const add = async (ctx, next) => {
   if (result.success) {
     ctx.body = result
   } else {
-    ctx.body = {
-      success: false,
-      message: '生成失败'
-    }
+    ctx.throw(500, '生成失败')
+  }
+}
+
+/**
+ * Export data
+ * @param {Object} ctx
+ * @param {Function} next
+ */
+const exportData = async (ctx, next) => {
+  // set header
+  const fileName = `Exported_${moment(Date.now()).format('YYYYMMDDHHmmss')}`
+  await ctx.res.setHeader('Content-disposition', `attachment; filename=` + encodeURIComponent(fileName) + '.csv')
+  await ctx.res.writeHead(200, { 'Content-Type': 'text/csv;charset=utf-8' })
+
+  const start = ctx.query.start
+  const end = ctx.query.end
+  const result = await CSV.export({
+    start: start,
+    end: end,
+    fields: ['Url', 'SerialId', 'IdentifyCode'],
+    stream: ctx.res
+  })
+  if (!result.success) {
+    ctx.throw(500, '导出失败')
   }
 }
 
@@ -70,11 +91,21 @@ const renderGeneratePage = async (ctx, next) => {
  * @param {Function} next
  */
 const renderExportPage = async (ctx, next) => {
-
+  const result = await services.Member.find({ fields: ['name'] })
+  const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
+  await ctx.render('./layouts/modules/qrcode', {
+    operation: 'export',
+    members: members
+  })
 }
 
 const ERROR = -1; const SUCCESS = 0; const OVER_QUERY = 1; const UNKNOWN = 2
 
+/**
+ * identify
+ * @param {Object} ctx
+ * @param {Function} next
+ */
 const identify = async (ctx, next) => {
   const serialId = ctx.params.serialid
   const code = ctx.params.code
@@ -137,10 +168,27 @@ const identify = async (ctx, next) => {
   }
 }
 
+const updateMember = async (ctx, next) => {
+  const start = ctx.request.body.start
+  const end = ctx.request.body.end
+  const member = ctx.request.body.member
+  const result = await services.QRCode.updateBatch(parseInt(start, 10), parseInt(end, 10), member)
+  if (!result.success) {
+    ctx.throw(500, '更新失败')
+  } else {
+    ctx.body = {
+      success: result.success,
+      meesage: result.message
+    }
+  }
+}
+
 module.exports = {
   CSVExport,
   renderGeneratePage,
   renderExportPage,
   add,
-  identify
+  identify,
+  updateMember,
+  exportData
 }

@@ -100,9 +100,9 @@ const writeLine = async (options) => {
 
 const _convert = (row, fields) => {
   const keys = Object.keys(row)
-  var fields = fields || keys
+  const _fields = fields || keys
   const values = []
-  keys.filter(v => fields.includes(v))
+  keys.filter(v => _fields.includes(v))
     .forEach(e => {
       values.push(row[e])
     })

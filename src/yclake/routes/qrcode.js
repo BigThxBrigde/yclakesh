@@ -4,7 +4,7 @@ const loginController = require('../controller/login')
 
 router.prefix('/qrcode')
 
-router.get('/query', qrcodeController.CSVExport)
+// router.get('/query', qrcodeController.CSVExport)
 
 /** *********  router for render pages **********/
 router.post('/page/generate', loginController.apiAuth, qrcodeController.renderGeneratePage)
@@ -12,5 +12,7 @@ router.post('/page/export', loginController.apiAuth, qrcodeController.renderExpo
 
 /** route for data * */
 router.post('/data/generate', loginController.apiAuth, qrcodeController.add)
+router.post('/data/updateMember', loginController.apiAuth, qrcodeController.updateMember)
+router.get('/data/exportData', loginController.apiAuth, qrcodeController.exportData)
 
 module.exports = router

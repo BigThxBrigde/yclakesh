@@ -3,6 +3,11 @@ $(document).ready(function () {
         var url = $(e).attr('url');
         if (url) {
             $(e).click(function () {
+
+                $('.treeview-menu li').each(function (i, _e) {
+                    $(_e).removeClass('active')
+                })
+                $(e).parent().addClass('active')
                 $.ajax({
                     type: 'POST',
                     url: url,

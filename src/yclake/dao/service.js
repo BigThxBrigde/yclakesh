@@ -10,16 +10,16 @@ module.exports = {
       const qrcode = {}
 
       /**
-             * read count
-             */
+       * read count
+       */
       const _readCount = () => {
         return require('./count.json').start
       }
 
       /**
-             * user for save count
-             * @param {Number} start
-             */
+       *  user for save count
+       * @param {Number} start
+      */
       const _saveCount = (start) => {
         const count = require('./count.json')
         count.start = start
@@ -29,9 +29,9 @@ module.exports = {
       }
 
       /**
-             *  @param {Number} count
-             * @param {String} member
-           */
+       *  @param {Number} count
+       * @param {String} member
+       */
       const add = async (count, member) => {
         const start = _readCount()
         const rows = []
@@ -114,10 +114,10 @@ module.exports = {
         }
       }
       /**
-                               * find the data
-                               * @param {Number} start
-                               * @param {Number} end
-                               */
+       *  find the data
+      * @param {Number} start
+      * @param {Number} end
+      */
       const find = async (start, end) => {
         const startSerial = Random.serialId({
           prefix: config.random.prefix,
@@ -151,6 +151,76 @@ module.exports = {
         return result
       }
 
+      /**
+       * Update batch ( only update member)
+       */
+      const updateBatch = async (start, end, member) => {
+        const count = end - start + 1
+        const batchNumber = config.random.batchNumber
+        const remain = count % batchNumber
+        const part = parseInt(count / batchNumber, 10)
+
+        let result = false
+        for (let index = 0; index < part; index++) {
+          const startSerial = Random.serialId({
+            prefix: config.random.prefix,
+            length: config.random.serialLength,
+            number: start + index * batchNumber
+          })
+          const endSerial = Random.serialId({
+            prefix: config.random.prefix,
+            length: config.random.serialLength,
+            number: start + index * batchNumber + batchNumber - 1
+          })
+          result = await QRCodeInfo.update({
+            update: 'SET member = ? ',
+            filter: 'serialId BETWEEN ? AND ?',
+            params: [member, startSerial, endSerial],
+            useTransaction: true
+          })
+          if (!result) {
+            return {
+              success: false,
+              message: '更新失败'
+            }
+          }
+        }
+        if (remain > 0) {
+          const startSerial = Random.serialId({
+            prefix: config.random.prefix,
+            length: config.random.serialLength,
+            number: end - remain + 1
+          })
+          const endSerial = Random.serialId({
+            prefix: config.random.prefix,
+            length: config.random.serialLength,
+            number: end
+          })
+          result = await QRCodeInfo.update({
+            update: 'SET member = ? ',
+            filter: 'serialId BETWEEN ? AND ?',
+            params: [member, startSerial, endSerial],
+            useTransaction: true
+          })
+          if (!result) {
+            return {
+              success: false,
+              message: '更新失败'
+            }
+          } else {
+            return {
+              success: true,
+              message: '批量更新成功'
+            }
+          }
+        } else {
+          return {
+            success: true,
+            message: '批量更新成功'
+          }
+        }
+      }
+
       const identify = async (serialId, code) => {
         const result = await QRCodeInfo.find({
           one: true,
@@ -165,7 +235,9 @@ module.exports = {
       qrcode.start = start
       qrcode.addBatch = addBatch
       qrcode.update = update
+      qrcode.updateBatch = updateBatch
       qrcode.identify = identify
+
       return qrcode
     })(),
 

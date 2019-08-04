@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('#generateButton').click(function () {
+        $('#errorHolder').html('');
         var count = $('#generateCount').val();
         if (!/^\d+$/.test(count)) {
             $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">生成个数必须为正确的数字</div>');
