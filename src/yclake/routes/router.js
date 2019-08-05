@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 
 const index = require('./index')
-const users = require('./users')
+const users = require('./user')
 const identify = require('./identify')
 const qrcode = require('./qrcode')
 const tts = require('./tts')

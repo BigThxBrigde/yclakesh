@@ -270,11 +270,22 @@ module.exports = {
     User: (() => {
       const User = {}
 
+      const find = async () => {
+        const result = await UserInfo.find({
+          filter: ' name <> ? ',
+          params: ['admin']
+        })
+        if (result.success) {
+          return result.data
+        } else {
+          return []
+        }
+      }
       /**
-                         *
-                         * @param {name} name
-                         * @param {password} password
-                         */
+       *
+        * @param {name} name
+       * @param {password} password
+      * */
       const add = async (name, password) => {
         password = md5(password)
         const result = await UserInfo.add({
@@ -283,11 +294,23 @@ module.exports = {
         return result
       }
 
+      const none = async (name) => {
+        const result = await UserInfo.find({
+          filter: ' name = ? ',
+          params: [name],
+          one: true
+        })
+        if (result.success) {
+          return result.data === null
+        } else {
+          return false
+        }
+      }
       /**
-                               *
-                               * @param {*} name
-                               * @param {*} password
-                               */
+        *
+        * @param {*} name
+        * @param {*} password
+        */
       const validate = async (name, password) => {
         password = md5(password)
         const result = await UserInfo.find({
@@ -303,6 +326,8 @@ module.exports = {
 
       User.add = add
       User.validate = validate
+      User.none = none
+      User.find = find
 
       return User
     })(),
