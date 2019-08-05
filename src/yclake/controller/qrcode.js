@@ -241,7 +241,7 @@ const configData = async (ctx, next) => {
         config.random.identityCodeLength = _codeLength
         const fs = require('fs')
         const path = require('path')
-        fs.writeFileSync(path.join(__dirname, '../config.json'))
+        fs.writeFileSync(path.join(__dirname, '../config.json'), JSON.stringify(config))
         ctx.body = {
           success: true
         }
