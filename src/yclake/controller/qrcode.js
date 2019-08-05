@@ -99,6 +99,21 @@ const renderExportPage = async (ctx, next) => {
   })
 }
 
+const renderModifyPage = async (ctx, next) => {
+  const result = await services.Member.find({ fields: ['name'] })
+  const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
+  await ctx.render('./layouts/modules/qrcode', {
+    operation: 'modify',
+    members: members
+  })
+}
+
+const renderConfigPage = async (ctx, next) => {
+  await ctx.render('./layouts/modules/qrcode', {
+    operation: 'config'
+  })
+}
+
 const ERROR = -1; const SUCCESS = 0; const OVER_QUERY = 1; const UNKNOWN = 2
 
 /**
@@ -183,12 +198,71 @@ const updateMember = async (ctx, next) => {
   }
 }
 
+const deleteData = async (ctx, next) => {
+  const start = ctx.request.body.start
+  const end = ctx.request.body.end
+  const result = await services.QRCode.deleteData(parseInt(start, 10), parseInt(end, 10))
+  if (result) {
+    ctx.body = {
+      success: true
+    }
+  } else {
+    ctx.throw(500, '删除失败')
+  }
+}
+
+const truncateData = async (ctx, next) => {
+  const result = await services.QRCode.truncateData()
+  if (result) {
+    ctx.body = {
+      success: true
+    }
+  } else {
+    ctx.throw(500, '清空失败')
+  }
+}
+
+const configData = async (ctx, next) => {
+  const config = require('../config.json')
+  const prefix = ctx.request.body.serialIdPrefix
+  const serialIdLength = ctx.request.body.serialIdLength
+  const codeLength = ctx.request.body.codeLength
+  if (!prefix || !serialIdLength || !codeLength) {
+    ctx.throw(500, '更新配置失败')
+  } else {
+    const _serialIdLength = parseInt(serialIdLength, 10) || 10
+    const _codeLength = parseInt(serialIdLength, 10) || 10
+    if (prefix.length + 5 >= _serialIdLength) {
+      ctx.throw(500, '序列号过短')
+    } else {
+      try {
+        config.random.prefix = prefix
+        config.random.serialLength = _serialIdLength
+        config.random.identityCodeLength = _codeLength
+        const fs = require('fs')
+        const path = require('path')
+        fs.writeFileSync(path.join(__dirname, '../config.json'))
+        ctx.body = {
+          success: true
+        }
+      } catch (e) {
+        ctx.throw(500, '更新配置失败')
+      }
+    }
+  }
+}
+
 module.exports = {
   CSVExport,
   renderGeneratePage,
   renderExportPage,
+  renderModifyPage,
+  renderConfigPage,
   add,
   identify,
   updateMember,
-  exportData
+  deleteData,
+  exportData,
+  truncateData,
+  configData
 }

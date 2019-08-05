@@ -26,19 +26,19 @@
                     </div>
 
                 </div>
-          
+
                 <div class="form-group">
 
                     <label class="col-xs-2 control-label" for="members">会员</label>
                     <div class="col-xs-3">
                         <select id="members" class="form-control select2 select2-hidden-accessible" style="width: 100%;"
-                           tabindex="-1" aria-hidden="true">
-                           <option value="default">请选择会员(可选)</option>
-                           <% members.forEach(member =>{ %>
+                            tabindex="-1" aria-hidden="true">
+                            <option value="default">请选择会员(可选)</option>
+                            <% members.forEach(member =>{ %>
                             <option value="<%=member.Name%>"><%=member.Name%></option>
 
-                           <% }) %>
-                    </select>
+                            <% }) %>
+                        </select>
                     </div>
                 </div>
 
@@ -47,7 +47,8 @@
             <div class="box-footer">
                 <div class="form-group">
                     <label class="col-xs-3"></label>
-                    <button type="button" id="generateButton" style="margin-left:-10px" class="btn btn-success col-xs-2">生成</button>
+                    <button type="button" id="generateButton" style="margin-left:-10px"
+                        class="btn btn-success col-xs-2">生成</button>
 
                 </div>
                 <div id="errorHolder" class="form-group">
@@ -58,57 +59,164 @@
     </div>
     <script type="text/javascript" src="javascripts/qrcode.generate.js"></script>
     <% } else if(operation == 'export') {%>
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <h2 class="box-title">导出二维码数据</h3>
-            </div>
-            <form class="form-horizontal" role="form">
-    
-                <div class="box-body">
-    
-    
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label" for="start">开始位置</label>
-                        <div class="col-xs-3">
-                            <input class="form-control" id="start" type="text" placeholder="请输入开始位置(必填)" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-2 control-label" for="end">结束位置</label>
-                        <div class="col-xs-3">
-                            <input class="form-control" id="end" type="text" placeholder="请输入结束位置(必填)" />
-                        </div>
-    
-                    </div>
-              
-                    <div class="form-group">
-    
-                        <label class="col-xs-2 control-label" for="members">会员</label>
-                        <div class="col-xs-3">
-                            <select id="members" class="form-control select2 select2-hidden-accessible" style="width: 100%;"
-                               tabindex="-1" aria-hidden="true">
-                               <option value="default">请选择会员(可选)</option>
-                               <% members.forEach(member =>{ %>
-                                <option value="<%=member.Name%>"><%=member.Name%></option>
-                               <% }) %>
-                        </select>
-                        </div>
-                    </div>
-    
-                </div>
-    
-                <div class="box-footer">
-                    <div class="form-group">
-                        <label class="col-xs-3"></label>
-                        <button type="button" id="exportButton" style="margin-left:-10px" class="btn btn-success col-xs-2">导出</button>
-    
-                    </div>
-                    <div id="errorHolder" class="form-group">
-                    </div>
-                </div>
-            </form>
-            <!-- /.box-body -->
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h2 class="box-title">导出二维码数据</h3>
         </div>
-        <script type="text/javascript" src="javascripts/qrcode.export.js"></script>
+        <form class="form-horizontal" role="form">
+
+            <div class="box-body">
+
+
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" for="start">开始位置</label>
+                    <div class="col-xs-3">
+                        <input class="form-control" id="start" type="text" placeholder="请输入开始位置(必填)" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" for="end">结束位置</label>
+                    <div class="col-xs-3">
+                        <input class="form-control" id="end" type="text" placeholder="请输入结束位置(必填)" />
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="col-xs-2 control-label" for="members">会员</label>
+                    <div class="col-xs-3">
+                        <select id="members" class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                            tabindex="-1" aria-hidden="true">
+                            <option value="default">请选择会员(可选)</option>
+                            <% members.forEach(member =>{ %>
+                            <option value="<%=member.Name%>"><%=member.Name%></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="box-footer">
+                <div class="form-group">
+                    <label class="col-xs-3"></label>
+                    <button type="button" id="exportButton" style="margin-left:-10px"
+                        class="btn btn-success col-xs-2">导出</button>
+
+                </div>
+                <div id="errorHolder" class="form-group">
+                </div>
+            </div>
+        </form>
+        <!-- /.box-body -->
+    </div>
+    <script type="text/javascript" src="javascripts/qrcode.export.js"></script>
+    <% } else if(operation == 'modify') { %>
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h2 class="box-title">修改二维码数据</h3>
+        </div>
+        <form class="form-horizontal" role="form">
+
+            <div class="box-body">
+
+
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" for="start">开始位置</label>
+                    <div class="col-xs-3">
+                        <input class="form-control" id="start" type="text" placeholder="请输入开始位置(必填)" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" for="end">结束位置</label>
+                    <div class="col-xs-3">
+                        <input class="form-control" id="end" type="text" placeholder="请输入结束位置(必填)" />
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="col-xs-2 control-label" for="members">会员</label>
+                    <div class="col-xs-3">
+                        <select id="members" class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                            tabindex="-1" aria-hidden="true">
+                            <option value="default">请选择会员(可选)</option>
+                            <% members.forEach(member =>{ %>
+                            <option value="<%=member.Name%>"><%=member.Name%></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="box-footer">
+                <div class="form-group">
+
+                    <label class="col-xs-3"></label>
+                    <button type="button" id="deleteButton" style="margin-right: 30px;margin-left: -45px;"
+                        class="btn btn-success col-xs-1">删除</button>
+                    <button type="button" id="updateButton" class="btn btn-success col-xs-1">更新</button>
+
+                </div>
+                <div id="errorHolder" class="form-group">
+                </div>
+            </div>
+        </form>
+        <!-- /.box-body -->
+    </div>
+    <script type="text/javascript" src="javascripts/qrcode.modify.js"></script>
+    <% } else if(operation == 'config') {%>
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h2 class="box-title">配置</h3>
+        </div>
+        <form class="form-horizontal" role="form">
+
+            <div class="box-body">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label" style="color:red">想要进行配置必须先清空二维码数据表数据</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" for="start">序列号前缀</label>
+                    <div class="col-xs-3">
+                        <input class="form-control" id="serialIdPrefix" disabled type="text" placeholder="请输入序列号前缀" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 control-label" for="end">序列号长度</label>
+                    <div class="col-xs-3">
+                        <input class="form-control" id="serialIdLength" disabled type="text"
+                            placeholder="请输入序列号长度默认为10" />
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="col-xs-2 control-label" for="end">防伪号长度</label>
+                    <div class="col-xs-3">
+                        <input class="form-control" id="codeLength" disabled type="text" placeholder="请输入防伪号长度默认为10" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="box-footer">
+                <div class="form-group"> <label class="col-xs-3"></label>
+                    <button type="button" id="truncateButton" style="margin-right: 30px;margin-left: -45px;"
+                        class="btn btn-success col-xs-1">清空</button>
+                    <button type="button" id="configButton" class="btn btn-success col-xs-1" disabled>配置</button>
+
+                </div>
+                <div id="errorHolder" class="form-group">
+                </div>
+            </div>
+        </form>
+        <!-- /.box-body -->
+    </div>
+    <script type="text/javascript" src="javascripts/qrcode.config.js"></script>
     <% } %>
 </div>

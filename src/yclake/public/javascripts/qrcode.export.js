@@ -9,11 +9,11 @@ $(document).ready(function () {
     }
     var start = parseInt(startVal, 10), end = parseInt(endVal, 10);
     var member = $('#members').find('option:selected').val();
-    
+
     var exportData = function () {
       window.location.href = '/qrcode/data/exportData/?start=' + start + '&end=' + end;
     };
-    if (member) {
+    if (member !== 'default') {
       var mask = new YCMask({
         id: '#loadingMask',
         html: '<p>正在为您更新' + (end - start + 1) + '条数据</p>'
@@ -25,7 +25,7 @@ $(document).ready(function () {
         data: {
           start: start,
           end: end,
-          member: member === 'default' ? '' : member
+          member: member
         },
         dataType: 'json',
         success: function (data) {
@@ -51,7 +51,6 @@ $(document).ready(function () {
           }
         },
         error: function (xhr, status) {
-          console.log(status);
           bootbox.dialog({
             size: "small",
             title: "更新失败",

@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS `member_info`;
 CREATE TABLE `member_info` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL DEFAULT '',
-  `Certfication` blob NOT NULL,
+  `Certfication` blob DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

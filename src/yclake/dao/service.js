@@ -4,6 +4,7 @@ const { QRCodeInfo } = require('./db')
 const { UserInfo } = require('./db')
 const { MemberInfo } = require('./db')
 const { md5 } = require('../util/md5')
+const { DB } = require('./db')
 module.exports = {
   services: {
     QRCode: (() => {
@@ -230,6 +231,29 @@ module.exports = {
         return result
       }
 
+      const deleteData = async (start, end) => {
+        const startSerial = Random.serialId({
+          prefix: config.random.prefix,
+          length: config.random.serialLength,
+          number: start
+        })
+        const endSerial = Random.serialId({
+          prefix: config.random.prefix,
+          length: config.random.serialLength,
+          number: end
+        })
+        const result = await QRCodeInfo.delete({
+          filter: 'serialId BETWEEN ? AND ?',
+          params: [startSerial, endSerial],
+          useTransaction: true
+        })
+        return result
+      }
+
+      const truncateData = async () => {
+        const result = await DB.query({ sql: 'TRUNCATE TABLE QRCODE_INFO' })
+        return result.success
+      }
       qrcode.add = add
       qrcode.find = find
       qrcode.start = start
@@ -237,6 +261,8 @@ module.exports = {
       qrcode.update = update
       qrcode.updateBatch = updateBatch
       qrcode.identify = identify
+      qrcode.deleteData = deleteData
+      qrcode.truncateData = truncateData
 
       return qrcode
     })(),

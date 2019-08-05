@@ -9,10 +9,14 @@ router.prefix('/qrcode')
 /** *********  router for render pages **********/
 router.post('/page/generate', loginController.apiAuth, qrcodeController.renderGeneratePage)
 router.post('/page/export', loginController.apiAuth, qrcodeController.renderExportPage)
-
+router.post('/page/modify', loginController.apiAuth, qrcodeController.renderModifyPage)
+router.post('/page/config', loginController.apiAuth, qrcodeController.renderConfigPage)
 /** route for data * */
 router.post('/data/generate', loginController.apiAuth, qrcodeController.add)
 router.post('/data/updateMember', loginController.apiAuth, qrcodeController.updateMember)
 router.get('/data/exportData', loginController.apiAuth, qrcodeController.exportData)
+router.post('/data/deleteData', loginController.apiAuth, qrcodeController.deleteData)
+router.post('/data/truncateData', loginController.apiAuth, qrcodeController.truncateData)
+router.post('/data/configData', loginController.apiAuth, qrcodeController.configData)
 
 module.exports = router
