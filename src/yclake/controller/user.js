@@ -37,7 +37,7 @@ const add = async (ctx, next) => {
 
 const updateData = async (ctx, next) => {
   const userName = ctx.request.body.userName
-  const password = ctx.render.body.password
+  const password = ctx.request.body.password
   if (!userName || !password) {
     ctx.throw(500, '用户名或者密码为空')
   }

@@ -84,63 +84,79 @@ $(document).ready(function () {
       return;
     }
     var start = parseInt(startVal, 10), end = parseInt(endVal, 10);
-
-    var mask = new YCMask({
-      id: '#loadingMask',
-      html: '<p>正在为您删除' + (end - start + 1) + '条数据</p>'
-    });
-    mask.show();
-    // update data
-    $.ajax({
-      type: 'POST',
-      url: '/qrcode/data/deleteData',
-      data: {
-        start: start,
-        end: end
-      },
-      dataType: 'json',
-      success: function (data) {
-        if (data.success) {
-          bootbox.dialog({
-            size: "small",
-            title: "删除成功",
-            message: '<p class="alert">已经为您删除了' + (end - start + 1) + '条数据</p>',
-            buttons: {
-              success: {
-                label: '确定',
-                className: 'btn-success',
-                callback: function () {
-                  $('#start').val('');
-                  $('#end').val('');
-                  $('#members').val('default')
-                  mask.hide();
-                }
-              }
-            }
-          });
+    bootbox.confirm({
+      title: '确认删除',
+      message: '确定要删除' + start + '到' + end + '的数据吗?',
+      buttons: {
+        confirm: {
+          label: "确定",
+          className: 'btn-danger'
+        },
+        cancel: {
+          label: "取消",
+          className: 'btn-success'
         }
       },
-      error: function (xhr, status) {
-        console.log(status);
-        bootbox.dialog({
-          size: "small",
-          title: "删除失败",
-          message: '<p class="alert">删除数据失败</p>',
-          buttons: {
-            success: {
-              label: '确定',
-              className: 'btn-danger',
-              callback: function () {
-                $('#start').val('');
-                $('#end').val('');
-                $('#members').val('default')
-                mask.hide();
-              }
+      callback: function (result) {
+        if (!result) return;
+        var mask = new YCMask({
+          id: '#loadingMask',
+          html: '<p>正在为您删除' + (end - start + 1) + '条数据</p>'
+        });
+        mask.show();
+        // update data
+        $.ajax({
+          type: 'POST',
+          url: '/qrcode/data/deleteData',
+          data: {
+            start: start,
+            end: end
+          },
+          dataType: 'json',
+          success: function (data) {
+            if (data.success) {
+              bootbox.dialog({
+                size: "small",
+                title: "删除成功",
+                message: '<p class="alert">已经为您删除了' + (end - start + 1) + '条数据</p>',
+                buttons: {
+                  success: {
+                    label: '确定',
+                    className: 'btn-success',
+                    callback: function () {
+                      $('#start').val('');
+                      $('#end').val('');
+                      $('#members').val('default')
+                      mask.hide();
+                    }
+                  }
+                }
+              });
             }
+          },
+          error: function (xhr, status) {
+            console.log(status);
+            bootbox.dialog({
+              size: "small",
+              title: "删除失败",
+              message: '<p class="alert">删除数据失败</p>',
+              buttons: {
+                success: {
+                  label: '确定',
+                  className: 'btn-danger',
+                  callback: function () {
+                    $('#start').val('');
+                    $('#end').val('');
+                    $('#members').val('default')
+                    mask.hide();
+                  }
+                }
+              }
+            })
           }
-        })
+        });
+
       }
     });
-
   });
 });

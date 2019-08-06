@@ -2,61 +2,78 @@ $(document).ready(function () {
   // truncate table
   $('#truncateButton').click(function () {
     $('#errorHolder').html('');
-    var mask = new YCMask({
-      id: '#loadingMask',
-      html: '<p>正在为您清空表数据</p>'
-    });
-    mask.show();
-    // update data
-    $.ajax({
-      type: 'POST',
-      url: '/qrcode/data/truncateData',
-      dataType: 'json',
-      success: function (data) {
-        if (data.success) {
-          bootbox.dialog({
-            size: "small",
-            title: "清空成功",
-            message: '成功为您清空表数据',
-            buttons: {
-              success: {
-                label: '确定',
-                className: 'btn-success',
-                callback: function () {
-                  $('.form-group input').each(function (i, e) {
-                    $(e).attr('disabled', false);
-                  });
-                  $('.form-group button').each(function (i, e) {
-                    $(e).attr('disabled', false);
-                  });
-                  $('#truncateButton').attr('disabled', true);
-                  mask.hide();
-                }
-              }
-            }
-          });
+    bootbox.confirm({
+      title: '确认清空',
+      message: '确定要清空表数据吗?',
+      buttons: {
+        confirm: {
+          label: "确定",
+          className: 'btn-danger'
+        },
+        cancel: {
+          label: "取消",
+          className: 'btn-success'
         }
       },
-      error: function (xhr, status) {
-        console.log(status);
-        bootbox.dialog({
-          size: "small",
-          title: "清空",
-          message: '<p class="alert">清空表数据失败</p>',
-          buttons: {
-            success: {
-              label: '确定',
-              className: 'btn-danger',
-              callback: function () {
-                mask.hide();
-              }
+      callback: function (result) {
+        if (!result) return;
+        
+        var mask = new YCMask({
+          id: '#loadingMask',
+          html: '<p>正在为您清空表数据</p>'
+        });
+        mask.show();
+        // truncate data
+        $.ajax({
+          type: 'POST',
+          url: '/qrcode/data/truncateData',
+          dataType: 'json',
+          success: function (data) {
+            if (data.success) {
+              bootbox.dialog({
+                size: "small",
+                title: "清空成功",
+                message: '成功为您清空表数据',
+                buttons: {
+                  success: {
+                    label: '确定',
+                    className: 'btn-success',
+                    callback: function () {
+                      $('.form-group input').each(function (i, e) {
+                        $(e).attr('disabled', false);
+                      });
+                      $('.form-group button').each(function (i, e) {
+                        $(e).attr('disabled', false);
+                      });
+                      $('#truncateButton').attr('disabled', true);
+                      mask.hide();
+                    }
+                  }
+                }
+              });
             }
+          },
+          error: function (xhr, status) {
+            console.log(status);
+            bootbox.dialog({
+              size: "small",
+              title: "清空",
+              message: '<p class="alert">清空表数据失败</p>',
+              buttons: {
+                success: {
+                  label: '确定',
+                  className: 'btn-danger',
+                  callback: function () {
+                    mask.hide();
+                  }
+                }
+              }
+            })
           }
-        })
+        });
       }
     });
-  }
-  );
+  });
 
   $('#configButton').click(function () {
     $('#errorHolder').html('');

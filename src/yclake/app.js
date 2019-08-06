@@ -5,7 +5,7 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-
+const { log } = require('./util/log')
 const session = require('koa-session')
 const config = require('./config.json')
 const router = require('./routes/router')
@@ -33,7 +33,8 @@ app.use(async (ctx, next) => {
   const start = new Date()
   await next()
   const ms = new Date() - start
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+  // console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+  log.info(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
 // routes
@@ -41,7 +42,8 @@ app.use(router.routes(), router.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
+  // console.error('server error', err, ctx)
+  log.error('server error', err, ctx)
 })
 
 module.exports = app

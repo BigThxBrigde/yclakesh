@@ -1,5 +1,6 @@
 const mysql = require('mysql')
 const config = require('../config.json')
+const { log } = require('../util/log')
 
 const DB = (() => {
   const _ = {}
@@ -15,7 +16,7 @@ const DB = (() => {
     return new Promise((resolve, reject) => {
       _pool.getConnection(function (err, connection) {
         if (err) {
-          console.error(err)
+          log.error(err)
           reject(err)
         } else {
           const sql = options.sql
@@ -23,27 +24,27 @@ const DB = (() => {
           const useTrans = options.useTransaction || false
 
           if (!sql) {
-            console.error('sql cannot be empty')
+            log.error('sql cannot be empty')
             reject(new Error('sql cannot be empty'))
           }
-
+          log.info(`exeucte sql: ${sql}, params: ${params}`)
           if (useTrans) {
             connection.beginTransaction(err => {
               if (err) {
-                console.error('sql cannot be empty')
+                log.error(err)
                 reject(err)
               } else {
                 connection.query(sql, params, (err, rows) => {
                   if (err) {
-                    console.error(err)
+                    log.error(err)
                     connection.rollback(() => {
-                      console.error('rollback failed')
+                      log.error('rollback failed')
                     })
                     reject(err)
                   } else {
                     connection.commit((error) => {
                       if (error) {
-                        console.error('commit failed')
+                        log.error('commit failed')
                       }
                     })
                     resolve({
@@ -58,7 +59,7 @@ const DB = (() => {
           } else {
             connection.query(sql, params, (err, rows) => {
               if (err) {
-                console.error(err)
+                log.error(err)
                 reject(err)
               } else {
                 resolve({
