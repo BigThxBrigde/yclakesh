@@ -11,5 +11,6 @@ router.post('/page/modify', loginController.apiAuth, userController.renderModify
 
 // query data
 router.post('/data/add', loginController.apiAuth, userController.add)
-
+router.post('/data/updateData', loginController.apiAuth, userController.updateData)
+router.post('/data/deleteData', loginController.apiAuth, userController.deleteData)
 module.exports = router

@@ -324,10 +324,30 @@ module.exports = {
         return result.data != null
       }
 
+      const updatePassword = async (name, password) => {
+        password = md5(password)
+        const result = await UserInfo.update({
+          update: 'SET PASSWORD=?',
+          filter: ' NAME=?',
+          params: [password, name]
+        })
+        return result
+      }
+
+      const deleteData = async (name) => {
+        const result = await UserInfo.delete({
+          filter: ' NAME = ? ',
+          params: [name]
+        })
+        return result
+      }
+
       User.add = add
       User.validate = validate
       User.none = none
       User.find = find
+      User.updatePassword = updatePassword
+      User.deleteData = deleteData
 
       return User
     })(),

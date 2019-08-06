@@ -13,7 +13,7 @@ $(document).ready(function () {
       $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">用户名必须字母开头的3到10位的字符串(可以是字母数字下划线)</div>');
       return;
     }
-    if (!/^[0-9a-zA-Z_]{5,16}$/.test(userName)) {
+    if (!/^[0-9a-zA-Z_]{5,16}$/.test(password)) {
       $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">密码必须是5到16位字母数字下划线的组合</div>');
       return;
     }
@@ -57,7 +57,7 @@ $(document).ready(function () {
         bootbox.dialog({
           size: "small",
           title: "更新失败",
-          message: '<p class="alert">添加失败服务器内部错误</p>',
+          message: '<p class="alert">添加失败, 服务器内部错误</p>',
           buttons: {
             success: {
               label: '确定',
