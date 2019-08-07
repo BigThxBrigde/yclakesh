@@ -14,8 +14,8 @@ var YCMask = function (options) {
     + '<h5 id="ycloadText" style="color:white"></h5>'
     + '</div>';
   container.html(html);
-  var t = $('#ycloadText');
-  t.html(options.html);
+  
+  $('#ycloadText').html(options.html);
 
   $.extend(_, {
     container: container,
@@ -28,6 +28,9 @@ var YCMask = function (options) {
     hide: function () {
       this.container.modal('hide');
       this.hideCallback();
+    },
+    setText: function (html) {
+      $('#ycloadText').html(html);
     }
   });
   return _;

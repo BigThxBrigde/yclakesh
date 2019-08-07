@@ -27,7 +27,7 @@ const DB = (() => {
             log.error('sql cannot be empty')
             reject(new Error('sql cannot be empty'))
           }
-          log.info(`exeucte sql: ${sql}, params: ${params}`)
+          log.info(`Exeucte sql: ${sql}`)
           if (useTrans) {
             connection.beginTransaction(err => {
               if (err) {
@@ -214,7 +214,7 @@ const MemberInfo = (() => {
       return
     }
     const result = await DB.query({
-      sql: 'INSERT INTO MEMBER_INFO (NAME, CERTIFICATION) VALUES ?',
+      sql: 'INSERT INTO MEMBER_INFO SET ?',
       params: [params],
       useTransaction: useTransaction
     })

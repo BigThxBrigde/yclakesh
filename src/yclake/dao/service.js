@@ -358,7 +358,32 @@ module.exports = {
         const result = await MemberInfo.find()
         return result
       }
+
+      const none = async (name) => {
+        const result = await MemberInfo.find({
+          filter: ' name = ? ',
+          params: [name],
+          one: true
+        })
+        if (result.success) {
+          return result.data === null
+        } else {
+          return false
+        }
+      }
+      const add = async (name, image) => {
+        const result = await MemberInfo.add({
+          params: {
+            Name: name,
+            Certification: image
+          }
+        })
+        return result
+      }
+
       member.find = find
+      member.none = none
+      member.add = add
       return member
     })()
   }

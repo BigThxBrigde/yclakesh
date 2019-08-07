@@ -18,6 +18,9 @@ app.use(session(config.sessionConfig, app))
 
 // middlewares
 app.use(bodyparser({
+  formLimit: '10mb',
+  jsonLimit: '10mb',
+  textLimit: '10mb',
   enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
