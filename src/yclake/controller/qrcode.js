@@ -76,7 +76,7 @@ const exportData = async (ctx, next) => {
  */
 const renderGeneratePage = async (ctx, next) => {
   const startSerialId = await services.QRCode.start()
-  const result = await services.Member.find({ fields: ['name'] })
+  const result = await services.Member.find({ fields: ['Name'] })
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
   await ctx.render('./layouts/modules/qrcode', {
     operation: 'generate',
@@ -91,7 +91,7 @@ const renderGeneratePage = async (ctx, next) => {
  * @param {Function} next
  */
 const renderExportPage = async (ctx, next) => {
-  const result = await services.Member.find({ fields: ['name'] })
+  const result = await services.Member.find({ fields: ['Name'] })
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
   await ctx.render('./layouts/modules/qrcode', {
     operation: 'export',
@@ -100,7 +100,7 @@ const renderExportPage = async (ctx, next) => {
 }
 
 const renderModifyPage = async (ctx, next) => {
-  const result = await services.Member.find({ fields: ['name'] })
+  const result = await services.Member.find({ fields: ['Name'] })
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
   await ctx.render('./layouts/modules/qrcode', {
     operation: 'modify',

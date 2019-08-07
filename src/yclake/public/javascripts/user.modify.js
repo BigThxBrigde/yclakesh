@@ -90,7 +90,10 @@ $(document).ready(function () {
                   label: '确定',
                   className: data.success ? 'btn-success' : 'btn-danger',
                   callback: function () {
-                    $('#users').text('');
+                    $('#users').find('option:selected').remove();
+                    $("#users").find('option:eq(1)').attr({
+                      'selected': true
+                    });
                   }
                 }
               }

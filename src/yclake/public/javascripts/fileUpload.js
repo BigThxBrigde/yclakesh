@@ -21,6 +21,9 @@ var YCUpload = function (options) {
       if (options.renderTo) {
         $(options.renderTo).html('');
       }
+    },
+    reset: function () {
+      this.data = null;
     }
   })
 
@@ -56,7 +59,7 @@ var YCUpload = function (options) {
         }
 
 
-       
+
         reader.onload = function () {
 
           $.extend(_, {
@@ -65,7 +68,7 @@ var YCUpload = function (options) {
             settings: options,
             mask, mask,
             file: file,
-            data: reader.result.replace('data:image/jpeg;base64,','')
+            data: reader.result.replace('data:image/jpeg;base64,', '')
           });
 
           var html = '<img class="responsive" style="width:85%" src="' + reader.result + '"></img>';

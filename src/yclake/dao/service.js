@@ -354,8 +354,8 @@ module.exports = {
 
     Member: (() => {
       const member = {}
-      const find = async () => {
-        const result = await MemberInfo.find()
+      const find = async (options) => {
+        const result = await MemberInfo.find(options)
         return result
       }
 
@@ -381,9 +381,29 @@ module.exports = {
         return result
       }
 
+      const updataData = async (name, image) => {
+        const result = await MemberInfo.update({
+          update: ' SET Certification = ?',
+          filter: 'name = ?',
+          params: [image, name]
+        })
+        return result
+      }
+
+      const deleteData = async (name) => {
+        const result = await MemberInfo.delete({
+          filter: ' Name = ?',
+          params: [name]
+        })
+        return result
+      }
+
       member.find = find
       member.none = none
       member.add = add
+      member.updataData = updataData
+      member.deleteData = deleteData
+
       return member
     })()
   }

@@ -43,7 +43,7 @@ $(document).ready(function () {
               className: data.success ? 'btn-success' : 'btn-danger',
               callback: function () {
                 fileUpload.clear();
-                $('#name').val()
+                $('#name').val('');
                 mask.hide();
               }
             }
@@ -54,7 +54,7 @@ $(document).ready(function () {
       error: function (xhr, status) {
         bootbox.dialog({
           size: "small",
-          title: "更新失败",
+          title: "添加失败",
           message: '<p class="alert">添加失败, 服务器内部错误</p>',
           buttons: {
             success: {
