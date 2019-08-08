@@ -1,11 +1,21 @@
 const { services } = require('../dao/service')
 
+/**
+ * Render add member page
+ * @param {Object} ctx
+ * @param {Function} next
+ */
 const renderAddPage = async (ctx, next) => {
   await ctx.render('./layouts/modules/member', {
     operation: 'add'
   })
 }
 
+/**
+ * Render modify member page
+ * @param {Object} ctx
+ * @param {Function} next
+ */
 const renderModifyPage = async (ctx, next) => {
   const result = await services.Member.find({ fields: ['Name'] })
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
