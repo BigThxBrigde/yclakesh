@@ -41,8 +41,14 @@ module.exports = {
     categories: {
       default: {
         appenders: [
-          'access',
           'file',
+          'console'
+        ],
+        level: 'debug'
+      },
+      access: {
+        appenders: [
+          'access',
           'console'
         ],
         level: 'debug'

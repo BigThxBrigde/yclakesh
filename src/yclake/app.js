@@ -4,8 +4,9 @@ const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
-const logger = require('koa-logger')
-const { log } = require('./util/log')
+// const logger = require('koa-logger')
+const koaLogger = require('koa-log4').koaLogger
+const { accessLog, log } = require('./util/log')
 const session = require('koa-session')
 const config = require('./config.json')
 const router = require('./routes/router')
@@ -24,7 +25,8 @@ app.use(bodyparser({
   enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
-app.use(logger())
+// app.use(logger())
+app.use(koaLogger(accessLog))
 app.use(require('koa-static')(path.join(__dirname, 'public')))
 
 app.use(views(path.join(__dirname, 'views'), {
