@@ -1,4 +1,5 @@
 {
+    "webPort": 80,
     "dbconfig": {
         "host": "localhost",
         "user": "yclake",

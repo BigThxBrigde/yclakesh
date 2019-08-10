@@ -8,11 +8,12 @@ const app = require('../app')
 const debug = require('debug')('demo:server')
 const http = require('http')
 const log = require('../util/log').accessLog
+const config = require('../config.json')
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000')
+const port = normalizePort(process.env.PORT || config.webPort || '3000')
 // app.set('port', port);
 
 /**
