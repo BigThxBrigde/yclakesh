@@ -1,0 +1,44 @@
+{
+    "dbconfig": {
+        "host": "localhost",
+        "user": "yclake",
+        "port": 3306,
+        "password": "yclakeadmin123!",
+        "database": "yclakesh",
+        "connectionLimit": 20,
+        "supportBigNumbers": true,
+        "bigNumberStrings": true
+    },
+    "random": {
+        "prefix": "19",
+        "serialLength": 10,
+        "identityCodeLength": 10,
+        "batchNumber": 10000
+    },
+    "url": "http://www.ychdazhaxiesh.com/identify/",
+    "sessionConfig": {
+        "key": "koa:sess",
+        "maxAge": 86400000,
+        "overwrite": true,
+        "httpOnly": true,
+        "signed": true,
+        "renew": false,
+        "rolling": false
+    },
+    "appKeys": [
+        "life is a fucking lemon"
+    ],
+    "maxQueryCount": 30,
+    "tts": {
+        "appId": 16944636,
+        "apiKey": "gYmmDaOVWUTUrzDmsh2WXR1Z",
+        "secretKey": "sqphWM99tHsaFEFU1ba9tINFl649MI9Z",
+        "options": {
+            "lan": "zh",
+            "spd": 4,
+            "pit": 5,
+            "vol": 5,
+            "per": 0
+        }
+    }
+}
