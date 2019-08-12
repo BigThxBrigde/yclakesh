@@ -6,11 +6,15 @@
     <title>阳澄湖大闸蟹商会管理后台</title>
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
-
+    <style type="text/css">
+        a:visited {
+            color: #939393;
+        }
+    </style>
 </head>
 
 <body style=" background: url(images/background.jpg) no-repeat center center fixed; background-size: 100%;">
-    <div class="modal-dialog" style="margin-top: 10%;">
+    <div class="modal-dialog" style="margin-top: 10%; min-height: 600px">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title text-center" id="myModalLabel">登录</h4>
@@ -36,6 +40,13 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
     <script type="text/javascript" src="<%= 'javascripts/' + name + '.js'  %>"></script>
+    <div style="width:300px;margin:0 auto; padding:20px 0;">
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32050702010703"
+            style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+            <img src="images/back.png" style="float:left;"/ <p
+                style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备
+            32050702010703号</p></a>
+    </div>
 </body>
 
 </html>
