@@ -1,24 +1,52 @@
 $(document).ready(function () {
-  var fileUpload = new YCUpload({
-    id: '#cert',
-    renderTo: '#certImage',
-    placeholder: '请您上传您的证书',
-    accept: 'image/jpeg',
-    mask: new YCMask({
-      id: '#loadingMask',
-      html: '<p>正在上传图片</p>'
-    })
+  var mask = new YCMask({
+    id: '#loadingMask',
+    html: '<p>正在上传图片</p>'
   });
+
+  var fileUpload1 = new YCUpload({
+    id: '#brandCert',
+    renderTo: '#brandCertImage',
+    placeholder: '请您上传您的商标认证',
+    accept: 'image/jpeg',
+    mask: mask
+  });
+
+  var fileUpload2 = new YCUpload({
+    id: '#businessCert',
+    renderTo: '#businessCertImage',
+    placeholder: '请您上传您的营业执照',
+    accept: 'image/jpeg',
+    mask: mask
+  });
+
+  var fileUpload3 = new YCUpload({
+    id: '#commCert',
+    renderTo: '#commCertImage',
+    placeholder: '请您上传您的商会认证',
+    accept: 'image/jpeg',
+    mask: mask
+  });
+
 
   $('#addButton').click(function () {
     $('#errorHolder').html('');
     var name = $('#name').val();
-    var data = fileUpload.data;
-    var mask = fileUpload.mask;
+    var telephone = $('#telephone').val();
+    var data = [];
+
     if (!name) {
       $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">会员名字不能为空</div>');
       return;
     }
+    if (telephone !== undefined && !/(^(\d{3,4}-)?\d{7,8})$|(13[0-9]{9})/.test(telephone)) {
+      $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">请填写正确的手机号码或者固定电话号码区号请用-分割</div>');
+      return;
+    }
+
+    data.push(fileUpload1.data)
+    data.push(fileUpload2.data)
+    data.push(fileUpload3.data)
 
     mask.setText('<p>正在添加会员</p>');
     mask.show();
@@ -28,6 +56,7 @@ $(document).ready(function () {
       url: '/member/data/add',
       data: {
         name: name,
+        telephone: telephone,
         data: data
       },
       dataType: 'json',
@@ -42,7 +71,10 @@ $(document).ready(function () {
               label: '确定',
               className: data.success ? 'btn-success' : 'btn-danger',
               callback: function () {
-                fileUpload.clear();
+                fileUpload1.clear();
+                fileUpload2.clear();
+                fileUpload3.clear();
+                $('#telephone').val('');
                 $('#name').val('');
                 mask.hide();
               }

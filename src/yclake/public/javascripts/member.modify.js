@@ -1,14 +1,17 @@
 $(document).ready(function () {
 
-  var fileUpload = new YCUpload({
-    id: '#cert',
-    renderTo: '#certImage',
-    placeholder: '请您上传您的证书',
+
+  var mask = new YCMask({
+    id: '#loadingMask',
+    html: '<p>正在上传图片</p>'
+  });
+
+  var fileUpload1 = new YCUpload({
+    id: '#brandCert',
+    renderTo: '#brandCertImage',
+    placeholder: '请您上传您的商标认证',
     accept: 'image/jpeg',
-    mask: new YCMask({
-      id: '#loadingMask',
-      html: '<p>正在上传图片</p>'
-    }),
+    mask: mask,
     callback: function () {
       $('#updateButton').attr({
         'disabled': false
@@ -16,7 +19,33 @@ $(document).ready(function () {
     }
   });
 
-  var bindImage = function (name) {
+  var fileUpload2 = new YCUpload({
+    id: '#businessCert',
+    renderTo: '#businessCertImage',
+    placeholder: '请您上传您的营业执照',
+    accept: 'image/jpeg',
+    mask: mask,
+    callback: function () {
+      $('#updateButton').attr({
+        'disabled': false
+      })
+    }
+  });
+
+  var fileUpload3 = new YCUpload({
+    id: '#commCert',
+    renderTo: '#commCertImage',
+    placeholder: '请您上传您的商会认证',
+    accept: 'image/jpeg',
+    mask: mask,
+    callback: function () {
+      $('#updateButton').attr({
+        'disabled': false
+      })
+    }
+  });
+
+  var bindData = function (name) {
     if (!name) {
       return;
     }
@@ -30,11 +59,32 @@ $(document).ready(function () {
       dataType: 'json',
       success: function (data) {
         if (data.success) {
-          var html = '<img class="responsive" style="width:85%" src="' + data.data + '"></img>';
-          $('#certImage').html(html);
+          var r = data.data;
+          if (r.telephone) {
+            $('#telephone').val(r.telephone);
+          }
+          if (r.images[0]) {
+            var html = '<img class="responsive" style="width:45%" src="' + r.images[0] + '"></img>';
+            $('#brandCertImage').html(html);
+          } else {
+            $('#brandCertImage').html('');
+          }
+          if (r.images[1]) {
+            var html = '<img class="responsive" style="width:45%" src="' + r.images[1] + '"></img>';
+            $('#businessCertImage').html(html);
+          } else {
+            $('#businessCertImage').html('');
+          }
+          if (r.images[2]) {
+            var html = '<img class="responsive" style="width:45%" src="' + r.images[2] + '"></img>';
+            $('#commCertImage').html(html);
+          } else {
+            $('#commCertImage').html('');
+          }
+
         } else {
-          $('#certImage').html('');
-          console.log('No certification found');
+
+          console.log('No data found');
         }
       },
       error: function (xhr, status) {
@@ -53,19 +103,30 @@ $(document).ready(function () {
     });
   }
 
+  $('#telephone').change(function () {
+    $('#updateButton').attr({
+      'disabled': false
+    })
+  });
+
   // bind image
-  bindImage($('#members').find('option:selected').val());
+  bindData($('#members').find('option:selected').val());
 
   $('#members').change(function () {
     var name = $('#members').find('option:selected').val();
-    fileUpload.reset();
+    fileUpload1.clear();
+    fileUpload2.clear();
+    fileUpload3.clear();
     if (name) {
-      bindImage(name);
+      bindData(name);
     }
   });
 
   $('#updateButton').click(function () {
-    if (!fileUpload.data) {
+    if (!fileUpload1.data
+      && !fileUpload2.data
+      && !fileUpload3.data
+      && !$('#telephone').val()) {
       bootbox.dialog({
         size: "small",
         title: "错误",
@@ -79,7 +140,11 @@ $(document).ready(function () {
       })
       return;
     }
-    var mask = fileUpload.mask;
+    var telephone = $('#telephone').val();
+    if (telephone !== undefined && !/(^(\d{3,4}-)?\d{7,8})$|(13[0-9]{9})/.test(telephone)) {
+      $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">请填写正确的手机号码或者固定电话号码区号请用-分割</div>');
+      return;
+    }
     mask.show();
 
     $.ajax({
@@ -87,7 +152,8 @@ $(document).ready(function () {
       url: '/member/data/updateData',
       data: {
         name: $('#members').find('option:selected').val(),
-        data: fileUpload.data
+        telephone: telephone,
+        data: [fileUpload1.data, fileUpload2.data, fileUpload3.data]
       },
       dataType: 'json',
       success: function (data) {
@@ -100,7 +166,9 @@ $(document).ready(function () {
               label: '确定',
               className: data.success ? 'btn-success' : 'btn-danger',
               callback: function () {
-                fileUpload.reset();
+                fileUpload1.reset();
+                fileUpload2.reset();
+                fileUpload3.reset();
                 mask.hide();
               }
             }
@@ -167,7 +235,7 @@ $(document).ready(function () {
                     $("#members").find('option:eq(1)').attr({
                       'selected': true
                     });
-                    bindImage($('#members').find('option:selected').val());
+                    bindData($('#members').find('option:selected').val());
                   }
                 }
               }

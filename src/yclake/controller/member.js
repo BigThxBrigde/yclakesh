@@ -28,6 +28,7 @@ const renderModifyPage = async (ctx, next) => {
 const add = async (ctx, next) => {
   const name = ctx.request.body.name
   const data = ctx.request.body.data
+  const telephone = ctx.request.body.telephone
   if (!name) {
     ctx.throw(500, '会员名不能为空')
   }
@@ -38,8 +39,15 @@ const add = async (ctx, next) => {
       message: `已经存在用户名为${name}会员`
     }
   } else {
-    const image = data === undefined ? null : Buffer.from(data, 'base64')
-    const result = await services.Member.add(name, image)
+    const images = []
+    data.forEach(e => {
+      if (e.length > 0) {
+        images.push(Buffer.from(e, 'base64'))
+      } else {
+        images.push(null)
+      }
+    })
+    const result = await services.Member.add(name, telephone, images)
     ctx.body = {
       success: result,
       message: `${result ? '添加会员成功' : '添加会员失败'}`
@@ -56,22 +64,44 @@ const find = async (ctx, next) => {
     }
   } else {
     const result = await services.Member.find({
-      fields: ['Certification'],
+      fields: ['Telephone', 'Certification', 'BusinessCertification', 'CommCertification'],
       filter: 'Name=?',
       params: [name],
       one: true
     })
     const data = result.success ? result.data : null
-    if (data.Certification !== null) {
-      const buf = Buffer.from(data.Certification, 'binary')
+
+    if (data !== null) {
+      const r = {
+        images: []
+      }
+      if (data.Telephone != null) {
+        r.telephone = data.Telephone
+      }
+      if (data.Certification != null) {
+        r.images.push(`data:image/jpeg;base64,${Buffer.from(data.Certification, 'binary').toString('base64')}`)
+      } else {
+        r.images.push(null)
+      }
+      if (data.BusinessCertification != null) {
+        r.images.push(`data:image/jpeg;base64,${Buffer.from(data.BusinessCertification, 'binary').toString('base64')}`)
+      } else {
+        r.images.push(null)
+      }
+      if (data.CommCertification != null) {
+        r.images.push(`data:image/jpeg;base64,${Buffer.from(data.CommCertification, 'binary').toString('base64')}`)
+      } else {
+        r.images.push(null)
+      }
+
       ctx.body = {
         success: true,
-        data: `data:image/jpeg;base64,${buf.toString('base64')}`
+        data: r
       }
     } else {
       ctx.body = {
         success: false,
-        message: '没有找到图片'
+        message: '没有找到数据'
       }
     }
   }
@@ -80,12 +110,21 @@ const find = async (ctx, next) => {
 const updateData = async (ctx, next) => {
   const name = ctx.request.body.name
   const data = ctx.request.body.data
-  if (!name || !data) {
-    ctx.throw(500, '会员名或者图片不能为空')
+  const telephone = ctx.request.body.telephone
+  if (!name && data.length === 0 && !telephone) {
+    ctx.throw(500, '会员名或者图片或者电话不能为空')
   }
 
-  const image = data === undefined ? null : Buffer.from(data, 'base64')
-  const result = await services.Member.updataData(name, image)
+  const images = []
+  data.forEach(e => {
+    if (e.length > 0) {
+      images.push(Buffer.from(e, 'base64'))
+    } else {
+      images.push(null)
+    }
+  })
+
+  const result = await services.Member.updataData(name, telephone, images)
   ctx.body = {
     success: result,
     message: `${result ? '更新会员成功' : '更新会员失败'}`

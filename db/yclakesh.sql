@@ -9,12 +9,18 @@
 #
 
 DROP TABLE IF EXISTS `member_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `member_info` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL DEFAULT '',
-  `Certification` mediumblob DEFAULT NULL,
+  `Telephone` varchar(20) DEFAULT NULL,
+  `Certification` mediumblob,
+  `BusinessCertification` mediumblob,
+  `CommCertification` mediumblob,
+  `Comment` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "member_info"

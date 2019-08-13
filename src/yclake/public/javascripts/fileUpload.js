@@ -1,6 +1,7 @@
+var __YCUPLOAD_ID = 0;
 var YCUpload = function (options) {
-  var MAX_SIZE = 2 * 1024 * 1024
-  var _ = {}
+  var MAX_SIZE = 2 * 1024 * 1024;
+  var _ = {};
   var container = $(options.id);
   var renderTo = $(options.renderTo);
   var placeholder = options.placeholder || '';
@@ -8,16 +9,17 @@ var YCUpload = function (options) {
   var mask = options.mask;
   var callback = options.callback || function () { }
   var file = null;
-  var innerHtml = '<input class="form-control" id="ycUploadText" disabled type="text" placeholder="' + placeholder + '" style="float: left;width: 73%">'
-    + ' <a class="btn-success form-control" id="ycBrowseBtn" style="float: left; width: 20%; margin-left: 10px; text-algin"center>浏览</a>'
-    + '<input class="form-control" id="ycUploadFile" type="file" accept="' + accept + '" style="display: none"></div>';
+  var id = ++__YCUPLOAD_ID;
+  var innerHtml = '<input class="form-control" id="ycUploadText' + id + '" disabled type="text" placeholder="' + placeholder + '" style="float: left;width: 58%">'
+    + ' <a class="btn-success form-control" id="ycBrowseBtn' + id + '" style="float: left; width: 20%; margin-left: 10px; text-align:center;">浏览</a>'
+    + '<input class="form-control" id="ycUploadFile' + id + '" type="file" accept="' + accept + '" style="display: none"></div>';
 
   container.html(innerHtml);
 
   $.extend(_, {
     clear: function () {
-      $('#ycUploadText').val('');
-      $('#ycUploadFile').val('');
+      $('#ycUploadText' + id + '').val('');
+      $('#ycUploadFile' + id + '').val('');
       if (options.renderTo) {
         $(options.renderTo).html('');
       }
@@ -27,8 +29,8 @@ var YCUpload = function (options) {
     }
   })
 
-  $('#ycUploadFile').change(function () {
-    file = $('#ycUploadFile')[0].files[0];
+  $('#ycUploadFile' + id + '').change(function () {
+    file = $('#ycUploadFile' + id + '')[0].files[0];
     if (!file || file.size > MAX_SIZE) {
       bootbox.dialog({
         size: "small",
@@ -39,7 +41,7 @@ var YCUpload = function (options) {
             label: '确定',
             className: 'btn-danger',
             callback: function () {
-              $('#ycUploadText').val('');
+              $('#ycUploadText' + id + '').val('');
             }
           }
         }
@@ -47,7 +49,7 @@ var YCUpload = function (options) {
       return;
     }
 
-    $('#ycUploadText').val(file.name);
+    $('#ycUploadText' + id + '').val(file.name);
 
     if (window.FileReader) {
 
@@ -71,7 +73,7 @@ var YCUpload = function (options) {
             data: reader.result.replace('data:image/jpeg;base64,', '')
           });
 
-          var html = '<img class="responsive" style="width:85%" src="' + reader.result + '"></img>';
+          var html = '<img class="responsive" style="width:45%" src="' + reader.result + '"></img>';
           renderTo.html(html);
           mask.hide();
           callback();
@@ -94,8 +96,8 @@ var YCUpload = function (options) {
     }
   });
 
-  $('#ycBrowseBtn').click(function () {
-    $('#ycUploadFile').click();
+  $('#ycBrowseBtn' + id + '').click(function () {
+    $('#ycUploadFile' + id + '').click();
   });
 
   return _;

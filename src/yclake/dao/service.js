@@ -371,21 +371,38 @@ module.exports = {
           return false
         }
       }
-      const add = async (name, image) => {
+      const add = async (name, telephone, images) => {
+        const brandCert = images[0] || null
+        const businessCert = images[1] || null
+        const commCert = images[2] || null
         const result = await MemberInfo.add({
           params: {
             Name: name,
-            Certification: image
+            Telephone: telephone || null,
+            Certification: brandCert,
+            BusinessCertification: businessCert,
+            CommCertification: commCert
           }
         })
         return result
       }
 
-      const updataData = async (name, image) => {
+      const updataData = async (name, telephone, images) => {
+        const updatePart = `SET ${telephone === undefined ? '' : 'Telephone=?'} ${images[0] === null ? '' : ', Certification=?'} ${images[1] === null ? '' : ', BusinessCertification=?'} ${images[2] === null ? '' : ', CommCertification=?'}`
+        const params = []
+        if (telephone !== undefined) {
+          params.push(telephone)
+        }
+        images.forEach(e => {
+          if (e != null) {
+            params.push(e)
+          }
+        })
+        params.push(name)
         const result = await MemberInfo.update({
-          update: ' SET Certification = ?',
+          update: updatePart,
           filter: 'name = ?',
-          params: [image, name]
+          params: params
         })
         return result
       }
