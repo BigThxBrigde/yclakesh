@@ -57,6 +57,7 @@ $(document).ready(function () {
       data: {
         name: name,
         telephone: telephone,
+        comment: $('#comment').val(),
         data: data
       },
       dataType: 'json',
@@ -75,6 +76,7 @@ $(document).ready(function () {
                 fileUpload2.clear();
                 fileUpload3.clear();
                 $('#telephone').val('');
+                $('#comment').val('');
                 $('#name').val('');
                 mask.hide();
               }

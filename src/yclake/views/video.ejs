@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://getbootstrap.com/docs/3.4/examples/offcanvas/ -->
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>查询结果</title>
+
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/stylesheets/ie10-viewport-bug-workaround.css" rel="stylesheet">
+  <link href="/stylesheets/offcanvas.css" rel="stylesheet">
+  <link href="//vjs.zencdn.net/5.19/video-js.min.css" rel="stylesheet">
+  <script src="//vjs.zencdn.net/5.19/video.min.js"></script>
+  <script src="/lib/ie-emulation-modes-warning.js"></script>
+
+  <style type="text/css">
+    .font-reset {
+      font-family: "Microsoft Yahei", Verdana, Geneva, Tahoma, sans-serif
+    }
+
+    .top-blank {
+      margin-top: 20px;
+      margin-bottom: -20px;
+    }
+
+    .header-text {
+      font-weight: bold;
+      color: #eee;
+      text-align: center;
+    }
+
+    .graph-block {
+      margin-bottom: -20px;
+      margin-top: -40px;
+      color: inherit;
+
+    }
+
+    #mapContainer {
+      min-height: 200px;
+      margin-bottom: -20px;
+      border-radius: 6px;
+    }
+
+    .graph-block p {
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    .footer-reset {
+      margin-right: -15px;
+      margin-left: -15px;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 20px;
+      padding: 5px 10px;
+      text-align: center;
+    }
+    .video{
+      width: 98%;
+      margin: 5px;
+    }
+  </style>
+</head>
+
+<body class="font-reset">
+  <nav class="navbar navbar-fixed-top bg-primary">
+    <div class="container">
+      <div class="navbar-header">
+
+        <a class="navbar-brand header-text" href="#" onClick="javascript:history.back(-1);">阳澄湖大闸蟹商会</a>
+      </div>
+      <!-- /.nav-collapse -->
+    </div><!-- /.container -->
+  </nav><!-- /.navbar -->
+
+  <div class="container">
+
+    <div class="row row-offcanvas row-offcanvas-right">
+
+      <div class="col-xs-12 col-sm-9 top-blank">
+        <div class="jumbotron">
+          <div id="result" class="graph-block">
+            <h3>视频1</h3>
+
+            <video id="player1" class="video-js video" controls preload="auto" data-setup='{}'>
+              <source src="/videos/video1.mp4" type="video/mp4">
+              </source>
+            </video>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-9 top-blank">
+        <div class="jumbotron">
+          <div class="graph-block">
+            <h3>视频2</h3>
+            <video id="player2" class="video-js video" controls preload="auto" data-setup='{}'>
+              <source src="/videos/video2.mp4" type="video/mp4">
+              </source>
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <hr>
+  </div>
+  <footer class="footer-reset footer bg-primary">
+    <h4>©阳澄湖大闸蟹商会.</h4>
+  </footer>
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/lib/ie10-viewport-bug-workaround.js"></script>
+  <script src="/lib/offcanvas.js"></script>
+</body>
+
+</html>

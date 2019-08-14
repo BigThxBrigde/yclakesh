@@ -371,7 +371,7 @@ module.exports = {
           return false
         }
       }
-      const add = async (name, telephone, images) => {
+      const add = async (name, telephone, comment, images) => {
         const brandCert = images[0] || null
         const businessCert = images[1] || null
         const commCert = images[2] || null
@@ -381,17 +381,21 @@ module.exports = {
             Telephone: telephone || null,
             Certification: brandCert,
             BusinessCertification: businessCert,
-            CommCertification: commCert
+            CommCertification: commCert,
+            Comment: comment || null
           }
         })
         return result
       }
 
-      const updataData = async (name, telephone, images) => {
-        const updatePart = `SET ${telephone === undefined ? '' : 'Telephone=?'} ${images[0] === null ? '' : ', Certification=?'} ${images[1] === null ? '' : ', BusinessCertification=?'} ${images[2] === null ? '' : ', CommCertification=?'}`
+      const updataData = async (name, telephone, comment, images) => {
+        const updatePart = `SET ${telephone === undefined ? '' : 'Telephone=?'} ${comment ? ', Comment=?' : ''} ${images[0] === null ? '' : ', Certification=?'} ${images[1] === null ? '' : ', BusinessCertification=?'} ${images[2] === null ? '' : ', CommCertification=?'}`
         const params = []
         if (telephone !== undefined) {
           params.push(telephone)
+        }
+        if (comment !== undefined) {
+          params.push(comment)
         }
         images.forEach(e => {
           if (e != null) {

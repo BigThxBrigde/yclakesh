@@ -2,7 +2,7 @@ const { services } = require('../dao/service')
 const moment = require('moment')
 const { CSV } = require('../util/csv')
 const config = require('../config.json')
-
+const commerce = require('../commerce.json')
 /**
  * /qrcode/query
  * @param {Object} ctx
@@ -114,6 +114,10 @@ const renderConfigPage = async (ctx, next) => {
   })
 }
 
+const renderVideo = async (ctx, next) => {
+  await ctx.render('video')
+}
+
 const ERROR = -1; const SUCCESS = 0; const OVER_QUERY = 1; const UNKNOWN = 2
 
 /**
@@ -167,6 +171,7 @@ const identify = async (ctx, next) => {
             result: UNKNOWN
           })
         } else {
+          const info = await _getMemberInfo(member)
           await ctx.render('identify', {
             result: SUCCESS,
             data: {
@@ -174,12 +179,35 @@ const identify = async (ctx, next) => {
               code: code,
               queryCount: queryCount,
               firstTime: d.format('YYYY年M月D日 H时m分s秒'),
-              member: member
+              member: member,
+              commerce: commerce,
+              info: info
             }
           })
         }
       }
     }
+  }
+}
+
+const _getMemberInfo = async (name) => {
+  const result = await services.Member.find({
+    filter: 'Name=?',
+    params: [name],
+    one: true
+  })
+  const data = result.success ? result.data : null
+  if (data !== null) {
+    return {
+      name: data.Name,
+      telephone: data.Telephone,
+      page: data.Comment,
+      certification: data.Certification ? `data:image/jpeg;base64,${Buffer.from(data.Certification, 'binary').toString('base64')}` : null,
+      businessCertification: data.BusinessCertification ? `data:image/jpeg;base64,${Buffer.from(data.BusinessCertification, 'binary').toString('base64')}` : null,
+      commCertification: data.CommCertification ? `data:image/jpeg;base64,${Buffer.from(data.CommCertification, 'binary').toString('base64')}` : null
+    }
+  } else {
+    return {}
   }
 }
 
@@ -258,6 +286,7 @@ module.exports = {
   renderExportPage,
   renderModifyPage,
   renderConfigPage,
+  renderVideo,
   add,
   identify,
   updateMember,

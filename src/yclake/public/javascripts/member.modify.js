@@ -63,6 +63,9 @@ $(document).ready(function () {
           if (r.telephone) {
             $('#telephone').val(r.telephone);
           }
+          if (r.comment) {
+            $('#comment').val(r.comment);
+          }
           if (r.images[0]) {
             var html = '<img class="responsive" style="width:45%" src="' + r.images[0] + '"></img>';
             $('#brandCertImage').html(html);
@@ -126,7 +129,8 @@ $(document).ready(function () {
     if (!fileUpload1.data
       && !fileUpload2.data
       && !fileUpload3.data
-      && !$('#telephone').val()) {
+      && !$('#telephone').val()
+      && !$('#comment').val()) {
       bootbox.dialog({
         size: "small",
         title: "错误",
@@ -153,7 +157,8 @@ $(document).ready(function () {
       data: {
         name: $('#members').find('option:selected').val(),
         telephone: telephone,
-        data: [fileUpload1.data, fileUpload2.data, fileUpload3.data]
+        data: [fileUpload1.data, fileUpload2.data, fileUpload3.data],
+        comment: $('#comment').val()
       },
       dataType: 'json',
       success: function (data) {

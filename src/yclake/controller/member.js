@@ -29,6 +29,7 @@ const add = async (ctx, next) => {
   const name = ctx.request.body.name
   const data = ctx.request.body.data
   const telephone = ctx.request.body.telephone
+  const comment = ctx.request.body.comment
   if (!name) {
     ctx.throw(500, '会员名不能为空')
   }
@@ -47,7 +48,7 @@ const add = async (ctx, next) => {
         images.push(null)
       }
     })
-    const result = await services.Member.add(name, telephone, images)
+    const result = await services.Member.add(name, telephone, comment, images)
     ctx.body = {
       success: result,
       message: `${result ? '添加会员成功' : '添加会员失败'}`
@@ -64,7 +65,7 @@ const find = async (ctx, next) => {
     }
   } else {
     const result = await services.Member.find({
-      fields: ['Telephone', 'Certification', 'BusinessCertification', 'CommCertification'],
+      fields: ['Telephone', 'Certification', 'BusinessCertification', 'CommCertification', 'Comment'],
       filter: 'Name=?',
       params: [name],
       one: true
@@ -77,6 +78,9 @@ const find = async (ctx, next) => {
       }
       if (data.Telephone != null) {
         r.telephone = data.Telephone
+      }
+      if (data.Comment) {
+        r.comment = data.Comment
       }
       if (data.Certification != null) {
         r.images.push(`data:image/jpeg;base64,${Buffer.from(data.Certification, 'binary').toString('base64')}`)
@@ -111,7 +115,8 @@ const updateData = async (ctx, next) => {
   const name = ctx.request.body.name
   const data = ctx.request.body.data
   const telephone = ctx.request.body.telephone
-  if (!name && data.length === 0 && !telephone) {
+  const comment = ctx.request.body.comment
+  if (!name && data.length === 0 && !telephone && !comment) {
     ctx.throw(500, '会员名或者图片或者电话不能为空')
   }
 
@@ -124,7 +129,7 @@ const updateData = async (ctx, next) => {
     }
   })
 
-  const result = await services.Member.updataData(name, telephone, images)
+  const result = await services.Member.updataData(name, telephone, comment, images)
   ctx.body = {
     success: result,
     message: `${result ? '更新会员成功' : '更新会员失败'}`
