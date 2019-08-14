@@ -1,5 +1,5 @@
 (function () {
-  if (document.getElementById('#result') === undefined) {
+  if (document.getElementById('result') === undefined) {
     return;
   }
 
