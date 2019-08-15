@@ -33,20 +33,15 @@ $(document).ready(function () {
     $('#errorHolder').html('');
     var name = $('#name').val();
     var telephone = $('#telephone').val();
-    var data = [];
 
     if (!name) {
       $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">会员名字不能为空</div>');
       return;
     }
-    if (telephone !== undefined && !/(^(\d{3,4}-)?\d{7,8})$|(13[0-9]{9})/.test(telephone)) {
+    if (telephone && !/(^(\d{3,4}-)?\d{7,8})$|(13[0-9]{9})/.test(telephone)) {
       $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">请填写正确的手机号码或者固定电话号码区号请用-分割</div>');
       return;
     }
-
-    data.push(fileUpload1.data)
-    data.push(fileUpload2.data)
-    data.push(fileUpload3.data)
 
     mask.setText('<p>正在添加会员</p>');
     mask.show();
@@ -58,7 +53,7 @@ $(document).ready(function () {
         name: name,
         telephone: telephone,
         comment: $('#comment').val(),
-        data: data
+        data: [fileUpload1.data, fileUpload2.data, fileUpload3.data]
       },
       dataType: 'json',
       success: function (data) {

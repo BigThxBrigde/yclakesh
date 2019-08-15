@@ -27,7 +27,7 @@ const renderModifyPage = async (ctx, next) => {
 
 const add = async (ctx, next) => {
   const name = ctx.request.body.name
-  const data = ctx.request.body.data
+  const data = ctx.request.body.data || [[], [], []]
   const telephone = ctx.request.body.telephone
   const comment = ctx.request.body.comment
   if (!name) {
@@ -113,7 +113,7 @@ const find = async (ctx, next) => {
 
 const updateData = async (ctx, next) => {
   const name = ctx.request.body.name
-  const data = ctx.request.body.data
+  const data = ctx.request.body.data || [[], [], []]
   const telephone = ctx.request.body.telephone
   const comment = ctx.request.body.comment
   if (!name && data.length === 0 && !telephone && !comment) {
