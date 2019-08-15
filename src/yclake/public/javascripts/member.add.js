@@ -38,7 +38,7 @@ $(document).ready(function () {
       $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">会员名字不能为空</div>');
       return;
     }
-    if (telephone && !/(^(\d{3,4}-)?\d{7,8})$|(13[0-9]{9})/.test(telephone)) {
+    if (telephone && !/(-|\+|\d)+/.test(telephone)) {
       $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">请填写正确的手机号码或者固定电话号码区号请用-分割</div>');
       return;
     }

@@ -145,7 +145,7 @@ $(document).ready(function () {
       return;
     }
     var telephone = $('#telephone').val();
-    if (telephone !== undefined && !/(^(\d{3,4}-)?\d{7,8})$|(13[0-9]{9})/.test(telephone)) {
+    if (!/(-|\+|\d)+/.test(telephone)) {
       $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">请填写正确的手机号码或者固定电话号码区号请用-分割</div>');
       return;
     }

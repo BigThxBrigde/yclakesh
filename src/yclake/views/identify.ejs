@@ -35,6 +35,7 @@
     .graph-block {
       margin-bottom: -20px;
       margin-top: -40px;
+      line-height: 1.5em;
       color: inherit;
 
     }
@@ -100,8 +101,8 @@
           <div id="result" class="graph-block">
             <h3>查询结果</h3>
             <p>您查询的序列号： <span id="code" class="text-primary"><%= data.code %></span></p>
-            <p>尊敬的客户您好：你查询的是由<span class="text-primary">苏州市阳澄湖大行业商会</span>监制的<span
-                class="text-primary"><%= data.member %></span>大闸蟹，感谢您的查询。</p>
+            <p>尊敬的客户您好：你查询的是由<span class="text-primary">苏州市阳澄湖大闸蟹商会</span>监制的<span
+                class="text-primary"><%= data.member %></span>的大闸蟹，感谢您的查询。</p>
             <p>查询次数: <span class="text-primary"><%= data.queryCount %></span></p>
             <p>首次查询时间: <span class="text-primary"><%= data.firstTime %></span></p>
           </div>
@@ -111,13 +112,19 @@
         <div class="jumbotron">
           <div class="graph-block">
             <h3>商会信息</h3>
-            <p><span class="text-primary">简介: </span><%= data.commerce.summary %></p>
+            <p><span class="text-primary">简介: </span></p>
+            <% data.commerce.summary.forEach(line=>{%>
+            <p style="text-indent: 2em"><%=line%></p>
+            <%})%>
+
             <p><span class="text-primary">地址: </span><%= data.commerce.address %></p>
             <p><span class="text-primary">电话: </span><%= data.commerce.telephone %></p>
             <p><span class="text-primary">传真: </span><%= data.commerce.fax %></p>
-            <p><span class="text-primary">邮箱: </span><a class="text-muted" href="mailto:<%= data.commerce.mail %>"><%= data.commerce.mail %></a></p>
-            <p><span class="text-primary">首页: </span><a class="text-muted" href="<%= data.commerce.page %>"><%= data.commerce.page %></a></p>
-            <p><span class="text-primary">相关视频: </span><a class="btn-xs btn-primary" href="/identify/video/">点击查看</a></p>
+            <p><span class="text-primary">邮箱: </span><a class="text-muted"
+                href="mailto:<%= data.commerce.mail %>"><%= data.commerce.mail %></a></p>
+            <p><span class="text-primary">首页: </span><a class="text-muted"
+                href="<%= data.commerce.page %>"><%= data.commerce.page %></a></p>
+            <!-- <p><span class="text-primary">相关视频: </span><a class="btn-xs btn-primary" href="/identify/video/">点击查看</a></p> -->
             <p><span class="text-primary">相关证书: </span></p>
             <p>
               <img src="/images/commCert.jpg" class="img-responsive img-rounded"
@@ -137,20 +144,21 @@
             <p><span class="text-primary">简介: </span><%= data.info.name %></p>
             <p><span class="text-primary">电话: </span><%= data.info.telephone %></p>
             <% if(!!data.info.page){ %>
-              <p><span class="text-primary">首页: </span><a class="text-muted" href="<%= data.info.page %>"><%= data.info.page %></a></p>
+            <p><span class="text-primary">首页: </span><a class="text-muted"
+                href="<%= data.info.page %>"><%= data.info.page %></a></p>
             <% } %>
             <p><span class="text-primary">相关证书: </span></p>
             <p>
               <% if(data.info.certification){ %>
-                <img src="<%=data.info.certification%>" class="img-responsive img-rounded"
+              <img src="<%=data.info.certification%>" class="img-responsive img-rounded"
                 style="margin-top:5px;margin-bottom:10px"></img>
               <%} %>
               <% if(data.info.businessCertification){ %>
-                <img src="<%=data.info.businessCertification%>" class="img-responsive img-rounded"
+              <img src="<%=data.info.businessCertification%>" class="img-responsive img-rounded"
                 style="margin-top:5px;margin-bottom:10px"></img>
               <%} %>
               <% if(data.info.commCertification){ %>
-                <img src="<%=data.info.commCertification%>" class="img-responsive img-rounded"
+              <img src="<%=data.info.commCertification%>" class="img-responsive img-rounded"
                 style="margin-top:5px;margin-bottom:10px"></img>
               <%} %>
             </p>
