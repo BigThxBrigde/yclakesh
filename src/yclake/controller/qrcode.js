@@ -63,6 +63,7 @@ const exportData = async (ctx, next) => {
     fields: ['Url', 'SerialId', 'IdentifyCode'],
     stream: ctx.res
   })
+  ctx.res.end()
   if (!result.success) {
     ctx.throw(500, '导出失败')
   }
