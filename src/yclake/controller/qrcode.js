@@ -55,8 +55,8 @@ const exportData = async (ctx, next) => {
   await ctx.res.setHeader('Content-disposition', `attachment; filename=` + encodeURIComponent(fileName) + '.csv')
   await ctx.res.writeHead(200, { 'Content-Type': 'text/csv;charset=utf-8' })
 
-  const start = ctx.query.start
-  const end = ctx.query.end
+  const start = parseInt(ctx.query.start, 10)
+  const end = parseInt(ctx.query.end, 10)
   const result = await CSV.export({
     start: start,
     end: end,
