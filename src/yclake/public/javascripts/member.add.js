@@ -70,6 +70,9 @@ $(document).ready(function () {
                 fileUpload1.clear();
                 fileUpload2.clear();
                 fileUpload3.clear();
+                fileUpload1.reset();
+                fileUpload2.reset();
+                fileUpload3.reset();
                 $('#telephone').val('');
                 $('#comment').val('');
                 $('#name').val('');
