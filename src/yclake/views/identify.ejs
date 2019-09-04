@@ -123,7 +123,7 @@
             <p><span class="text-primary">邮箱: </span><a class="text-muted"
                 href="mailto:<%= data.commerce.mail %>"><%= data.commerce.mail %></a></p>
             <p><span class="text-primary">首页: </span><a class="text-muted"
-                href="<%= data.commerce.page %>"><%= data.commerce.page %></a></p>
+                href="http://<%= data.commerce.page %>"><%= data.commerce.page %></a></p>
             <!-- <p><span class="text-primary">相关视频: </span><a class="btn-xs btn-primary" href="/identify/video/">点击查看</a></p> -->
             <p><span class="text-primary">相关证书: </span></p>
             <p>
@@ -143,9 +143,14 @@
             <h3>会员信息</h3>
             <p><span class="text-primary">简介: </span><%= data.info.name %></p>
             <p><span class="text-primary">电话: </span><%= data.info.telephone %></p>
-            <% if(!!data.info.page){ %>
+            <% if(!!data.info.page){ 
+              var url = data.info.page;
+              if(data.info.page.indexOf('http://')==-1){
+                url = 'http://'+ data.info.page
+              }  
+            %>
             <p><span class="text-primary">首页: </span><a class="text-muted"
-                href="<%= data.info.page %>"><%= data.info.page %></a></p>
+                href="<%= url %>"><%= data.info.page %></a></p>
             <% } %>
             <p><span class="text-primary">相关证书: </span></p>
             <p>
