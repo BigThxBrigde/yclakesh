@@ -1,6 +1,8 @@
 const fs = require('fs')
 const { services } = require('../dao/service')
 const config = require('../config.json')
+const { DB } = require('../dao/db')
+const { Random } = require('./random')
 /**
  * Export csv
  * @param {Object} options
@@ -69,6 +71,67 @@ const exportData = async (options) => {
   }
 }
 
+const summary = async (options) => {
+  const start = options.start || 0
+  const end = options.end || parseInt(require('../dao/count.json').start) - 1
+  const delimiter = options.delimiter || ','
+  const file = options.file
+  const stream = options.stream || fs.createWriteStream(file, { flags: 'a' })
+  const batchNumber = config.random.batchNumber
+
+  stream.write(Buffer.from(`start,end,member\n`))
+
+  let current = { start: '', end: '', member: '' }
+  const resultSet = []
+  for (let index = 0; ; index++) {
+    const result = await DB.query({
+      sql: 'select serialId, member from qrcode_info where member is not null and serialid between ? and ? limit ?,?',
+      params: [_getSerialId(start), _getSerialId(end), index * batchNumber, batchNumber]
+    })
+
+    if (!result.success) {
+      return {
+        success: false,
+        message: '查询失败'
+      }
+    }
+    const data = result.data
+    if (data.length === 0) {
+      break
+    }
+
+    data.forEach(row => {
+      if (current.member !== row.member) {
+        current = { start: row.serialId, end: row.serialId, member: row.member }
+        resultSet.push(current)
+      }
+      current.end = row.serialId
+    })
+    if (data.length < batchNumber) {
+      break
+    }
+  }
+
+  if (resultSet.length === 0) {
+    return {
+      success: true,
+      message: '空数据'
+    }
+  }
+  resultSet.forEach(r => {
+    const line = [r.start, r.end, r.member].join(delimiter)
+    stream.write(Buffer.from(`${line}\n`))
+  })
+
+  if (file !== undefined) {
+    stream.end()
+  }
+
+  return {
+    success: true
+  }
+}
+
 const writeLine = async (options) => {
   const start = options.start
   const end = options.end
@@ -98,6 +161,14 @@ const writeLine = async (options) => {
   }
 }
 
+const _getSerialId = (n) => {
+  return Random.serialId({
+    prefix: config.random.prefix,
+    length: config.random.serialLength,
+    number: n
+  })
+}
+
 const _convert = (row, fields) => {
   const keys = Object.keys(row)
   const _fields = fields || keys
@@ -110,7 +181,8 @@ const _convert = (row, fields) => {
 }
 
 const CSV = {
-  export: exportData
+  export: exportData,
+  summary: summary
 }
 
 module.exports = {

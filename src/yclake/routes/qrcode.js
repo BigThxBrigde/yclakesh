@@ -18,5 +18,6 @@ router.get('/data/exportData', loginController.apiAuth, qrcodeController.exportD
 router.post('/data/deleteData', loginController.apiAuth, qrcodeController.deleteData)
 router.post('/data/truncateData', loginController.apiAuth, qrcodeController.truncateData)
 router.post('/data/configData', loginController.apiAuth, qrcodeController.configData)
+router.get('/data/summary', loginController.apiAuth, qrcodeController.summary)
 
 module.exports = router

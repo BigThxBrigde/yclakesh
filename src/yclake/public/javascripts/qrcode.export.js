@@ -74,4 +74,15 @@ $(document).ready(function () {
       exportData();
     }
   });
+  $('#summaryButton').click(function () {
+    $('#errorHolder').html('');
+    var startVal = $('#start').val();
+    var endVal = $('#end').val();
+    if ((startVal && !/^\d+$/.test(startVal)) || (endVal && !/^\d+$/.test(endVal))) {
+      $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">必须填写开始和结束位置</div>');
+      return;
+    }
+
+    window.location.href = '/qrcode/data/summary/?start=' + (startVal || '') + '&end=' + (endVal || '');
+  })
 });

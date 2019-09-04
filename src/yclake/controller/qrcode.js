@@ -69,6 +69,23 @@ const exportData = async (ctx, next) => {
   }
 }
 
+const summary = async (ctx, next) => {
+  const fileName = `Summary_${moment(Date.now()).format('YYYYMMDDHHmmss')}`
+  await ctx.res.setHeader('Content-disposition', `attachment; filename=` + encodeURIComponent(fileName) + '.csv')
+  await ctx.res.writeHead(200, { 'Content-Type': 'text/csv;charset=utf-8' })
+
+  const start = !ctx.query.start ? parseInt(ctx.query.start, 10) : undefined
+  const end = !ctx.query.end ? parseInt(ctx.query.end, 10) : undefined
+  const result = await CSV.summary({
+    start: start,
+    end: end,
+    stream: ctx.res
+  })
+  ctx.res.end()
+  if (!result.success) {
+    ctx.throw(500, '统计失败')
+  }
+}
 /** ******** pages render api *********** */
 /**
  * Render generate pages
@@ -294,5 +311,6 @@ module.exports = {
   deleteData,
   exportData,
   truncateData,
-  configData
+  configData,
+  summary
 }
