@@ -3,6 +3,7 @@ const { services } = require('../dao/service')
 const config = require('../config.json')
 const { DB } = require('../dao/db')
 const { Random } = require('./random')
+var encoding = require('encoding')
 /**
  * Export csv
  * @param {Object} options
@@ -85,7 +86,7 @@ const summary = async (options) => {
   const resultSet = []
   for (let index = 0; ; index++) {
     const result = await DB.query({
-      sql: 'select serialId, member from qrcode_info where member is not null and serialid between ? and ? limit ?,?',
+      sql: 'select serialId, member from qrcode_info where serialid between ? and ? and member is not null limit ?,?',
       params: [_getSerialId(start), _getSerialId(end), index * batchNumber, batchNumber]
     })
 
@@ -120,7 +121,7 @@ const summary = async (options) => {
   }
   resultSet.forEach(r => {
     const line = [r.start, r.end, r.member].join(delimiter)
-    stream.write(Buffer.from(`${line}\n`))
+    stream.write(encoding.convert(`${line}\n`, 'gb2312', 'utf-8'))
   })
 
   if (file !== undefined) {

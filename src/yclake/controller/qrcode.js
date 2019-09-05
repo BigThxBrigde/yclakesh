@@ -72,7 +72,7 @@ const exportData = async (ctx, next) => {
 const summary = async (ctx, next) => {
   const fileName = `Summary_${moment(Date.now()).format('YYYYMMDDHHmmss')}`
   await ctx.res.setHeader('Content-disposition', `attachment; filename=` + encodeURIComponent(fileName) + '.csv')
-  await ctx.res.writeHead(200, { 'Content-Type': 'text/csv;charset=utf-8' })
+  await ctx.res.writeHead(200, { 'Content-Type': 'text/csv;charset=gb2312' })
 
   const start = !ctx.query.start ? parseInt(ctx.query.start, 10) : undefined
   const end = !ctx.query.end ? parseInt(ctx.query.end, 10) : undefined
