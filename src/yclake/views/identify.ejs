@@ -68,7 +68,7 @@
     <div class="container">
       <div class="navbar-header">
 
-        <a class="navbar-brand header-text" href="#">阳澄湖大闸蟹商会</a>
+        <a class="navbar-brand header-text" href="#">苏州市相城区阳澄湖大闸蟹商会</a>
       </div>
       <!-- /.nav-collapse -->
     </div><!-- /.container -->
@@ -101,7 +101,7 @@
           <div id="result" class="graph-block">
             <h3>查询结果</h3>
             <p>您查询的序列号： <span id="code" class="text-primary"><%= data.code %></span></p>
-            <p>尊敬的客户您好：你查询的是由<span class="text-primary">苏州市阳澄湖大闸蟹商会</span>监制的<span
+            <p>尊敬的客户您好：你查询的是由<span class="text-primary">苏州市相城区阳澄湖大闸蟹商会</span>监制的<span
                 class="text-primary"><%= data.member %></span>的大闸蟹，感谢您的查询。</p>
             <p>查询次数: <span class="text-primary"><%= data.queryCount %></span></p>
             <p>首次查询时间: <span class="text-primary"><%= data.firstTime %></span></p>
@@ -158,14 +158,14 @@
               <img src="<%=data.info.certification%>" class="img-responsive img-rounded"
                 style="margin-top:5px;margin-bottom:10px"></img>
               <%} %>
-              <% if(data.info.businessCertification){ %>
+              <!-- <% if(data.info.businessCertification){ %>
               <img src="<%=data.info.businessCertification%>" class="img-responsive img-rounded"
                 style="margin-top:5px;margin-bottom:10px"></img>
               <%} %>
               <% if(data.info.commCertification){ %>
               <img src="<%=data.info.commCertification%>" class="img-responsive img-rounded"
                 style="margin-top:5px;margin-bottom:10px"></img>
-              <%} %>
+              <%} %> -->
             </p>
 
           </div>
@@ -180,7 +180,7 @@
           <div id="result" class="graph-block">
             <h3>查询结果</h3>
             <p>您所查的序列号 <span id="code" class="text-primary"><%= data.code %></span> 不存在，谨防假冒，或核对后请重新查询，并请拨打咨询热线： <span
-                class="text-primary">95938</span></p>
+                class="text-primary"><%= data.commerce.telephone %></span></p>
           </div>
         </div>
 
@@ -196,7 +196,7 @@
             <p>序列号 <span id="code" class="text-primary"><%= data.code %></span> 已经被查询<span
                 class="text-primary"><%= data.queryCount %></span>次，首次查询时间为：<span
                 class="text-primary"><%= data.firstTime %></span></p>
-            <p>请您谨防假冒，并请拨打咨询热线： <span class="text-primary">95938</span></p>
+            <p>请您谨防假冒，并请拨打咨询热线： <span class="text-primary"><%= data.commerce.telephone %></span></p>
           </div>
         </div>
 
@@ -221,7 +221,7 @@
     <hr>
   </div>
   <footer class="footer-reset footer bg-primary">
-    <h4>©阳澄湖大闸蟹商会.</h4>
+    <h4>©苏州市相城区阳澄湖大闸蟹商会.</h4>
   </footer>
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

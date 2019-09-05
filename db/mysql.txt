@@ -3,3 +3,5 @@ CREATE DATABASE database_name;
 GRANT ALL ON *.* TO 'pig'@'%';
 
 ALTER TABLE qrcode_info ADD INDEX Index_SerialId_IdentiyCode (SerialId, IdentifyCode)
+
+yclakeadmin123!

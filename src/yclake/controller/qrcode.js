@@ -157,6 +157,7 @@ const identify = async (ctx, next) => {
         result: ERROR,
         data: {
           serialId: serialId,
+          commerce: commerce,
           code: code
         }
       })
@@ -174,6 +175,7 @@ const identify = async (ctx, next) => {
             serialId: serialId,
             code: code,
             queryCount: queryCount,
+            commerce: commerce,
             firstTime: d.format('YYYY年M月D日 H时m分s秒')
           }
         })
