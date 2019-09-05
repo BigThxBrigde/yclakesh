@@ -45,11 +45,23 @@ $(document).ready(function () {
     }
   });
 
+  var clearAll = function () {
+    $('#telephone').val('')
+    $('#comment').val('')
+    fileUpload1.clear();
+    fileUpload2.clear();
+    fileUpload3.clear();
+    fileUpload1.reset();
+    fileUpload2.reset();
+    fileUpload3.reset();
+  }
+
   var bindData = function (name) {
     if (!name) {
       return;
     }
 
+    clearAll();
     $.ajax({
       type: 'POST',
       url: '/member/data/find',
@@ -84,7 +96,9 @@ $(document).ready(function () {
           } else {
             $('#commCertImage').html('');
           }
-
+          $('#updateButton').attr({
+            'disabled': true
+          })
         } else {
 
           console.log('No data found');
@@ -112,14 +126,17 @@ $(document).ready(function () {
     })
   });
 
+  $('#comment').change(function () {
+    $('#updateButton').attr({
+      'disabled': false
+    })
+  });
+
   // bind image
   bindData($('#members').find('option:selected').val());
 
   $('#members').change(function () {
     var name = $('#members').find('option:selected').val();
-    fileUpload1.clear();
-    fileUpload2.clear();
-    fileUpload3.clear();
     if (name) {
       bindData(name);
     }
@@ -145,7 +162,7 @@ $(document).ready(function () {
       return;
     }
     var telephone = $('#telephone').val();
-    if (!/(-|\+|\d)+/.test(telephone)) {
+    if (telephone && !/(-|\+|\d)+/.test(telephone)) {
       $('#errorHolder').html('<div style="text-align:center" class="alert alert-danger">请填写正确的手机号码或者固定电话号码区号请用-分割</div>');
       return;
     }
@@ -171,9 +188,7 @@ $(document).ready(function () {
               label: '确定',
               className: data.success ? 'btn-success' : 'btn-danger',
               callback: function () {
-                fileUpload1.reset();
-                fileUpload2.reset();
-                fileUpload3.reset();
+                bindData($('#members').find('option:selected').val())
                 mask.hide();
               }
             }

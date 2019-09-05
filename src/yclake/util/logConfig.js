@@ -1,6 +1,7 @@
 const path = require('path')
 module.exports = {
   logConfig: {
+    pm2: true,
     appenders: {
       access: {
         type: 'dateFile',
