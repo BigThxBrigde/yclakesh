@@ -1,6 +1,12 @@
 $(document).ready(function () {
 
 
+  $('.selectpicker').selectpicker({
+  });
+
+  $('.selectpicker').val();
+  $('.selectpicker').selectpicker('render');
+
   var mask = new YCMask({
     id: '#loadingMask',
     html: '<p>正在上传图片</p>'
@@ -255,6 +261,7 @@ $(document).ready(function () {
                     $("#members").find('option:eq(1)').attr({
                       'selected': true
                     });
+                    $('.selectpicker').selectpicker('refresh');
                     bindData($('#members').find('option:selected').val());
                   }
                 }

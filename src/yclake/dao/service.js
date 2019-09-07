@@ -389,19 +389,33 @@ module.exports = {
       }
 
       const updataData = async (name, telephone, comment, images) => {
-        const updatePart = `SET ${telephone === undefined ? '' : 'Telephone=?'} ${comment ? ', Comment=?' : ''} ${images[0] === null ? '' : ', Certification=?'} ${images[1] === null ? '' : ', BusinessCertification=?'} ${images[2] === null ? '' : ', CommCertification=?'}`
+        const updateParts = []
         const params = []
-        if (telephone !== undefined) {
+        if (telephone) {
+          updateParts.push('Telephone=?')
           params.push(telephone)
         }
-        if (comment !== undefined) {
+        if (comment) {
+          updateParts.push('Comment=?')
           params.push(comment)
         }
-        images.forEach(e => {
-          if (e != null) {
-            params.push(e)
-          }
-        })
+        if(images[0]){
+          updateParts.push('Certification=?')
+          params.push(images[0])
+        }
+
+        if(images[1]){
+          updateParts.push('BusinessCertification=?')
+          params.push(images[1])
+        }
+        if(images[2]){
+          updateParts.push('CommCertification=?')
+          params.push(images[2])
+        }
+        if(updateParts.length === 0){
+          return false
+        }
+        const updatePart = `SET ${updateParts.join(',') }`
         params.push(name)
         const result = await MemberInfo.update({
           update: updatePart,

@@ -95,8 +95,7 @@
 
           <label class="col-xs-2 control-label" for="members">会员</label>
           <div class="col-xs-3">
-            <select id="members" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1"
-              aria-hidden="true">
+            <select id="members" class="form-control selectpicker" data-live-search="true" style="width: 100%;" tabindex="-1">
               <% members.forEach(member =>{ %>
               <option value="<%=member.Name%>"><%=member.Name%></option>
               <% }) %>
