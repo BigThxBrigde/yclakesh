@@ -1,4 +1,12 @@
 $(document).ready(function () {
+
+
+  $('.selectpicker').selectpicker({
+  });
+
+  $('.selectpicker').val();
+  $('.selectpicker').selectpicker('render');
+
   $('#exportButton').click(function () {
     $('#errorHolder').html('');
     var startVal = $('#start').val();
@@ -41,7 +49,8 @@ $(document).ready(function () {
                   callback: function () {
                     $('#start').val('');
                     $('#end').val('');
-                    $('#members').val('default')
+                    $('#members').val('default');
+                    $('.selectpicker').selectpicker('refresh');
                     mask.hide();
                     exportData();
                   }
@@ -62,7 +71,8 @@ $(document).ready(function () {
                 callback: function () {
                   $('#start').val('');
                   $('#end').val('');
-                  $('#members').val('default')
+                  $('#members').val('default');
+                  $('.selectpicker').selectpicker('refresh');
                   mask.hide();
                 }
               }

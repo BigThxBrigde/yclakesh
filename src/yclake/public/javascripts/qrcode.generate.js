@@ -1,4 +1,12 @@
 $(document).ready(function () {
+
+
+  $('.selectpicker').selectpicker({
+  });
+  $('.selectpicker').val();
+  $('.selectpicker').selectpicker('render');
+
+
     $('#generateButton').click(function () {
         $('#errorHolder').html('');
         var count = $('#generateCount').val();
@@ -35,7 +43,8 @@ $(document).ready(function () {
                                 callback: function () {
                                     $('#generateCount').val('');
                                     $('#startID').val(data.nextSerialId);
-                                    $('#members').val('default')
+                                    $('#members').val('default');
+                                    $('.selectpicker').selectpicker('refresh');
                                     mask.hide();
                                 }
                             }
@@ -55,7 +64,8 @@ $(document).ready(function () {
                             className: 'btn-danger',
                             callback: function () {
                                 $('#generateCount').val('');
-                                $('#members').val('default')
+                                $('#members').val('default');
+                                $('.selectpicker').selectpicker('refresh');
                                 mask.hide();
                             }
                         }
