@@ -95,7 +95,7 @@
 
           <label class="col-xs-2 control-label" for="members">会员</label>
           <div class="col-xs-3">
-            <select id="members" class="form-control selectpicker" data-live-search="true" style="width: 100%;" tabindex="-1">
+            <select id="members" class="form-control selectpicker show-tick" data-live-search="true"  style="width: 100%;" tabindex="-1">
               <% members.forEach(member =>{ %>
               <option value="<%=member.Name%>"><%=member.Name%></option>
               <% }) %>
