@@ -1,4 +1,11 @@
 $(document).ready(function () {
+
+
+  $('.selectpicker').selectpicker({
+  });
+  $('.selectpicker').val();
+  $('.selectpicker').selectpicker('render');
+
   // update value
   $('#updateButton').click(function () {
     $('#errorHolder').html('');
@@ -41,6 +48,7 @@ $(document).ready(function () {
                     $('#start').val('');
                     $('#end').val('');
                     $('#members').val('default')
+                    $('.selectpicker').selectpicker('refresh');
                     mask.hide();
                   }
                 }
@@ -62,6 +70,7 @@ $(document).ready(function () {
                   $('#start').val('');
                   $('#end').val('');
                   $('#members').val('default')
+                  $('.selectpicker').selectpicker('refresh');
                   mask.hide();
                 }
               }
@@ -127,6 +136,7 @@ $(document).ready(function () {
                       $('#start').val('');
                       $('#end').val('');
                       $('#members').val('default')
+                      $('.selectpicker').selectpicker('refresh');
                       mask.hide();
                     }
                   }
@@ -148,6 +158,7 @@ $(document).ready(function () {
                     $('#start').val('');
                     $('#end').val('');
                     $('#members').val('default')
+                    $('.selectpicker').selectpicker('refresh');
                     mask.hide();
                   }
                 }
