@@ -1,4 +1,11 @@
 $(document).ready(function () {
+
+  $('.selectpicker').selectpicker({
+  });
+
+  $('.selectpicker').val();
+  $('.selectpicker').selectpicker('render');
+
   $('#updateButton').click(function () {
     $('#errorHolder').html('');
     var userName = $('#users').find('option:selected').val();
@@ -94,6 +101,7 @@ $(document).ready(function () {
                     $("#users").find('option:eq(1)').attr({
                       'selected': true
                     });
+                    $('.selectpicker').selectpicker('refresh');
                   }
                 }
               }

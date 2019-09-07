@@ -54,7 +54,7 @@
 
                     <label class="col-xs-2 control-label" for="members">用户</label>
                     <div class="col-xs-3">
-                        <select id="users" class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                        <select id="users" class="form-control selectpicker" data-live-search="true" style="width: 100%;"
                             tabindex="-1" aria-hidden="true">
                             <% users.forEach(user =>{ %>
                             <option value="<%=user.Name%>"><%=user.Name%></option>
