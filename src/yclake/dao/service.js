@@ -318,10 +318,7 @@ module.exports = {
           filter: ' NAME = ? AND PASSWORD = ?',
           params: [name, password]
         })
-        if (!result.success) {
-          return false
-        }
-        return result.data != null
+        return result
       }
 
       const updatePassword = async (name, password) => {

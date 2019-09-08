@@ -14,7 +14,7 @@
 
         <%- include('./layouts/header.ejs',{user:user}) %>
         <!-- Left side column. contains the logo and sidebar -->
-        <% include ./layouts/sidebar.ejs %>
+        <%- include('./layouts/sidebar.ejs', {user:user}) %>
 
         <!-- Content Wrapper. Contains page content -->
         <div id="mainContent" class="content-wrapper">

@@ -21,7 +21,8 @@ const renderModifyPage = async (ctx, next) => {
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
   await ctx.render('./layouts/modules/member', {
     operation: 'modify',
-    members: members
+    members: members,
+    user: ctx.session.user
   })
 }
 

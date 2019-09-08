@@ -10,11 +10,14 @@ const { services } = require('../dao/service')
 const validate = async (ctx, next) => {
   const params = ctx.request.body
   var result = await services.User.validate(params.name, params.password)
-  if (result) {
-    ctx.session.user = params.name
+  if (result.success) {
+    ctx.session.user = {
+      'name': params.name,
+      'type': result.data.Type
+    }
   }
   ctx.body = {
-    success: result
+    success: result.success
   }
 }
 

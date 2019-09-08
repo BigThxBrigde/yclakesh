@@ -12,10 +12,14 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    <% if(user.type == 1) { %>
                     <li><a href="#" url="/qrcode/page/generate"><i class="fa fa-circle-o"></i>生成</a></li>
                     <li><a href="#" url="/qrcode/page/export"><i class="fa fa-circle-o"></i>导出</a></li>
+                    <% } %>
                     <li><a href="#" url="/qrcode/page/modify"><i class="fa fa-circle-o"></i>数据输入</a></li>
+                    <% if(user.type == 1) { %>
                     <li><a href="#" url="/qrcode/page/config"><i class="fa fa-circle-o"></i>配置</a></li>
+                    <% } %>
                 </ul>
             </li>
             <li class="treeview">
@@ -30,6 +34,7 @@
                     <li><a href="#" url="/member/page/modify"><i class="fa fa-circle-o"></i>修改</a></li>
                 </ul>
             </li>
+            <% if(user.type == 1) { %>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-edit"></i> <span>用户</span>
@@ -42,6 +47,7 @@
                     <li><a href="#" url="/user/page/modify"><i class="fa fa-circle-o"></i>修改</a></li>
                 </ul>
             </li>
+            <% } %>
         </ul>
     </section>
     <!-- /.sidebar -->
