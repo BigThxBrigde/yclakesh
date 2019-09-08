@@ -137,6 +137,29 @@ module.exports = {
         return result
       }
 
+      const checkNotNull = async (start, end) => {
+        const startSerial = Random.serialId({
+          prefix: config.random.prefix,
+          length: config.random.serialLength,
+          number: start
+        })
+        const endSerial = Random.serialId({
+          prefix: config.random.prefix,
+          length: config.random.serialLength,
+          number: end
+        })
+        const sql = 'SELECT COUNT(1) as count FROM QRCODE_INFO WHERE SERIALID BETWEEN ? and ? and member is not null'
+        const result = await DB.query({
+          sql: sql,
+          params: [startSerial, endSerial]
+        })
+        if (result.success) {
+          return result.data[0].count > 0
+        } else {
+          return true
+        }
+      }
+
       const start = async () => Random.serialId({
         prefix: config.random.prefix,
         length: config.random.serialLength,
@@ -263,6 +286,7 @@ module.exports = {
       qrcode.identify = identify
       qrcode.deleteData = deleteData
       qrcode.truncateData = truncateData
+      qrcode.checkNotNull = checkNotNull
 
       return qrcode
     })(),
@@ -396,23 +420,23 @@ module.exports = {
           updateParts.push('Comment=?')
           params.push(comment)
         }
-        if(images[0]){
+        if (images[0]) {
           updateParts.push('Certification=?')
           params.push(images[0])
         }
 
-        if(images[1]){
+        if (images[1]) {
           updateParts.push('BusinessCertification=?')
           params.push(images[1])
         }
-        if(images[2]){
+        if (images[2]) {
           updateParts.push('CommCertification=?')
           params.push(images[2])
         }
-        if(updateParts.length === 0){
+        if (updateParts.length === 0) {
           return false
         }
-        const updatePart = `SET ${updateParts.join(',') }`
+        const updatePart = `SET ${updateParts.join(',')}`
         params.push(name)
         const result = await MemberInfo.update({
           update: updatePart,

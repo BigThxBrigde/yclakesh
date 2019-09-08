@@ -235,6 +235,19 @@ const updateMember = async (ctx, next) => {
   const start = ctx.request.body.start
   const end = ctx.request.body.end
   const member = ctx.request.body.member
+
+  if (ctx.session.user.type === 0) {
+    // do check
+    const r = await services.QRCode.checkNotNull(parseInt(start, 10), parseInt(end, 10))
+    if (r) {
+      ctx.body = {
+        success: false,
+        message: `${start} 到 ${end} 段中存在已经被关联过的数据, 如需重新关联，请联系管理员`
+      }
+      return
+    }
+  }
+
   const result = await services.QRCode.updateBatch(parseInt(start, 10), parseInt(end, 10), member)
   if (!result.success) {
     ctx.throw(500, '更新失败')

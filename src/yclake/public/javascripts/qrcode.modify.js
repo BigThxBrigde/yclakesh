@@ -54,6 +54,26 @@ $(document).ready(function () {
                 }
               }
             });
+          } else {
+            console.log(data)
+            bootbox.dialog({
+              size: "small",
+              title: "更新失败",
+              message: '<p class="alert">' + data.message + '</p>',
+              buttons: {
+                success: {
+                  label: '确定',
+                  className: 'btn-danger',
+                  callback: function () {
+                    $('#start').val('');
+                    $('#end').val('');
+                    $('#members').val('default')
+                    $('.selectpicker').selectpicker('refresh');
+                    mask.hide();
+                  }
+                }
+              }
+            })
           }
         },
         error: function (xhr, status) {
