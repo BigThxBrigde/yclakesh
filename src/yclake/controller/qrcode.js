@@ -114,7 +114,8 @@ const renderExportPage = async (ctx, next) => {
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
   await ctx.render('./layouts/modules/qrcode', {
     operation: 'export',
-    members: members
+    members: members,
+    user: ctx.session.user
   })
 }
 
