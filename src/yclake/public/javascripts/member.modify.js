@@ -51,15 +51,30 @@ $(document).ready(function () {
     }
   });
 
+  var fileUpload4 = new YCUpload({
+    id: '#logo',
+    renderTo: '#logoImage',
+    placeholder: '请您上传您的Logo',
+    accept: 'image/jpeg',
+    mask: mask,
+    callback: function () {
+      $('#updateButton').attr({
+        'disabled': false
+      })
+    }
+  });
+
   var clearAll = function () {
     $('#telephone').val('')
     $('#comment').val('')
     fileUpload1.clear();
     fileUpload2.clear();
     fileUpload3.clear();
+    fileUpload4.clear();
     fileUpload1.reset();
     fileUpload2.reset();
     fileUpload3.reset();
+    fileUpload4.reset();
   }
 
   var bindData = function (name) {
@@ -84,6 +99,9 @@ $(document).ready(function () {
           if (r.comment) {
             $('#comment').val(r.comment);
           }
+          if (r.type){
+            $('#type').val(r.type)
+          }
           if (r.images[0]) {
             var html = '<img class="responsive" style="width:45%" src="' + r.images[0] + '"></img>';
             $('#brandCertImage').html(html);
@@ -101,6 +119,12 @@ $(document).ready(function () {
             $('#commCertImage').html(html);
           } else {
             $('#commCertImage').html('');
+          }
+          if (r.images[3]) {
+            var html = '<img class="responsive" style="width:45%" src="' + r.images[2] + '"></img>';
+            $('#logo').html(html);
+          } else {
+            $('#logoImage').html('');
           }
           $('#updateButton').attr({
             'disabled': true
@@ -152,6 +176,7 @@ $(document).ready(function () {
     if (!fileUpload1.data
       && !fileUpload2.data
       && !fileUpload3.data
+      && !fileUpload4.data
       && !$('#telephone').val()
       && !$('#comment').val()) {
       bootbox.dialog({
@@ -180,7 +205,7 @@ $(document).ready(function () {
       data: {
         name: $('#members').find('option:selected').val(),
         telephone: telephone,
-        data: [fileUpload1.data, fileUpload2.data, fileUpload3.data],
+        data: [fileUpload1.data, fileUpload2.data, fileUpload3.data, fileUpload4.data],
         comment: $('#comment').val()
       },
       dataType: 'json',

@@ -109,7 +109,8 @@ const renderGeneratePage = async (ctx, next) => {
  * @param {Function} next
  */
 const renderExportPage = async (ctx, next) => {
-  const result = await services.Member.find({ fields: ['Name'] })
+  const options = ctx.session.user.type == 1 ? { fields: ['Name'] } : { fields: ['Name'], filter: ' type = ?', params: [1]  }
+  const result = await services.Member.find(options)
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
   await ctx.render('./layouts/modules/qrcode', {
     operation: 'export',
@@ -118,7 +119,8 @@ const renderExportPage = async (ctx, next) => {
 }
 
 const renderModifyPage = async (ctx, next) => {
-  const result = await services.Member.find({ fields: ['Name'] })
+  const options = ctx.session.user.type == 1 ? { fields: ['Name'] } : { fields: ['Name'], filter: ' type = ?', params: [1]  }
+  const result = await services.Member.find(options)
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
   await ctx.render('./layouts/modules/qrcode', {
     operation: 'modify',

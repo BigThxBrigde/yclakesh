@@ -392,10 +392,12 @@ module.exports = {
           return false
         }
       }
-      const add = async (name, telephone, comment, images) => {
+      const add = async (name, type, telephone, comment, images) => {
         const brandCert = images[0] || null
         const businessCert = images[1] || null
         const commCert = images[2] || null
+        const logo = images[3] || null
+
         const result = await MemberInfo.add({
           params: {
             Name: name,
@@ -403,7 +405,9 @@ module.exports = {
             Certification: brandCert,
             BusinessCertification: businessCert,
             CommCertification: commCert,
-            Comment: comment || null
+            Comment: comment || null,
+            Logo: logo,
+            Type: type || null
           }
         })
         return result
@@ -432,6 +436,10 @@ module.exports = {
         if (images[2]) {
           updateParts.push('CommCertification=?')
           params.push(images[2])
+        }
+        if(images[3]){
+          updateParts.push('Logo=?')
+          params.push(images[3])
         }
         if (updateParts.length === 0) {
           return false

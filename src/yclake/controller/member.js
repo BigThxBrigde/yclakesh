@@ -7,7 +7,8 @@ const { services } = require('../dao/service')
  */
 const renderAddPage = async (ctx, next) => {
   await ctx.render('./layouts/modules/member', {
-    operation: 'add'
+    operation: 'add',
+    user: ctx.session.user
   })
 }
 
@@ -17,7 +18,8 @@ const renderAddPage = async (ctx, next) => {
  * @param {Function} next
  */
 const renderModifyPage = async (ctx, next) => {
-  const result = await services.Member.find({ fields: ['Name'] })
+  const options = ctx.session.user.type == 1 ? { fields: ['Name'] } : { fields: ['Name'], filter: ' type = ?', params: [1]  }
+  const result = await services.Member.find(options)
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
   await ctx.render('./layouts/modules/member', {
     operation: 'modify',
@@ -28,7 +30,8 @@ const renderModifyPage = async (ctx, next) => {
 
 const add = async (ctx, next) => {
   const name = ctx.request.body.name
-  const data = ctx.request.body.data || [[], [], []]
+  const type = parseInt(ctx.request.body.type, 10)
+  const data = ctx.request.body.data || [[], [], [],[]]
   const telephone = ctx.request.body.telephone
   const comment = ctx.request.body.comment
   if (!name) {
@@ -49,7 +52,7 @@ const add = async (ctx, next) => {
         images.push(null)
       }
     })
-    const result = await services.Member.add(name, telephone, comment, images)
+    const result = await services.Member.add(name, type, telephone, comment, images)
     ctx.body = {
       success: result,
       message: `${result ? '添加会员成功' : '添加会员失败'}`
@@ -66,7 +69,7 @@ const find = async (ctx, next) => {
     }
   } else {
     const result = await services.Member.find({
-      fields: ['Telephone', 'Certification', 'BusinessCertification', 'CommCertification', 'Comment'],
+      fields: ['Telephone', 'Certification', 'BusinessCertification', 'CommCertification', 'Comment', 'Type', 'Logo'],
       filter: 'Name=?',
       params: [name],
       one: true
@@ -83,6 +86,9 @@ const find = async (ctx, next) => {
       if (data.Comment) {
         r.comment = data.Comment
       }
+      if(data.Type){
+        r.type = data.Type
+      }
       if (data.Certification != null) {
         r.images.push(`data:image/jpeg;base64,${Buffer.from(data.Certification, 'binary').toString('base64')}`)
       } else {
@@ -95,6 +101,11 @@ const find = async (ctx, next) => {
       }
       if (data.CommCertification != null) {
         r.images.push(`data:image/jpeg;base64,${Buffer.from(data.CommCertification, 'binary').toString('base64')}`)
+      } else {
+        r.images.push(null)
+      }
+      if (data.Logo != null) {
+        r.images.push(`data:image/jpeg;base64,${Buffer.from(data.Logo, 'binary').toString('base64')}`)
       } else {
         r.images.push(null)
       }
@@ -114,7 +125,7 @@ const find = async (ctx, next) => {
 
 const updateData = async (ctx, next) => {
   const name = ctx.request.body.name
-  const data = ctx.request.body.data || [[], [], []]
+  const data = ctx.request.body.data || [[], [], [],[]]
   const telephone = ctx.request.body.telephone
   const comment = ctx.request.body.comment
   if (!name && data.length === 0 && !telephone && !comment) {

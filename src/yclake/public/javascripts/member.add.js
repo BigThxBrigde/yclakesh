@@ -28,6 +28,14 @@ $(document).ready(function () {
     mask: mask
   });
 
+  var fileUpload4 = new YCUpload({
+    id: '#logo',
+    renderTo: '#logoImage',
+    placeholder: '请上传您的logo',
+    accept: 'image/jpeg',
+    mask: mask
+  });
+
 
   $('#addButton').click(function () {
     $('#errorHolder').html('');
@@ -53,7 +61,8 @@ $(document).ready(function () {
         name: name,
         telephone: telephone,
         comment: $('#comment').val(),
-        data: [fileUpload1.data, fileUpload2.data, fileUpload3.data]
+        type: $('#type').find('option:selected').val(),
+        data: [fileUpload1.data, fileUpload2.data, fileUpload3.data, fileUpload4.data]
       },
       dataType: 'json',
       success: function (data) {
@@ -70,9 +79,11 @@ $(document).ready(function () {
                 fileUpload1.clear();
                 fileUpload2.clear();
                 fileUpload3.clear();
+                fileUpload4.clear();
                 fileUpload1.reset();
                 fileUpload2.reset();
                 fileUpload3.reset();
+                fileUpload4.reset();
                 $('#telephone').val('');
                 $('#comment').val('');
                 $('#name').val('');

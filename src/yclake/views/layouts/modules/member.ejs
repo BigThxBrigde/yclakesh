@@ -17,6 +17,16 @@
             <input class="form-control" id="name" type="text" placeholder="请输入会员名" />
           </div>
         </div>
+
+        <% if(user.type == 1){ %>
+        <label class="col-xs-2 control-label" for="type">类型</label>
+          <div class="col-xs-3">
+            <select id="type" class="form-control"  style="width: 100%;" tabindex="-1">
+              <option value="1" selected>商会会员</option>
+              <option value="0">散户</option>
+            </select>
+          </div>
+        <% } %>
         <div class="form-group">
           <label class="col-xs-2 control-label" for="telephone">电话</label>
           <div class="col-xs-3">
@@ -29,6 +39,22 @@
               <input class="form-control" id="comment" type="text" placeholder="请输入首页" />
             </div>
         </div>
+
+        <% if(user.type == 1){ %>
+        <div class="form-group">
+          <label class="col-xs-2 control-label" for="logo">Logo</label>
+          <div class="col-xs-5" id="logo">
+           
+          </div>
+
+        </div>
+        <div class="form-group">
+          <label class="col-xs-2 control-label" for="logoImage">预览</label>
+          <div class="col-xs-5" id="logoImage">
+          </div>
+
+        </div>
+        <% } %>
         <div class="form-group">
           <label class="col-xs-2 control-label" for="brandCert">商标注册</label>
           <div class="col-xs-5" id="brandCert">
@@ -103,6 +129,16 @@
           </div>
         </div>
 
+        <% if(user.type == 1){ %>
+          <label class="col-xs-2 control-label" for="type">类型</label>
+            <div class="col-xs-3">
+              <select id="type" class="form-control"  style="width: 100%;" tabindex="-1">
+                <option value="1" selected>商会会员</option>
+                <option value="0">散户</option>
+              </select>
+            </div>
+          <% } %>
+
         <div class="form-group">
           <label class="col-xs-2 control-label" for="telephone">电话</label>
           <div class="col-xs-3">
@@ -115,6 +151,22 @@
               <input class="form-control" id="comment" type="text" placeholder="请输入首页" />
             </div>
         </div>
+        <% if(user.type == 1){ %>
+          <div class="form-group">
+            <label class="col-xs-2 control-label" for="logo">Logo</label>
+            <div class="col-xs-5" id="logo">
+             
+            </div>
+  
+          </div>
+          <div class="form-group">
+            <label class="col-xs-2 control-label" for="logoImage">预览</label>
+            <div class="col-xs-5" id="logoImage">
+            </div>
+  
+          </div>
+        <% } %>
+
         <div class="form-group">
           <label class="col-xs-2 control-label" for="brandCert">商标注册</label>
           <div class="col-xs-5" id="brandCert">
