@@ -407,7 +407,7 @@ module.exports = {
             CommCertification: commCert,
             Comment: comment || null,
             Logo: logo,
-            Type: type || null
+            Type: type === undefined ? 1 : type
           }
         })
         return result
@@ -437,7 +437,7 @@ module.exports = {
           updateParts.push('CommCertification=?')
           params.push(images[2])
         }
-        if(images[3]){
+        if (images[3]) {
           updateParts.push('Logo=?')
           params.push(images[3])
         }

@@ -65,6 +65,7 @@ $(document).ready(function () {
   });
 
   var clearAll = function () {
+    $('#type').val(1)
     $('#telephone').val('')
     $('#comment').val('')
     fileUpload1.clear();
@@ -99,9 +100,8 @@ $(document).ready(function () {
           if (r.comment) {
             $('#comment').val(r.comment);
           }
-          if (r.type){
-            $('#type').val(r.type)
-          }
+          $('#type').val(r.type)
+          
           if (r.images[0]) {
             var html = '<img class="responsive" style="width:45%" src="' + r.images[0] + '"></img>';
             $('#brandCertImage').html(html);
@@ -121,8 +121,8 @@ $(document).ready(function () {
             $('#commCertImage').html('');
           }
           if (r.images[3]) {
-            var html = '<img class="responsive" style="width:45%" src="' + r.images[2] + '"></img>';
-            $('#logo').html(html);
+            var html = '<img class="responsive" style="width:45%" src="' + r.images[3] + '"></img>';
+            $('#logoImage').html(html);
           } else {
             $('#logoImage').html('');
           }

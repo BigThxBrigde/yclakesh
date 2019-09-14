@@ -79,8 +79,32 @@ const summary = async (options) => {
   const file = options.file
   const stream = options.stream || fs.createWriteStream(file, { flags: 'a' })
   const batchNumber = 10000000
+  const type = options.type === undefined ? 0 : options.type
 
   stream.write(Buffer.from(`start,end,member\n`))
+
+  let getmembers = 'SELECT DISTINCT(Name) as name FROM MEMBER_INFO'
+  if (type === 0) {
+    getmembers += ' WHERE TYPE = 1'
+  }
+  const qr = await DB.query({
+    sql: getmembers
+  })
+
+  if (!qr.success) {
+    return {
+      success: false,
+      message: '查询失败'
+    }
+  }
+  const d = qr.data
+  if (d.length === 0) {
+    return {
+      success: false,
+      message: '查询失败'
+    }
+  }
+  const members = d.map(x => x.name)
 
   let current = { start: '', end: '', member: '' }
   const resultSet = []
@@ -102,11 +126,13 @@ const summary = async (options) => {
     }
 
     data.forEach(row => {
-      if (current.member !== row.member) {
-        current = { start: row.serialId, end: row.serialId, member: row.member }
-        resultSet.push(current)
+      if (members.find((e, i) => e === row.member)) {
+        if (current.member !== row.member) {
+          current = { start: row.serialId, end: row.serialId, member: row.member }
+          resultSet.push(current)
+        }
+        current.end = row.serialId
       }
-      current.end = row.serialId
     })
     if (data.length < batchNumber) {
       break

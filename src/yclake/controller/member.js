@@ -18,7 +18,7 @@ const renderAddPage = async (ctx, next) => {
  * @param {Function} next
  */
 const renderModifyPage = async (ctx, next) => {
-  const options = ctx.session.user.type == 1 ? { fields: ['Name'] } : { fields: ['Name'], filter: ' type = ?', params: [1]  }
+  const options = ctx.session.user.type === 1 ? { fields: ['Name'] } : { fields: ['Name'], filter: ' type = ?', params: [1] }
   const result = await services.Member.find(options)
   const members = result.success ? ((result.data === null || result.data.length === 0) ? [] : result.data) : []
   await ctx.render('./layouts/modules/member', {
@@ -30,8 +30,8 @@ const renderModifyPage = async (ctx, next) => {
 
 const add = async (ctx, next) => {
   const name = ctx.request.body.name
-  const type = parseInt(ctx.request.body.type, 10)
-  const data = ctx.request.body.data || [[], [], [],[]]
+  const type = parseInt(ctx.request.body.type === undefined ? 1 : ctx.request.body.type, 10)
+  const data = ctx.request.body.data || [[], [], [], []]
   const telephone = ctx.request.body.telephone
   const comment = ctx.request.body.comment
   if (!name) {
@@ -86,9 +86,7 @@ const find = async (ctx, next) => {
       if (data.Comment) {
         r.comment = data.Comment
       }
-      if(data.Type){
-        r.type = data.Type
-      }
+      r.type = data.Type
       if (data.Certification != null) {
         r.images.push(`data:image/jpeg;base64,${Buffer.from(data.Certification, 'binary').toString('base64')}`)
       } else {
@@ -125,7 +123,7 @@ const find = async (ctx, next) => {
 
 const updateData = async (ctx, next) => {
   const name = ctx.request.body.name
-  const data = ctx.request.body.data || [[], [], [],[]]
+  const data = ctx.request.body.data || [[], [], [], []]
   const telephone = ctx.request.body.telephone
   const comment = ctx.request.body.comment
   if (!name && data.length === 0 && !telephone && !comment) {

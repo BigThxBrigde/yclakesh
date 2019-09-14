@@ -4,7 +4,7 @@
 <div class="row col-md-8" style="margin: 20px 10px">
   <% if(operation=='add'){ %>
 
-  <div class="box box-success">
+  <div class="box box-success" style="max-height: 720px; overflow-y:auto; overflow-x:hidden;">
     <div class="box-header with-border">
       <h2 class="box-title">添加会员</h3>
     </div>
@@ -19,13 +19,16 @@
         </div>
 
         <% if(user.type == 1){ %>
-        <label class="col-xs-2 control-label" for="type">类型</label>
+        <div class="form-group">
+          <label class="col-xs-2 control-label" for="type">类型</label>
           <div class="col-xs-3">
-            <select id="type" class="form-control"  style="width: 100%;" tabindex="-1">
+            <select id="type" class="form-control" style="width: 100%;" tabindex="-1">
               <option value="1" selected>商会会员</option>
               <option value="0">散户</option>
             </select>
           </div>
+        </div>
+
         <% } %>
         <div class="form-group">
           <label class="col-xs-2 control-label" for="telephone">电话</label>
@@ -34,31 +37,28 @@
           </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-2 control-label" for="comment">首页</label>
-            <div class="col-xs-3">
-              <input class="form-control" id="comment" type="text" placeholder="请输入首页" />
-            </div>
+          <label class="col-xs-2 control-label" for="comment">首页</label>
+          <div class="col-xs-3">
+            <input class="form-control" id="comment" type="text" placeholder="请输入首页" />
+          </div>
         </div>
 
         <% if(user.type == 1){ %>
         <div class="form-group">
           <label class="col-xs-2 control-label" for="logo">Logo</label>
           <div class="col-xs-5" id="logo">
-           
           </div>
-
         </div>
         <div class="form-group">
           <label class="col-xs-2 control-label" for="logoImage">预览</label>
           <div class="col-xs-5" id="logoImage">
           </div>
-
         </div>
         <% } %>
         <div class="form-group">
           <label class="col-xs-2 control-label" for="brandCert">商标注册</label>
           <div class="col-xs-5" id="brandCert">
-           
+
           </div>
 
         </div>
@@ -71,7 +71,7 @@
         <div class="form-group">
           <label class="col-xs-2 control-label" for="businessCert">营业执照</label>
           <div class="col-xs-5" id="businessCert">
-           
+
           </div>
 
         </div>
@@ -84,7 +84,7 @@
         <div class="form-group">
           <label class="col-xs-2 control-label" for="commCert">商会单位</label>
           <div class="col-xs-5" id="commCert">
-           
+
           </div>
 
         </div>
@@ -110,7 +110,7 @@
   </div>
   <script type="text/javascript" src="javascripts/member.add.js"></script>
   <% } else if(operation == 'modify') {%>
-  <div class="box box-success">
+  <div class="box box-success" style="max-height: 720px; overflow-y:auto; overflow-x:hidden;">
     <div class="box-header with-border">
       <h2 class="box-title">修改会员</h3>
     </div>
@@ -121,7 +121,8 @@
 
           <label class="col-xs-2 control-label" for="members">会员</label>
           <div class="col-xs-3">
-            <select id="members" class="form-control selectpicker show-tick" data-live-search="true"  style="width: 100%;" tabindex="-1">
+            <select id="members" class="form-control selectpicker show-tick" data-live-search="true"
+              style="width: 100%;" tabindex="-1">
               <% members.forEach(member =>{ %>
               <option value="<%=member.Name%>"><%=member.Name%></option>
               <% }) %>
@@ -130,14 +131,16 @@
         </div>
 
         <% if(user.type == 1){ %>
+        <div class="form-group">
           <label class="col-xs-2 control-label" for="type">类型</label>
-            <div class="col-xs-3">
-              <select id="type" class="form-control"  style="width: 100%;" tabindex="-1">
-                <option value="1" selected>商会会员</option>
-                <option value="0">散户</option>
-              </select>
-            </div>
-          <% } %>
+          <div class="col-xs-3">
+            <select id="type" class="form-control" style="width: 100%;" tabindex="-1" disabled>
+              <option value="1" selected>商会会员</option>
+              <option value="0">散户</option>
+            </select>
+          </div>
+        </div>
+        <% } %>
 
         <div class="form-group">
           <label class="col-xs-2 control-label" for="telephone">电话</label>
@@ -146,31 +149,31 @@
           </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-2 control-label" for="comment">首页</label>
-            <div class="col-xs-3">
-              <input class="form-control" id="comment" type="text" placeholder="请输入首页" />
-            </div>
+          <label class="col-xs-2 control-label" for="comment">首页</label>
+          <div class="col-xs-3">
+            <input class="form-control" id="comment" type="text" placeholder="请输入首页" />
+          </div>
         </div>
         <% if(user.type == 1){ %>
-          <div class="form-group">
-            <label class="col-xs-2 control-label" for="logo">Logo</label>
-            <div class="col-xs-5" id="logo">
-             
-            </div>
-  
+        <div class="form-group">
+          <label class="col-xs-2 control-label" for="logo">Logo</label>
+          <div class="col-xs-5" id="logo">
+
           </div>
-          <div class="form-group">
-            <label class="col-xs-2 control-label" for="logoImage">预览</label>
-            <div class="col-xs-5" id="logoImage">
-            </div>
-  
+
+        </div>
+        <div class="form-group">
+          <label class="col-xs-2 control-label" for="logoImage">预览</label>
+          <div class="col-xs-5" id="logoImage">
           </div>
+
+        </div>
         <% } %>
 
         <div class="form-group">
           <label class="col-xs-2 control-label" for="brandCert">商标注册</label>
           <div class="col-xs-5" id="brandCert">
-           
+
           </div>
 
         </div>
@@ -183,7 +186,7 @@
         <div class="form-group">
           <label class="col-xs-2 control-label" for="businessCert">营业执照</label>
           <div class="col-xs-5" id="businessCert">
-           
+
           </div>
 
         </div>
@@ -196,7 +199,7 @@
         <div class="form-group">
           <label class="col-xs-2 control-label" for="commCert">商会单位</label>
           <div class="col-xs-5" id="commCert">
-           
+
           </div>
 
         </div>
@@ -215,8 +218,7 @@
           <button type="button" id="deleteButton" style="margin-right: 30px;margin-left: -45px;"
             class="btn btn-success col-xs-1">删除</button>
           <% } else { %>
-          <div style="margin-right: 30px;margin-left: -45px;"
-            class="col-xs-1"></div>
+          <div style="margin-right: 30px;margin-left: -45px;" class="col-xs-1"></div>
           <% } %>
           <button type="button" disabled id="updateButton" class="btn btn-success col-xs-1">确定</button>
         </div>
