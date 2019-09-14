@@ -173,6 +173,7 @@ const identify = async (ctx, next) => {
       const member = data.Member || ''
 
       if (queryCount >= config.maxQueryCount) {
+        const memberInfo = await _getMemberInfo(member)
         await ctx.render('identify', {
           result: OVER_QUERY,
           data: {
@@ -180,7 +181,8 @@ const identify = async (ctx, next) => {
             code: code,
             queryCount: queryCount,
             commerce: commerce,
-            firstTime: d.format('YYYY年M月D日 H时m分s秒')
+            firstTime: d.format('YYYY年M月D日 H时m分s秒'),
+            info: memberInfo
           }
         })
       } else {
@@ -228,7 +230,9 @@ const _getMemberInfo = async (name) => {
       page: data.Comment,
       certification: data.Certification ? `data:image/jpeg;base64,${Buffer.from(data.Certification, 'binary').toString('base64')}` : null,
       businessCertification: data.BusinessCertification ? `data:image/jpeg;base64,${Buffer.from(data.BusinessCertification, 'binary').toString('base64')}` : null,
-      commCertification: data.CommCertification ? `data:image/jpeg;base64,${Buffer.from(data.CommCertification, 'binary').toString('base64')}` : null
+      commCertification: data.CommCertification ? `data:image/jpeg;base64,${Buffer.from(data.CommCertification, 'binary').toString('base64')}` : null,
+      logo: data.Logo ? `data:image/jpeg;base64,${Buffer.from(data.Logo, 'binary').toString('base64')}` : null,
+      type: data.Type
     }
   } else {
     return {}
