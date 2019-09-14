@@ -78,7 +78,7 @@ const summary = async (options) => {
   const delimiter = options.delimiter || ','
   const file = options.file
   const stream = options.stream || fs.createWriteStream(file, { flags: 'a' })
-  const batchNumber = config.random.batchNumber
+  const batchNumber = 10000000
 
   stream.write(Buffer.from(`start,end,member\n`))
 
