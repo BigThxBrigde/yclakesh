@@ -140,7 +140,7 @@ const renderVideo = async (ctx, next) => {
   await ctx.render('video')
 }
 
-const ERROR = -1; const SUCCESS = 0; const OVER_QUERY = 1; const UNKNOWN = 2
+const ERROR = -1; const SUCCESS = 0; const OVER_QUERY = 1; const UNKNOWN = 2; const NOT_ASSOCIATED = 3
 
 /**
  * identify
@@ -153,7 +153,8 @@ const identify = async (ctx, next) => {
   const result = await services.QRCode.identify(serialId, code)
   if (!result.success) {
     await ctx.render('identify', {
-      result: UNKNOWN
+      result: UNKNOWN,
+      data: {}
     })
   } else {
     if (result.data == null) {
@@ -172,44 +173,51 @@ const identify = async (ctx, next) => {
       const firstTime = data.FirstTime || d.format('YYYYMMDDHHmmss')
       const member = data.Member || ''
 
-      if (queryCount >= config.maxQueryCount) {
-        const memberInfo = await _getMemberInfo(member)
+      if (member === '') {
         await ctx.render('identify', {
-          result: OVER_QUERY,
-          data: {
-            serialId: serialId,
-            code: code,
-            queryCount: queryCount,
-            commerce: commerce,
-            firstTime: d.format('YYYY年M月D日 H时m分s秒'),
-            info: memberInfo
-          }
+          result: NOT_ASSOCIATED,
+          data: {}
         })
       } else {
-        const r = await services.QRCode.update({
-          queryCount: queryCount + 1,
-          firstTime: firstTime,
-          serialId: serialId,
-          identifyCode: code
-        })
-        if (!r) {
+        if (queryCount >= config.maxQueryCount) {
+          const memberInfo = await _getMemberInfo(member)
           await ctx.render('identify', {
-            result: UNKNOWN
-          })
-        } else {
-          const info = await _getMemberInfo(member)
-          await ctx.render('identify', {
-            result: SUCCESS,
+            result: OVER_QUERY,
             data: {
               serialId: serialId,
               code: code,
               queryCount: queryCount,
-              firstTime: d.format('YYYY年M月D日 H时m分s秒'),
-              member: member,
               commerce: commerce,
-              info: info
+              firstTime: d.format('YYYY年M月D日 H时m分s秒'),
+              info: memberInfo
             }
           })
+        } else {
+          const r = await services.QRCode.update({
+            queryCount: queryCount + 1,
+            firstTime: firstTime,
+            serialId: serialId,
+            identifyCode: code
+          })
+          if (!r) {
+            await ctx.render('identify', {
+              result: UNKNOWN
+            })
+          } else {
+            const info = await _getMemberInfo(member)
+            await ctx.render('identify', {
+              result: SUCCESS,
+              data: {
+                serialId: serialId,
+                code: code,
+                queryCount: queryCount,
+                firstTime: d.format('YYYY年M月D日 H时m分s秒'),
+                member: member,
+                commerce: commerce,
+                info: info
+              }
+            })
+          }
         }
       }
     }

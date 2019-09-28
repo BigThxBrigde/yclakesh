@@ -12,8 +12,8 @@ const validate = async (ctx, next) => {
   var result = await services.User.validate(params.name, params.password)
   if (result.success && result.data) {
     ctx.session.user = {
-      'name': params.name,
-      'type': result.data.Type
+      name: params.name,
+      type: result.data.Type
     }
   }
   ctx.body = {
