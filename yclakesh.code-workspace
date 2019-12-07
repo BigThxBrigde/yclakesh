@@ -12,6 +12,7 @@
 		"eslint.workingDirectories": [
 			"./src/yclake"
 		],
-		"editor.tabSize": 2
+		"editor.tabSize": 2,
+		"editor.fontFamily": "'Cascadia Code', Monaco, Inconsolata, 'Courier New', monospace, Consolas"
 	}
 }
