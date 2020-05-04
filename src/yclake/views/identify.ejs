@@ -60,6 +60,9 @@
       padding: 5px 10px;
       text-align: center;
     }
+    .small-margin{
+      margin: 3%;
+    }
   </style>
 </head>
 
@@ -73,7 +76,7 @@
             title = title.substring(0,title.indexOf('公司')+2);
           }  
         %>
-        <a class="navbar-brand header-text" href="#"><%= title %></a>
+        <a class="navbar-brand header-text" href="#" id="mainLink"><%= title %></a>
         <% } else { %>
         <a class="navbar-brand header-text" href="#">苏州市相城区阳澄湖大闸蟹商会</a>
         <% } %>
@@ -86,7 +89,7 @@
 
     <div class="row row-offcanvas row-offcanvas-right">
 
-      <div class="col-xs-12 col-sm-9">
+      <div class="col-xs-12 col-sm-9" id="headerImgPanel">
 
         <% if(data.info && data.info.type === 0) { %>
         <img src="<%=data.info.logo%>" class="img-responsive img-rounded"
@@ -110,7 +113,7 @@
       <%} else if(result == 0){%>
 
       <% if(data.info && data.info.type === 0){%>
-      <div class="col-xs-12 col-sm-9 top-blank">
+      <div class="col-xs-12 col-sm-9 top-blank" id="queryPanel">
         <div class="jumbotron">
           <div id="result" class="graph-block">
             <h3>查询结果</h3>
@@ -121,10 +124,21 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-9 top-blank">
+      <div class="col-xs-12 col-sm-9 top-blank" id="navPanel">
         <div class="jumbotron">
           <div class="graph-block">
-            <h3>会员信息</h3>
+            <h3>更多</h3>
+            <p><a class="btn-xs btn-primary small-margin" id="companyIntroBtn" href="#">公司介绍</a>
+            <a class="btn-xs btn-primary small-margin" id="someVideosBtn" href="#">视频中心</a>
+            <a class="btn-xs btn-primary small-margin" id="somePicsBtn" href="#">资质荣誉</a>
+            <a class="btn-xs btn-primary small-margin" id="someCertsBtn" href="#">众享美味</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-9 top-blank" id="companyIntro">
+        <div class="jumbotron">
+          <div class="graph-block">
+            <h3>公司信息</h3>
             <p><span class="text-primary">名字: </span><%= data.info.name %></p>
             <p><span class="text-primary">电话: </span><%= data.info.telephone %></p>
             <% if(!!data.info.page){ 
@@ -136,7 +150,16 @@
             <p><span class="text-primary">首页: </span><a class="text-muted" href="<%= url %>"><%= data.info.page %></a>
             </p>
             <% } %>
-            <p><span class="text-primary">相关证书: </span></p>
+            <p><span class="text-primary">简介: </span></p>
+            <p> <%= data.info.extraInfo %> </p>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-9 top-blank" id="someCerts">
+        <div class="jumbotron">
+          <div class="graph-block">
+            <h3>资质荣誉</h3>
             <p>
               <% if(data.info.certification){ %>
               <img src="<%=data.info.certification%>" class="img-responsive img-rounded"
@@ -155,6 +178,47 @@
           </div>
         </div>
       </div>
+      <div class="col-xs-12 col-sm-9 top-blank" id="somePics">
+        <div class="jumbotron">
+          <div class="graph-block">
+            <h3>众享美味</h3>
+            <p>
+              <% if(data.info.uploadImages) { 
+                  let images = data.info.uploadImages.split('|'); 
+                  for(let i = 0; i < images.length; i++) {
+                    const image = images[i]; %>
+                    <img src="<%=image%>" class="img-responsive img-rounded"
+                    style="margin-top:5px;margin-bottom:10px"></img>
+              <%}
+              }  
+              %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-9 top-blank" id="someVideos">
+        <div class="jumbotron">
+          <div class="graph-block">
+            <h3>视频中心</h3>
+            <p>
+              <% if(data.info.uploadVideos) { 
+                let videos = data.info.uploadVideos.split('|'); 
+                for(let i = 0; i < videos.length; i++) {
+                  const video = videos[i]; %>
+                  <video  class="img-responsive img-rounded"
+                  style="margin-top:5px;margin-bottom:10px" controls>
+                  <source src="<%=video%>" type="video/mp4" >
+                    您的浏览器不支持
+                  </video>
+            <%}
+            }  
+            %>
+            </p>
+
+          </div>
+        </div>
+      </div>
+      
       <%} else {%>
       <div class="col-xs-12 col-sm-9 top-blank">
         <div class="jumbotron">
@@ -281,7 +345,7 @@
 
       <% } %>
       <audio id="audInfo"></audio>
-      <div class="col-xs-12 col-sm-9 top-blank">
+      <div class="col-xs-12 col-sm-9 top-blank" id="mapPanel">
 
         <div class="jumbotron">
           <div class="graph-block">
@@ -314,6 +378,9 @@
   <script src="/lib/ie10-viewport-bug-workaround.js"></script>
   <script src="/lib/offcanvas.js"></script>
   <script src="/javascripts/identify.js"></script>
+  <% if(data.info && data.info.type ===0 && result ===0) {%>
+  <script type="text/javascript" src="/javascripts/identify-extra.js"></script>
+  <%}%>
 </body>
 
 </html>

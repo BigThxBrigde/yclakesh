@@ -240,7 +240,10 @@ const _getMemberInfo = async (name) => {
       businessCertification: data.BusinessCertification ? `data:image/jpeg;base64,${Buffer.from(data.BusinessCertification, 'binary').toString('base64')}` : null,
       commCertification: data.CommCertification ? `data:image/jpeg;base64,${Buffer.from(data.CommCertification, 'binary').toString('base64')}` : null,
       logo: data.Logo ? `data:image/jpeg;base64,${Buffer.from(data.Logo, 'binary').toString('base64')}` : null,
-      type: data.Type
+      type: data.Type,
+      uploadImages: data.UploadImages,
+      uploadVideos: data.UploadVideos,
+      extraInfo: data.ExtraInfo
     }
   } else {
     return {}
