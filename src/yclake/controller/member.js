@@ -34,6 +34,9 @@ const add = async (ctx, next) => {
   const data = ctx.request.body.data || [[], [], [], []]
   const telephone = ctx.request.body.telephone
   const comment = ctx.request.body.comment
+  const uploadImages = ctx.request.body.uploadImages
+  const uploadVideos = ctx.request.body.uploadVideos
+  const extraInfo = ctx.request.body.extraInfo
   if (!name) {
     ctx.throw(500, '会员名不能为空')
   }
@@ -52,7 +55,7 @@ const add = async (ctx, next) => {
         images.push(null)
       }
     })
-    const result = await services.Member.add(name, type, telephone, comment, images)
+    const result = await services.Member.add(name, type, telephone, comment, images, uploadImages || null, uploadVideos || null, extraInfo || null)
     ctx.body = {
       success: result,
       message: `${result ? '添加会员成功' : '添加会员失败'}`

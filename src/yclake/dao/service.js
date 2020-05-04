@@ -392,7 +392,7 @@ module.exports = {
           return false
         }
       }
-      const add = async (name, type, telephone, comment, images) => {
+      const add = async (name, type, telephone, comment, images, uploadImages, uploadVideos, extraInfo) => {
         const brandCert = images[0] || null
         const businessCert = images[1] || null
         const commCert = images[2] || null
@@ -407,7 +407,10 @@ module.exports = {
             CommCertification: commCert,
             Comment: comment || null,
             Logo: logo,
-            Type: type === undefined ? 1 : type
+            Type: type === undefined ? 1 : type,
+            uploadImages: uploadImages,
+            uploadVideos: uploadVideos,
+            extraInfo: extraInfo
           }
         })
         return result

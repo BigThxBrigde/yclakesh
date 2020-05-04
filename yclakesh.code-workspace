@@ -13,6 +13,7 @@
 			"./src/yclake"
 		],
 		"editor.tabSize": 2,
-		"editor.fontFamily": "'Cascadia Code', Monaco, Inconsolata, 'Courier New', monospace, Consolas"
+		"editor.fontFamily": "'Cascadia Code', Monaco, Inconsolata, 'Courier New', monospace, Consolas",
+		"editor.fontSize": 16
 	}
 }

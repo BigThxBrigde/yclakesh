@@ -10,9 +10,9 @@ var YCUpload = function (options) {
   var callback = options.callback || function () { }
   var file = null;
   var id = ++__YCUPLOAD_ID;
-  var innerHtml = '<input class="form-control" id="ycUploadText' + id + '" disabled type="text" placeholder="' + placeholder + '" style="float: left;width: 58%">'
+  var innerHtml = '<input class="form-control" id="ycUploadText' + id + '" disabled type="text" placeholder="' + placeholder + '" style="float: left;width: 58%"/>'
     + ' <a class="btn-success form-control" id="ycBrowseBtn' + id + '" style="float: left; width: 20%; margin-left: 10px; text-align:center;">浏览</a>'
-    + '<input class="form-control" id="ycUploadFile' + id + '" type="file" accept="' + accept + '" style="display: none"></div>';
+    + '<input class="form-control" id="ycUploadFile' + id + '" type="file" accept="' + accept + '" style="display: none" />';
 
   container.html(innerHtml);
 
