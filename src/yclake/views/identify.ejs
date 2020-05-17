@@ -63,6 +63,10 @@
     .small-margin{
       margin: 3%;
     }
+
+    .link-fix{
+      margin: 1.2% 3%;
+    }
   </style>
 </head>
 
@@ -76,7 +80,8 @@
             title = title.substring(0,title.indexOf('公司')+2);
           }  
         %>
-        <a class="navbar-brand header-text" href="#" id="mainLink"><%= title %></a>
+        <a class="navbar-brand header-text" href="#"><%= title %></a>
+        <a class="navbar-brand header-text" href="#" id="mainLink" style="float: right">返回</a>
         <% } else { %>
         <a class="navbar-brand header-text" href="#">苏州市相城区阳澄湖大闸蟹商会</a>
         <% } %>
@@ -128,10 +133,10 @@
         <div class="jumbotron">
           <div class="graph-block">
             <h3>更多</h3>
-            <p><a class="btn-xs btn-primary small-margin" id="companyIntroBtn" href="#">公司介绍</a>
-            <a class="btn-xs btn-primary small-margin" id="someVideosBtn" href="#">视频中心</a>
-            <a class="btn-xs btn-primary small-margin" id="somePicsBtn" href="#">资质荣誉</a>
-            <a class="btn-xs btn-primary small-margin" id="someCertsBtn" href="#">众享美味</a></p>
+            <div class="row"><a class="btn-sm btn-primary col-xs-5 link-fix text-center" id="companyIntroBtn" href="#">公司介绍</a>
+            <a class="btn-sm btn-primary col-xs-5 link-fix text-center" id="someVideosBtn" href="#">视频中心</a></div>
+            <div class="row"><a class="btn-sm btn-primary col-xs-5 link-fix text-center" id="someCertsBtn" href="#">资质荣誉</a>
+            <a class="btn-sm btn-primary col-xs-5 link-fix text-center" id="somePicsBtn" href="#">众享美味</a></p></div>
           </div>
         </div>
       </div>

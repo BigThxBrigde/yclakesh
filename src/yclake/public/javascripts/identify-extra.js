@@ -8,6 +8,7 @@ $(document).ready(function () {
     $('#somePics').hide();
     $('#someVideos').hide();
     $('#mapPanel').show();
+    $('#mainLink').hide();
   });
 
   $('#companyIntroBtn').click(function () {
@@ -19,6 +20,7 @@ $(document).ready(function () {
     $('#somePics').hide();
     $('#someVideos').hide();
     $('#mapPanel').hide();
+    $('#mainLink').show();
   })
 
   $('#someVideosBtn').click(function () {
@@ -30,6 +32,7 @@ $(document).ready(function () {
     $('#somePics').hide();
     $('#someVideos').show();
     $('#mapPanel').hide();
+    $('#mainLink').show();
   })
 
   $('#somePicsBtn').click(function () {
@@ -41,6 +44,7 @@ $(document).ready(function () {
     $('#somePics').show();
     $('#someVideos').hide();
     $('#mapPanel').hide();
+    $('#mainLink').show();
   })
 
   $('#someCertsBtn').click(function () {
@@ -52,10 +56,12 @@ $(document).ready(function () {
     $('#somePics').hide();
     $('#someVideos').hide();
     $('#mapPanel').hide();
+    $('#mainLink').show();
   })
 
   $('#companyIntro').hide();
   $('#someCerts').hide();
   $('#somePics').hide();
   $('#someVideos').hide();
+  $('#mainLink').hide();
 })
