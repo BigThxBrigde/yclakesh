@@ -47,7 +47,8 @@
 
 var init = function () {
 
-  var latLng = new qq.maps.LatLng(31.42223, 120.818);
+  //var latLng = new qq.maps.LatLng(31.42223, 120.818);
+  var latLng = new qq.maps.LatLng(31.483337, 120.716293);
   var options = {
     zoom: 12,
     center: latLng,
