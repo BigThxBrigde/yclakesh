@@ -1,10 +1,10 @@
-(async () => {
+async () => {
   const path = require('path')
   const { CSV } = require('./util/csv')
   await CSV.summary({
     file: `${path.join(__dirname, 'summary.csv')}`
   })
-})()
+}
 
 async () => {
   const UserInfo = require('./dao/db').UserInfo
@@ -71,13 +71,14 @@ async () => {
   console.log(result)
 };
 
-() => {
+(() => {
   const _readCount = () => {
+    delete require.cache[require.resolve('./dao/count.json')]
     return require('./dao/count.json').start
   }
 
   const _saveCount = (start) => {
-    const count = require('./dao/count.json')
+    let count = {}
     count.start = start
     const fs = require('fs')
     const path = require('path')
@@ -90,7 +91,9 @@ async () => {
   _saveCount(0)
 
   console.log(_readCount())
-}
+  _saveCount(8000000)
+  console.log(_readCount())
+})()
 
 async () => {
   const { services } = require('./dao/service')

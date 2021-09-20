@@ -14,6 +14,7 @@ module.exports = {
        * read count
        */
       const _readCount = () => {
+        delete require.cache[require.resolve('./count.json')];
         return require('./count.json').start
       }
 
@@ -22,7 +23,7 @@ module.exports = {
        * @param {Number} start
       */
       const _saveCount = (start) => {
-        const count = require('./count.json')
+        const count = {}
         count.start = start
         const fs = require('fs')
         const path = require('path')
